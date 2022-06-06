@@ -3,25 +3,21 @@ layout: home
 permalink: index.html
 
 # Please update this with your repository name and title
-repository-name: eYY-XXX-project-template
+repository-name: e18-co227-Auto-Marking-and-Student-Performance-Analyser-System-for-Continuous-Assessments-Group-A
 title:
 ---
 
 [comment]: # "This is the standard layout for the project, but you can clean this and use your own template"
 
-# Project Title
+# Auto Marking and Student Performance Analyser System for Continuous Assessments
 
 ---
 
-This is a sample image, to show how to add images to your page. To learn more options, please refer [this](https://projects.ce.pdn.ac.lk/docs/faq/how-to-add-an-image/)
-
-![Sample Image](./images/sample.png)
-
 
 ## Team
--  eNumber, Name, [email](mailto:name@email.com)
--  eNumber, Name, [email](mailto:name@email.com)
--  eNumber, Name, [email](mailto:name@email.com)
+-  E/18/036, BANDARA L.R.M.U., [email](mailto:e18036@eng.pdn.ac.lk)
+-  E/18/156, JAYATHILAKE W.A.T.N., [email](mailto:e18156@eng.pdn.ac.lk)
+-  E/18/329, SEWWANDI D.W.S.N., [email](mailto:e18329@eng.pdn.ac.lk)
 
 ## Table of Contents
 1. [Introduction](#introduction)
