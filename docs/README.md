@@ -21,16 +21,42 @@ title:
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Other Sub Topics](#other-sub-topics)
+2. [Solution Architecture](#solution-architecture)
 3. [Links](#links)
 
 ---
 
 ## Introduction
 
- description of the real world problem and solution, impact
 
-## Other Sub Topics
+ The Department of Computer Engineering uses many coding based assignments for continuous assessment of student learning. The instructors have to spend a lot of time manually marking these assignments which is not the ideal use of the instructors’ time. Therefore, we build a system for auto marking coding assignments. 
+This system supports automated recording and analysis of student performance. It shows how that particular student progressed with their assignments and what are the strengths and weaknesses of that student.
+
+## Phase I - Auto Marking System for Coding Assessments
+
+#### Appication Content
+- 
+
+
+
+
+## Phase II - Student Performance Analyser
+
+#### Appication Content
+- 
+
+
+
+
+## Solution Architecture
+
+
+<p align="left">
+<img src="https://user-images.githubusercontent.com/73390233/172587593-d2fdc650-1eb5-4c4a-81d2-012d605345f5.jpg" width="600" height="300"></p>
+
+
+
+
 
 .....
 
