@@ -21,8 +21,11 @@ title:
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Solution Architecture](#solution-architecture)
-3. [Links](#links)
+2. [Phase I](#phase-i---auto-marking-system-for-coding-assessments)
+3. [Phase II](#phase-ii---student-performance-analyser)
+4. [Solution Architecture](#solution-architecture)
+5. [Project Plan](#project-plan)
+6. [Links](#links)
 
 ---
 
@@ -35,7 +38,12 @@ This system supports automated recording and analysis of student performance. It
 ## Phase I - Auto Marking System for Coding Assessments
 
 #### Appication Content
-- 
+- User friendly Web Interface for instructors to mark the assignments
+- Auto marking processed with GitHub Classroom
+- User can create courses, assignments and add students according to their preference
+- Finally instructor can view the marks of the each student
+
+
 
 
 
@@ -43,7 +51,9 @@ This system supports automated recording and analysis of student performance. It
 ## Phase II - Student Performance Analyser
 
 #### Appication Content
-- 
+- User friendly Web Interface for instructors to analyse student performance
+- Using this web interface user can easily identify the progress of each student with the assignments
+- Student can identify their strengths and weeknesses
 
 
 
@@ -55,7 +65,9 @@ This system supports automated recording and analysis of student performance. It
 <img src="https://user-images.githubusercontent.com/73390233/172587593-d2fdc650-1eb5-4c4a-81d2-012d605345f5.jpg" width="600" height="300"></p>
 
 
+## Project Plan
 
+<img width="700" height="500" alt="Timeline" src="https://user-images.githubusercontent.com/73390233/172594754-d36740dd-5c5d-47ec-89ad-e64c636a69a8.png">
 
 
 .....
