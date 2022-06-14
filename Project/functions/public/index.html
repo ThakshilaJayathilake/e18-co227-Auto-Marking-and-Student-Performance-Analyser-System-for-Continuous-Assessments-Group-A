@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Register</title>
+        <script >
+           
+            async function signUp(){
+                let user =document.getElementById("UserName").value;
+                let userPass =document.getElementById("Password").value;
+                
+                const response = await fetch('http://localhost:9000/group07-co227/us-central1/app/api/getAll',{
+                    method:'GET'
+                });
+                
+                const data = await response.json();
+                console.log(data);
+              
+                for(i=0;i< data['data'].length;i++){
+                    var element = data['data'][i];
+
+                    if(element['UserName']==user){
+                        document.getElementById("demo").innerHTML ="UserName Already Exists!";
+                        document.location.href="http://localhost:9000/group07-co227/us-central1/app/index.html";
+
+                        return;
+                        
+                    }
+              
+                   
+                }
+                const response2 = await fetch('http://localhost:9000/group07-co227/us-central1/app/api/create/'+user+"/"+userPass,{
+                    method:'POST',
+                    
+                });
+
+                document.getElementById("demo").innerHTML ="Successfuly Create AN Account";
+               
+                document.location.href="http://localhost:9000/group07-co227/us-central1/app/index2.html";
+               
+            }
+           
+             
+         </script>
+       
+    </head>
+
+
+    <body>
+        <h1 class="title">Registers</h1>
+        <div id="homepage">
+        <div id="ninj-container">
+            <form action="http://localhost:9000/group07-co227/us-central1/app/"  method="dialog">
+                <label>Enter UserName:</label>   
+                <input id="UserName"name="UserName" type="text"  ref="UserName" placeholder="username" required
+                />
+                <label>Enter Password:</label>   
+                <input id="Password" name="Password"type="text" ref="Password" placeholder="password" required
+                />
+                <button type = "submit" onclick="signUp()" >SignUP</button>
+                <p id="demo"></p>
+                
+            </form>  
+            
+            
+        </div>
+        
+      
+            
+        
+       
+    </body>
+
+</html>
