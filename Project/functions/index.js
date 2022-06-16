@@ -48,7 +48,8 @@ app.get('/t',(req,res)=>{
 
 
 
-
+//######################################################################################################################
+//##########################################Creating An Entry In A Table################################################
 //Create an Account-> Post()
 app.post("/api/create/:UserName/:Password",(req,res)=>{
     (async()=>{
@@ -70,45 +71,20 @@ app.post("/api/create/:UserName/:Password",(req,res)=>{
     }
 );
 
-app.post("/api/signUp",(req,res)=>{
-    
+//Create New Course-> Post()
+app.post("/api/createCourse/:UserName/:CourseCode/:CourseName",(req,res)=>{
     (async()=>{
         try {
+            await db.collection('Courses').doc(`/${Date.now()}/`).create({
+                CourseID : Date.now(),
+                UserName : req.params.UserName,
+                CourseCode : req.params.CourseCode,
+                CourseName : req.params.CourseName,
 
-            const reqDoc = db.collection('Login').doc(req.body.UserName);
-            let Login = await reqDoc.get();
-            let response1 = Login.data();
-
-            await query.get().then((data)=>{
-                let docs = data.docs;
-                docs.map((doc)=>{
-                    const selectedItem = {
-                        UserName :doc.data().UserName,
-                        Password : doc.data().Password,
-                     //   address : doc.data().address,
-
-                    };
-                    response1.push(selectedItem);
-                });
-                
-            });
-
-
-
-
-            
-            if(response1){
-                return res.status(500).send({status: 'pass',msg: error});
-            }
-        
-            await db.collection('Login').doc(`/${Date.now()}/`).create({
-                id : Date.now(),
-                UserName :req.body.UserName,
-                Password : req.body.Password,
                
             });
             return res.status(200).send({status: 'Success',msg: "Data Saved"});
-          //  return res.redirect("http://localhost:9000/group07-co227/us-central1/app/index.html");
+           
             
         } catch (error) {
             console.log(error);
@@ -118,6 +94,82 @@ app.post("/api/signUp",(req,res)=>{
     }
 );
 
+//Create New Assignmnet-> Post()
+app.post("/api/createAssignment/:CourseName/:AssignmentName/:DueDate/:Language",(req,res)=>{
+    (async()=>{
+        try {
+            await db.collection('Assignment').doc(`/${Date.now()}/`).create({
+                AssignmentID : Date.now(),
+                AssignmentName : req.params.AssignmentName,
+                DueDate : req.params.DueDate,
+                Language : req.params.Language,
+                CourseName : req.params.CourseName,
+
+               
+            });
+            return res.status(200).send({status: 'Success',msg: "Data Saved"});
+           
+            
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send({status: 'Failed',msg: error});
+        }
+        })();
+    }
+);
+//Create TestCases-> Post()
+app.post("/api/createTestCase/:AssignmentName/:TestCaseName/:Input/:Output/:Points",(req,res)=>{
+    (async()=>{
+        try {
+            await db.collection('TestCases').doc(`/${Date.now()}/`).create({
+        
+                AssignmentName : req.params.AssignmentName,
+                TestCaseName : req.params.TestCaseName,
+                Input : req.params.Input,
+                Output : req.params.Output,
+                Points : req.params.Points,
+
+               
+            });
+            return res.status(200).send({status: 'Success',msg: "Data Saved"});
+           
+            
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send({status: 'Failed',msg: error});
+        }
+        })();
+    }
+);
+
+//Add Student-> Post()
+app.post("/api/addStudent/:CourseName/:StudentName",(req,res)=>{
+    (async()=>{
+        try {
+            await db.collection('Students').doc(`/${Date.now()}/`).create({
+                CourseName : req.params.CourseName,
+                StudentName : req.params.StudentName,
+                Marks : 0,
+                AssignmentName : "",
+                
+
+               
+            });
+            return res.status(200).send({status: 'Success',msg: "Data Saved"});
+           
+            
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send({status: 'Failed',msg: error});
+        }
+        })();
+    }
+);
+
+
+
+//######################################################################################################################
+//##########################################Get One Element From A TABLE################################################
 
 //get-> get()
 //Fetch - single data from firestore using specific id
@@ -151,11 +203,9 @@ app.get('/api/getName/:UserName',(req,res)=>{
             let Login = await reqDoc.get();
             let response = Login.data();
 
-
             return response;
 
-            
-            
+        
         } catch (error) {
             console.log(error)
             return res.status(500).send({status: 'Failed',msg: error});
@@ -168,7 +218,10 @@ app.get('/api/getName/:UserName',(req,res)=>{
 });
 
 
-//Fetch - all data from firestore 
+
+//######################################################################################################################
+//##########################################Get All Entries From A Table################################################
+//Fetch - all data from Login Table
 app.get('/api/getAll',(req,res)=>{
     (async()=>{
         try {
@@ -202,8 +255,152 @@ app.get('/api/getAll',(req,res)=>{
 
     })();
 
+});
+app.get('/api/getAllCourses',(req,res)=>{
+    (async()=>{
+        try {
+            const query = db.collection('Courses');
+            let response =[];
+
+            await query.get().then((data)=>{
+                let docs = data.docs;
+                docs.map((doc)=>{
+                    const selectedItem = {
+                        UserName :doc.data().UserName,             
+                        CourseCode : doc.data().CourseCode,
+                        CourseName : doc.data().CourseName,
+                     
+
+                    };
+                    response.push(selectedItem);
+                });
+                return response;
+            });
+
+            return res.status(200).send({status: 'Success',data : response});
+            //return response;
+            
+            
+        } catch (error) {
+            console.log(error)
+            return res.status(500).send({status: 'Failed',msg: error});
+
+            
+        }
+
+    })();
+
+})
+app.get('/api/getAllAssignments',(req,res)=>{
+    (async()=>{
+        try {
+            const query = db.collection('Assignment');
+            let response =[];
+
+            await query.get().then((data)=>{
+                let docs = data.docs;
+                docs.map((doc)=>{
+                    const selectedItem = {
+                        AssignmentName : doc.data().AssignmentName,
+                        DueDate : doc.data().DueDate,
+                        Language : doc.data().Language,
+                        CourseName : doc.data().CourseName,
+
+                    };
+                    response.push(selectedItem);
+                });
+                return response;
+            });
+
+            return res.status(200).send({status: 'Success',data : response});
+            
+            
+            
+        } catch (error) {
+            console.log(error)
+            return res.status(500).send({status: 'Failed',msg: error});
+
+            
+        }
+
+    })();
+
+})
+app.get('/api/getAllTestCases',(req,res)=>{
+    (async()=>{
+        try {
+            const query = db.collection('TestCases');
+            let response =[];
+
+            await query.get().then((data)=>{
+                let docs = data.docs;
+                docs.map((doc)=>{
+                    const selectedItem = {
+                        AssignmentName : doc.data().AssignmentName,
+                        TestCaseName : doc.data().TestCaseName,
+                        Input : doc.data().Input,
+                        Output : doc.data().Output,
+                        Points : doc.data().Points,
+
+                    };
+                    response.push(selectedItem);
+                });
+                return response;
+            });
+
+            return res.status(200).send({status: 'Success',data : response});
+            //return response;
+            
+            
+        } catch (error) {
+            console.log(error)
+            return res.status(500).send({status: 'Failed',msg: error});
+
+            
+        }
+
+    })();
+
+})
+app.get('/api/getAllStudents',(req,res)=>{
+    (async()=>{
+        try {
+            const query = db.collection('Students');
+            let response =[];
+
+            await query.get().then((data)=>{
+                let docs = data.docs;
+                docs.map((doc)=>{
+                    const selectedItem = {
+                        AssignmentName : doc.data().AssignmentName,
+                        CourseName : doc.data().CourseName,
+                        Marks : doc.data().Marks,
+                        StudentName : doc.data().StudentName,
+                        
+
+                    };
+                    response.push(selectedItem);
+                });
+                return response;
+            });
+
+            return res.status(200).send({status: 'Success',data : response});
+            //return response;
+            
+            
+        } catch (error) {
+            console.log(error)
+            return res.status(500).send({status: 'Failed',msg: error});
+
+            
+        }
+
+    })();
+
 })
 
+//######################################################################################################################
+//###############################################Update Entry In A Table################################################
 //Update -> put()
 app.put("/api/update/:id",(req,res)=>{
     (async()=>{
@@ -228,7 +425,56 @@ app.put("/api/update/:id",(req,res)=>{
     })();
 
 });
+//Update Student Table-Assignment -> put()
+app.put("/api/updateAssignment/:CourseName",(req,res)=>{
+    (async()=>{
+        try {
+            const reqDoc = db.collection('Students').doc(req.params.CourseName);
+            await reqDoc.update({
+                AssignmentName : req.body.AssignmentName,
+                
+            });
+            
+            return res.status(200).send({status: 'Success',msg: "Data Updated"});
 
+            
+            
+        } catch (error) {
+            console.log(error)
+            return res.status(500).send({status: 'Failed',msg: error});
+
+            
+        }
+    })();
+
+});
+//Update Student Table-Marks -> put()
+app.put("/api/updateMarks/:StudentName",(req,res)=>{
+    (async()=>{
+        try {
+            const reqDoc = db.collection('Students').doc(req.params.StudentName);
+            await reqDoc.update({
+                Marks : req.body.Marks,
+                
+            });
+            
+            return res.status(200).send({status: 'Success',msg: "Data Updated"});
+
+            
+            
+        } catch (error) {
+            console.log(error)
+            return res.status(500).send({status: 'Failed',msg: error});
+
+            
+        }
+    })();
+
+});
+
+
+//######################################################################################################################
+//###############################################Delete Entry In A Table################################################
 //Delete -> delete()
 app.delete("/api/delete/:id",(req,res)=>{
     (async()=>{
@@ -249,6 +495,8 @@ app.delete("/api/delete/:id",(req,res)=>{
     })();
 
 });
+//######################################################################################################################
+//######################################################GET URL#########################################################
 
 //Create New Assignment in GitHub Classroom and generate the url and return it.
 app.get('/api/getUrl',(req,res)=>{
@@ -338,7 +586,8 @@ app.get('/api/getUrl',(req,res)=>{
 
 });
 
-
+//######################################################################################################################
+//############################################## GET MARKS FROM GITHUB #################################################
 //Get marks of a student by GitHub username
 app.get('/api/getMarks/:StudentName',(req,res)=>{
     (async()=>{
