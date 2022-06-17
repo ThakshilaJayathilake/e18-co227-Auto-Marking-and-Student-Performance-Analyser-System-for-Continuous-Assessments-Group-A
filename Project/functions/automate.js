@@ -7,8 +7,8 @@ const { Webdriver } = require("selenium-webdriver/lib/webdriver");
 var o = new chrome.Options();
 
 //You need to change on ypur own
-o.addArguments("user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data");
-o.addArguments("--profile-directory=Profile 3");
+o.addArguments("user-data-dir=C:/Users/ASUS/AppData/Local/Google/Chrome/User Data");
+o.addArguments("--profile-directory=Profile 5");
 
 
 var  driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome())
