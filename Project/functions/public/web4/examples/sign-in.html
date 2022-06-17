@@ -41,9 +41,6 @@
   <!-------------------------------------- Login functions --------------------------------------------------------->
 
 	<script >
-    
-
-
 		async function login(){
                 let user =document.getElementById("UserName1").value;
                 let userPass =document.getElementById("Password1").value;
@@ -71,7 +68,7 @@
                         if(element['Password']==userPass){
                          //   document.getElementById("demo").innerHTML ="Successfuly Logged into Account!";
                           //  document.location.href="http://localhost:9000/group07-co227/us-central1/app/logged.html";
-							window.location.href="http://localhost:5001/group07-co227/us-central1/app";
+							window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html?name="+encodeURIComponent(user);
                             return;
                         }                      
                     }                                   
