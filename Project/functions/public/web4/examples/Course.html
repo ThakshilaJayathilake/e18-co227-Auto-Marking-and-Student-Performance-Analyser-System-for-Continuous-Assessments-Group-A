@@ -36,6 +36,50 @@
   <!-- upload file -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.9/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
   
+  <script>
+    var htmlElements = "";
+    var container = document.getElementById("test");
+    // let name;
+    const j = document.getElementById('inputNo').value;;
+    for (var i = 0; i < j; i++) {
+      // name=courses[i];
+      container.innerHTML += `<div class="content" id="test">
+                 <br>  
+                 <form>
+                  <div class="row">
+                    <label for="tName" class="col-sm-3 col-form-label">TestCase Name:</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" id="tName"><br> 
+                    </div>
+                  </div>
+                   
+                   <div class="row">
+                    <label for="tInput" class="col-sm-3 col-form-label">Inputs:</label>
+                   <div class="col-sm-5">
+                     <textarea class="form-control" rows="5" id="tInput"></textarea><br>               
+                   </div>
+                   </div>
+                   
+                   <div class="row">
+                    <label for="tOutput" class="col-sm-3 col-form-label">Expected Output:</label>
+                    <div class="col-sm-5">
+                      <textarea class="form-control" rows="5" id="tOutput"></textarea><br> 
+                    </div>
+                   </div>
+                   
+                   <div class="row">
+                    <label for="tMarks" class="col-sm-3 col-form-label">Marks Allocated:</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" id="tMarks"><br> 
+                    </div>
+                   </div>
+                   
+                 </form>
+                                  
+               </div>`;
+    }
+
+  </script>
 </head>
 
 <body class="dark-edition">
@@ -245,137 +289,150 @@
           <div class="tab-content" id="myTabContent">
             <!-- Form -->
             <div class="tab-pane fade show active" id="Form-tab-pane" role="tabpanel" aria-labelledby="Form-tab" tabindex="0">
-              <form>
-                <br>
-                <div class="row mb-3">
-                  <label for="inputName" class="col-sm-2 col-form-label">Assignment Name:</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputName">
+              <div class="container">
+                <br><hr>
+                <form><br>
+                  <div class="row mb-3">
+                    <label for="inputName" class="col-sm-4 col-form-label">Assignment Name:</label>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" id="inputName">
+                    </div>
                   </div>
-                </div>
-                <div class="row mb-3">
-                  <label for="inputLanguages" class="col-sm-2 col-form-label">Language should used:</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputLanguages">
+                  <div class="row mb-3">
+                    <label for="inputLanguages" class="col-sm-4 col-form-label">Language should used:</label>
+                    <div class="col-sm-6">
+                      <div class="form-group" id="inputLanguages">
+                        <select class="form-control text-gray bg-transparent" id="sel1">
+                          <option>Java</option>
+                          <option>Python</option>
+                          <option>C</option>
+                          <option>C++</option>
+                        </select>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="row mb-3">
-                  <label for="inputTopics" class="col-sm-2 col-form-label">Covered topics:</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputTopics">
+                  <div class="row mb-3">
+                    <label for="inputTopics" class="col-sm-4 col-form-label">Covered topics:</label>
+                    <div class="col-sm-6">
+                      <textarea class="form-control" rows="5" id="inputTopics"></textarea><br><br> 
+                    </div>
                   </div>
-                </div>
-
-                <div class="row mb-3">
-                  <form>
-                    <label for="inputName" class="col-sm-2 col-form-label">Start Date:</label>
-                    <input type="datetime-local"  id="picker1" class="form-control" placeholder="Select DateTime">
-                    <label for="inputName" class="col-sm-2 col-form-label">End Date:</label>
-                    <input type="datetime-local" id="picker2" class="form-control" placeholder="Select DateTime">
-                  </form>
-                </div>           
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-              </form>
+  
+                  <div class="row mb-3">
+                    <form>
+                      <label for="inputName" class="col-sm-2 col-form-label">Start Date:</label>
+                      <input type="datetime-local"  id="picker1" class="bg-transparent col-sm-3 form-control ml-8 ml-lg-0" placeholder="Select DateTime">
+                      <label for="inputName" class="col-sm-2 col-form-label ml-8 ml-lg-0">End Date:</label>
+                      <input type="datetime-local" id="picker2" class="bg-transparent col-sm-3 form-control" placeholder="Select DateTime">
+                    </form>
+                  </div>           
+                  <br><button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+              </div>
+              
             </div>
 
             <!-- Template -->
             <div class="tab-pane fade" id="Template-tab-pane" role="tabpanel" aria-labelledby="Template-tab" tabindex="0">
-              <form>
-                <br>           
-                <div class="row mb-3">
-                  <label for="inputTopics" class="col-sm-2 col-form-label">Upload Assignment here:</label><br>
-                  <div class="container">
-                    <input id="input-b1" name="input-b1" type="file" class="file" data-browse-on-zone-click="true">                    
-                  </div>  
-                </div>                             
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-              </form>
+              <div class="container">
+                <br><hr>
+                <form>        
+                  <div class="row mb-3">
+                    <label for="inputTopics" class="col-sm-6 col-form-label">Upload Assignment here:</label><br><br>
+                    <div class="container">
+                      <input id="input-b1" name="input-b1" type="file" class="file" data-browse-on-zone-click="true">                    
+                    </div>  
+                  </div>                             
+                  <br><button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+              </div>              
             </div>
 
             <!-- Test Bench -->
             <div class="tab-pane fade" id="Bench-tab-pane" role="tabpanel" aria-labelledby="Bench-tab" tabindex="0">
-
-                <br>          
-                 <div class="row mb-3">
-                  <label for="inputNo" class="col-sm-2 col-form-label">No of Testcases:</label>
-                  <div class="col-sm-10">
-                    <input type="number" class="form-control" id="inputNo">
+              <div class="container">
+                <br><hr>       
+                <div class="row mb-3">
+                 <label for="inputNo" class="col-sm-3 col-form-label">No of Testcases:</label>
+                 <div class="col-sm-3">
+                   <input type="number" class="form-control" id="inputNo">
+                 </div>
+               </div>
+             
+               <script>
+                 function myfun(){
+                   const no = document.getElementById('inputNo').value;
+                   alert("No :" +no);
+                 }                           
+                 // var outputHTML = "";
+                 // outputHTML +=  "<div>";
+                 // for (var i = 0; i < no; i++){
+                 //   <div class="row mb-3">
+                 //     <label for="inputLanguages" class="col-sm-2 col-form-label">output:</label>
+                 //     <div class="col-sm-10">
+                 //       <input type="text" class="form-control" id="inputLanguages"></input>
+                 //     </div>
+                 //   </div>
+                 //   outputHTML += "<div>";
+                 // }
+                 // outputHTML += "</div>";
+               </script>
+               
+              <div class="content" id="test">
+                 <br>  
+                 <form>
+                  <div class="row">
+                    <label for="tName" class="col-sm-3 col-form-label">TestCase Name:</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" id="tName"><br> 
+                    </div>
                   </div>
-                </div>
+                   
+                   <div class="row">
+                    <label for="tInput" class="col-sm-3 col-form-label">Inputs:</label>
+                   <div class="col-sm-5">
+                     <textarea class="form-control" rows="5" id="tInput"></textarea><br>               
+                   </div>
+                   </div>
+                   
+                   <div class="row">
+                    <label for="tOutput" class="col-sm-3 col-form-label">Expected Output:</label>
+                    <div class="col-sm-5">
+                      <textarea class="form-control" rows="5" id="tOutput"></textarea><br> 
+                    </div>
+                   </div>
+                   
+                   <div class="row">
+                    <label for="tMarks" class="col-sm-3 col-form-label">Marks Allocated:</label>
+                    <div class="col-sm-5">
+                      <input type="number" class="form-control" id="tMarks"><br> 
+                    </div>
+                   </div>
+                   
+                </form>
+                                  
+              </div>
 
-                var htmlElements = "";
-                var container = document.getElementById("test");
-                let name;
-                for (var i = 0; i < j; i++) {
-                  name=courses[i];
-                  container.innerHTML += `<div class="col-xl-4 col-lg-12" onclick="courseDetails()">
-                    <div class="card card-chart">
-                          <div class="card-header card-header-success">
-                            <div class="ct-chart" id="dailySalesChart"></div>
-                          </div>
-                          <div class="card-body">
-                            <h4 class="card-title">${name}</h4>
-                            <p class="card-category">
-                              <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p>
-                          </div>
-                          <div class="card-footer">
-                            <div class="stats">
-                              <i class="material-icons">access_time</i> updated 4 minutes ago
-                            </div>
-                          </div>
-                        </div>
-                      </div>`;
-                }
+              <br><button type="submit" class="btn btn-primary" onclick="myfun()">Save Changes</button>
 
-                <script>
-                  function myfun(){
-                    const no = document.getElementById('inputNo').value;
-                    alert("No :" +no);
-                  }          
-                  
-                  // var outputHTML = "";
-                  // outputHTML +=  "<div>";
-                  // for (var i = 0; i < no; i++){
-                  //   <div class="row mb-3">
-                  //     <label for="inputLanguages" class="col-sm-2 col-form-label">output:</label>
-                  //     <div class="col-sm-10">
-                  //       <input type="text" class="form-control" id="inputLanguages"></input>
-                  //     </div>
-                  //   </div>
-                  //   outputHTML += "<div>";
-                  // }
-                  // outputHTML += "</div>";
-                </script>
-
-                
-                <div class="row mb-3" id="test">
-                  <label for="inputLanguages" class="col-sm-2 col-form-label">output:</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputLanguages">
-                  </div>
-                </div>
-                <!-- <div class="row mb-3">
-                  <label for="inputTopics" class="col-sm-2 col-form-label">Covered topics:</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputTopics">
-                  </div>
-                </div> -->
-                <button type="submit" class="btn btn-primary" onclick="myfun()">Save Changes</button>
-
+              </div>
+              
             </div>
 
             <!-- ModelSolution -->
             <div class="tab-pane fade" id="ModelSolution-tab-pane" role="tabpanel" aria-labelledby="ModelSolution-tab" tabindex="0">
-              <form>
-                <br>           
-                <div class="row mb-3">
-                  <label for="inputSol" class="col-sm-2 col-form-label">Upload solution here:</label><br>
-                  <div class="container">
-                    <input id="inputSol" name="inputSol" type="file" class="file" data-browse-on-zone-click="true">                    
-                  </div>  
-                </div>                             
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-              </form>
+              <div class="container">
+                <br><hr>
+                <form>      
+                  <div class="row mb-3">
+                    <label for="inputSol" class="col-sm-6 col-form-label">Upload solution here:</label><br><br>
+                    <div class="container">
+                      <input id="inputSol" name="inputSol" type="file" class="file" data-browse-on-zone-click="true">                    
+                    </div>  
+                  </div>                             
+                  <br><button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+              </div>              
             </div>
 
           </div>
