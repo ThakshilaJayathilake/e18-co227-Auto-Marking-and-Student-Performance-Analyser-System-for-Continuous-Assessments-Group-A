@@ -3,6 +3,7 @@
 ---
 
 ---
+### **Table of Contents:**
 
 1. [Introduction](#introduction)
 2. [Problem Statement](#Problem-Statement)
@@ -121,7 +122,7 @@ Below phases add functionalities for the system
 
 - Ms. Poornima Lankani
 
-### **Table of Contents:**
+
 
 [//]: # "Please refer this to learn more about Markdown syntax"
 [//]: # "https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
