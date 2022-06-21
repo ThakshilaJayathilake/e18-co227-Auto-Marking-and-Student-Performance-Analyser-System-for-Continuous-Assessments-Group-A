@@ -31,6 +31,10 @@ This system supports automated recording and analysis of student performance. It
 
 ---
 
+<p align="center">
+<img src="https://user-images.githubusercontent.com/73567971/174825976-ac937a86-b7f7-4f5a-8f24-6b3a175e9b4c.jpg" width="300" height="300"></p>
+
+
 Have your ever in your life works as an instructor ?
 
 Specially for a course like java or C or any programming related course
@@ -45,6 +49,9 @@ Actually it is very time consuming and tough work. If there is an easier way to 
 ## Solution
 
 ---
+<p align="left">
+<img src="https://user-images.githubusercontent.com/73567971/174826181-01f3f994-e6b0-4fca-b5ff-abf228af8690.png" width="200" height="300"></p>
+
 
 Our solution is automated testing which leads to _GRADINGENIUS_ platform.
 Below phases add functionalities for the system
