@@ -30,12 +30,49 @@
   <!-- CSS Files -->
   <link href="../assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="../assets/demo/demo.css" rel="stylesheet" />
+  <!--link href="../assets/demo/demo.css" rel="stylesheet" /-->
 
   
   <script >
+    var user;
     function courseDetails() {
       window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-up.html"
+    }
+    function directToCoursePage(cname){
+      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html?cName="+encodeURIComponent(cname);
+      
+    }
+    async function createCourse() {
+      let name =document.getElementById("course-title").value;
+      let code =document.getElementById("course-code").value;
+    
+      
+      const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createCourseGITHUB/'+name,{
+        method:'POST',
+        
+      
+      });
+                
+      const data = await response.json();
+      
+      if(data['status']=="Success"){
+        const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createCourse/'+user+"/"+code+"/"+name,{
+          method:'POST',
+      
+        });
+        const data2 = await response2.json();
+        if(data2['status']=="Success"){
+          window.location.reload();
+        }
+      }
+      else{
+        window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-up.html";
+      }
+
+
+
+
+      
     }
     
     window.onload = function() {
@@ -46,13 +83,14 @@
             tmp = params[i].split('=');
             data[tmp[0]] = tmp[1];
         }
-        var user = data.name;
+        user = data.name;
     	  course(user);
     };
     //var user="Ni";
     async function course(user) {
 
         let courses=[];
+        let courseCodes=[];
 
         const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllCourses',{
           method:'GET'
@@ -66,25 +104,33 @@
 
                     if(element['UserName']==user){
                         courses[j]=element['CourseName'] ;
+                        courseCodes[j]=element['CourseCode'];
                         j++;                   
                     }                                   
                 }
       
      // window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-up.html"
+     
+      var num = document.getElementById("numberOfCourses");
+      num.innerHTML = j;
+
       var htmlElements = "";
       var container = document.getElementById("test");
       let name;
+      let headers = ["card-header card-header-success","card-header card-header-warning","card-header card-header-danger"];
+      let ids = ["dailySalesChart","websiteViewsChart","completedTasksChart"];
+      let m=0;
       for (var i = 0; i < j; i++) {
         name=courses[i];
-        container.innerHTML += `<div class="col-xl-4 col-lg-12" onclick="courseDetails()">
-          <div class="card card-chart">
-                <div class="card-header card-header-success">
-                  <div class="ct-chart" id="dailySalesChart"></div>
+        code=courseCodes[i];
+        container.innerHTML += `<div class="col-xl-4 col-lg-12" onclick="directToCoursePage('${courses[i]}')">
+              <div class="card card-chart">
+                <div class="${headers[m]}">
+                  <div class="ct-chart" id="${ids[m]}"></div>
                 </div>
                 <div class="card-body">
-                  <h4 class="card-title">${name}</h4>
-                  <p class="card-category">
-                    <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p>
+                  <h4 class="card-title"><a href="Course.html" class="link-btn">${code}</a></h4>
+                  <p class="card-category">${name}</p>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
@@ -93,6 +139,10 @@
                 </div>
               </div>
             </div>`;
+            m++;
+            if (m==3){
+              m=0;
+            }
       }
       
      // container.insertAdjacentHTML("beforeend", htmlElements);
@@ -232,9 +282,11 @@
 
       <div class="content">
         <div class="container-fluid">
-          <h3 class="mdb-color white-text"><b>Existing courses</b> <kbd>03</kbd></h3>
-          <div class="row" id="test">
-            <div class="col-xl-4 col-lg-12" onclick="course()">
+          <h3 class="mdb-color white-text"><b>Existing courses</b> <kbd id="numberOfCourses">0</kbd></h3>
+          <div class="row" id="test" >
+
+
+            <!--div class="col-xl-4 col-lg-12" >
               <div class="card card-chart">
                 <div class="card-header card-header-success">                  
                   <div class="ct-chart" id="dailySalesChart"></div>
@@ -249,7 +301,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </!--div>
 
             <div class="col-xl-4 col-lg-12">
               <div class="card card-chart">
@@ -283,7 +335,9 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div-->
+
+
           </div>
 
                       
@@ -677,7 +731,7 @@
             <div class="modal-body">
               <form>
                 <div class="mb-3">
-                  <label for="course-code" class="col-form-label">Course Code:</label>
+                  <label for="course-code" class="col-form-label" >Course Code:</label>
                   <textarea class="form-control" id="course-code"></textarea>
                 </div>
                 <div class="mb-3">
@@ -685,7 +739,7 @@
                   <input type="text" class="form-control" id="course-title">
                 </div>
                 <div class="mb-3">
-                  <label for="code-language-def" class="col-form-label">Default code language:</label>
+                  <label for="code-language-def" class="col-form-label" >Default code language:</label>
                   <textarea class="form-control" id="code-language-def"></textarea>
                 </div>
               </form>
@@ -693,7 +747,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">CREATE COURSE</button>
+              <button type="button" class="btn btn-primary" onclick="createCourse()">CREATE COURSE</button>
             </div>
           </div>
         </div>
