@@ -12,7 +12,8 @@
 5. [Phase II](#phase-ii---student-performance-analyser)
 6. [Solution Architecture](#solution-architecture)
 7. [Project Plan](#project-plan)
-8. [Links](#links)
+8. [Team](#Team)
+9. [Links](#links)
 
 ---
 
@@ -89,17 +90,10 @@ Below phases add functionalities for the system
 
 ---
 
-<img width="700" height="500" alt="Timeline" src="https://user-images.githubusercontent.com/73390233/172594754-d36740dd-5c5d-47ec-89ad-e64c636a69a8.png">
+<img width="600" height="450" alt="Timeline" src="https://user-images.githubusercontent.com/73390233/172594754-d36740dd-5c5d-47ec-89ad-e64c636a69a8.png">
 
 .....
 
-## Links
-
----
-
-- [Project Page](https://cepdnaclk.github.io/e18-co227-Auto-Marking-and-Student-Performance-Analyser-System-for-Continuous-Assessments-Group-A/)
-- [Department of Computer Engineering](http://www.ce.pdn.ac.lk/)
-- [University of Peradeniya](https://eng.pdn.ac.lk/)
 
 
 ### **Developers:**
@@ -122,6 +116,13 @@ Below phases add functionalities for the system
 
 - Ms. Poornima Lankani
 
+## Links
+
+---
+
+- [Project Page](https://cepdnaclk.github.io/e18-co227-Auto-Marking-and-Student-Performance-Analyser-System-for-Continuous-Assessments-Group-A/)
+- [Department of Computer Engineering](http://www.ce.pdn.ac.lk/)
+- [University of Peradeniya](https://eng.pdn.ac.lk/)
 
 
 [//]: # "Please refer this to learn more about Markdown syntax"
