@@ -95,7 +95,7 @@ app.post("/api/createCourse/:UserName/:CourseCode/:CourseName",(req,res)=>{
 );
 
 //Create New Assignmnet-> Post()
-app.post("/api/createAssignment/:CourseName/:AssignmentName/:DueDate/:Language",(req,res)=>{
+app.post("/api/createAssignment/:CourseName/:AssignmentName/:DueDate/:Language/:url",(req,res)=>{
     (async()=>{
         try {
             await db.collection('Assignment').doc(`/${Date.now()}/`).create({
@@ -104,6 +104,7 @@ app.post("/api/createAssignment/:CourseName/:AssignmentName/:DueDate/:Language",
                 DueDate : req.params.DueDate,
                 Language : req.params.Language,
                 CourseName : req.params.CourseName,
+                URL : req.params.url,
 
                
             });
@@ -305,6 +306,7 @@ app.get('/api/getAllAssignments',(req,res)=>{
                         DueDate : doc.data().DueDate,
                         Language : doc.data().Language,
                         CourseName : doc.data().CourseName,
+                        URL : doc.data().URL,
 
                     };
                     response.push(selectedItem);
@@ -539,9 +541,26 @@ app.post('/api/createCourseGITHUB/:CourseName',(req,res)=>{
             field.sendKeys(Cname);
             await driver.findElement(By.name("commit")).click();
 
-/*
-            await driver.findElement(By.css("a[class='btn btn-primary right']")).click();
+            driver.quit();
+            var driver = new Builder().withCapabilities(Capabilities.chrome()).setChromeOptions(o).build();
+            driver.manage().window().minimize();
 
+
+    
+            //Go the github classroom and create new assignment
+            await driver.get("https://classroom.github.com/classrooms");
+            
+            let path = "//h1[text()='"+Cname+"']";
+            await driver.findElement(By.xpath(path)).click();
+
+            await driver.findElement(By.xpath("//a[text()='Create an assignment']")).click();
+
+            await driver.findElement(By.id("assignment_title")).sendKeys("Sample");
+            await driver.findElement(By.id("new-assignment-submit")).click();
+            await driver.findElement(By.name("commit")).click();
+            await driver.findElement(By.name("commit")).click();
+/*
+/*
             //page I
             await driver.findElement(By.id("assignment_title")).sendKeys("Assignment ForMe812225");
             await driver.findElement(By.id("assignment_form_deadline")).sendKeys("7/7/2022");
@@ -658,23 +677,44 @@ app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:T
             let inputs=[];
             let outputs=[];
             let marks=[];
-            names=req.params.TestNames;
-            inputs=req.params.TestInputs;
-            outputs=req.params.TestOutputs;
-            marks=req.params.TestMarks;
             
+            names=req.params.TestNames.split(',');
+            inputs=req.params.TestInputs.split(',');
+            outputs=req.params.TestOutputs.split(',');
+            marks=req.params.TestMarks.split(',');
+            j=0;
+            var ele1=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][name]"));
+            var ele2=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][input]"));
+            var ele3=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][output]"));
+            var ele4=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][points]"));
+            var setup=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][setup]"));
+            var run=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][run]"))
 
             var num=req.params.NoTests;
             for (i=0;i<num;i++){
+                
+                await driver.findElement(By.id("view-options")).click();
                 await driver.findElement(By.xpath("//div[@class='SelectMenu-list']//span[text()='Input/Output test']")).click();
-                await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][name]")).sendKeys(names[i]);
-                //await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][setup]")).sendKeys("javac Main.java");
-                //await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][run]")).sendKeys("java Main");
-                await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][input]")).sendKeys(inputs[i]);
-                await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][output]")).sendKeys(outputs[i]);
-                await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][points]")).sendKeys(marks[i]);
-                await sleep(5000);
+                await sleep(2000);
+                ///var ele1=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][name]"));
+                ele1.clear();
+                ele1.sendKeys(names[j]);
+                setup.sendKeys("javac Main.java");
+                run.sendKeys("java Main");
+                //var ele2=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][input]"));
+                ele2.clear();
+                ele2.sendKeys(inputs[j]);
+                //var ele3=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][output]"));
+                ele3.clear();
+                ele3.sendKeys(outputs[j]);
+              //  var ele4=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][points]"));
+                
+                ele4.clear();
+                ele4.sendKeys(marks[j]);
+                //await sleep(5000);
                 await driver.findElement(By.css(".js-save-test")).click();
+                await sleep(5000);
+                j++;
 
 
             }
