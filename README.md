@@ -2,28 +2,6 @@
 
 ---
 
-### **Developers:**
-
----
-
-- E/18/036, BANDARA L.R.M.U., [email](mailto:e18036@eng.pdn.ac.lk)
-- E/18/156, JAYATHILAKE W.A.T.N., [email](mailto:e18156@eng.pdn.ac.lk)
-- E/18/329, SEWWANDI D.W.S.N., [email](mailto:e18329@eng.pdn.ac.lk)
-
-### **Project Owner:**
-
----
-
-- Dr. Mahanama Wickramasinghe
-
-### **Scrum Master:**
-
----
-
-- Ms. Poornima Lankani
-
-### **Table of Contents:**
-
 ---
 
 1. [Introduction](#introduction)
@@ -121,6 +99,29 @@ Below phases add functionalities for the system
 - [Project Page](https://cepdnaclk.github.io/e18-co227-Auto-Marking-and-Student-Performance-Analyser-System-for-Continuous-Assessments-Group-A/)
 - [Department of Computer Engineering](http://www.ce.pdn.ac.lk/)
 - [University of Peradeniya](https://eng.pdn.ac.lk/)
+
+
+### **Developers:**
+
+---
+
+- E/18/036, BANDARA L.R.M.U., [email](mailto:e18036@eng.pdn.ac.lk)
+- E/18/156, JAYATHILAKE W.A.T.N., [email](mailto:e18156@eng.pdn.ac.lk)
+- E/18/329, SEWWANDI D.W.S.N., [email](mailto:e18329@eng.pdn.ac.lk)
+
+### **Project Owner:**
+
+---
+
+- Dr. Mahanama Wickramasinghe
+
+### **Scrum Master:**
+
+---
+
+- Ms. Poornima Lankani
+
+### **Table of Contents:**
 
 [//]: # "Please refer this to learn more about Markdown syntax"
 [//]: # "https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
