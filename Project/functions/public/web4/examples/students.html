@@ -31,210 +31,6 @@
   <link href="../assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
-  <!-- flatpickr for datetime -->
-  <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
-  <!-- upload file -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.9/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
-  
-  <!-- make looping testcase -->
-  <script>
-    var htmlElements = "";
-    var container = document.getElementById("test");
-    // let name;
-    const j = document.getElementById('inputNo').value;;
-    for (var i = 0; i < j; i++) {
-      // name=courses[i];
-      container.innerHTML += `<div class="content" id="test">
-                 <br>  
-                 <form>
-                  <div class="row">
-                    <label for="tName" class="col-sm-3 col-form-label">TestCase Name:</label>
-                    <div class="col-sm-5">
-                      <input type="text" class="form-control" id="tName"><br> 
-                    </div>
-                  </div>
-                   
-                   <div class="row">
-                    <label for="tInput" class="col-sm-3 col-form-label">Inputs:</label>
-                   <div class="col-sm-5">
-                     <textarea class="form-control" rows="5" id="tInput"></textarea><br>               
-                   </div>
-                   </div>
-                   
-                   <div class="row">
-                    <label for="tOutput" class="col-sm-3 col-form-label">Expected Output:</label>
-                    <div class="col-sm-5">
-                      <textarea class="form-control" rows="5" id="tOutput"></textarea><br> 
-                    </div>
-                   </div>
-                   
-                   <div class="row">
-                    <label for="tMarks" class="col-sm-3 col-form-label">Marks Allocated:</label>
-                    <div class="col-sm-5">
-                      <input type="text" class="form-control" id="tMarks"><br> 
-                    </div>
-                   </div>
-                   
-                 </form>
-                                  
-               </div>`;
-    }
-
-  </script>
-
-
-<!-- -------------------------------------- addStudent functions --------------------------------------------------------- -->
-<script>
-  async function addStudent(){
-   
-      
-    let aNoOfTestCases = document.getElementById("inputNo").value;
-    let aTestCaseName = document.getElementById("tName").value;
-    let aInputs = document.getElementById("tInput").value;
-    let aOutputs = document.getElementById("tOutput").value;
-    let aMarks = document.getElementById("tMarks").value;
-
-    let assignATemplate = document.getElementById("inputSol").value;
-
-    const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllTestCases',{
-    method:'GET'
-  });
-
-  const data = await response.json();
-  console.log(data);
-
-  for(i=0;i< data['data'].length;i++){
-    var element = data['data'][i];
-
-    if(element['TestCaseName']==aTestCaseName){
-      
-      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html";
-
-      return;
-      
-    }
-        
-  }
-  // see AssignmentName????
-  const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createTestCase/'+AssignmentName+"/"+aTestCaseName,+"/"+aInputs,+"/"+aOutputs,+"/"+aMarks,{
-    method:'POST',
-    
-  });
-  const data2 = await response2.json();
-
-  if(data2['status']=="Success"){
-    window.location.href="http://localhost:5001/group07-co227/us-central1/app";
-  }
-  else{
-    window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html";
-  }
-  }
-</script>
-
-
-  <!-- -------------------------------------- addAssignment functions --------------------------------------------------------- -->
-  <script>
-    async function addAssignment(){
-     
-      let assignName = document.getElementById("inputName").value;
-      let assignLang = document.getElementById("inputLanguages").value;
-      let aCoveredTopics = document.getElementById("inputTopics").value;
-      let aStartDateTime = document.getElementById("picker1").value;
-      let aEndDateTime = document.getElementById("picker2").value;
-
-      let assignQTemplate = document.getElementById("inputAssgn").value;
-      
-      let assignATemplate = document.getElementById("inputSol").value;
-
-      const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllAssignments',{
-      method:'GET'
-    });
-
-    const data = await response.json();
-    console.log(data);
-
-    for(i=0;i< data['data'].length;i++){
-      var element = data['data'][i];
-
-      if(element['AssignmentName']==assignName){
-        
-        window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html";
-
-        return;
-        
-      }
-          
-    }
-    // see CourseName????
-    const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createAssignment/'+CourseName+"/"+assignName,+"/"+aEndDateTime,+"/"+assignLang,{
-      method:'POST',
-      
-    });
-    const data2 = await response2.json();
-
-    if(data2['status']=="Success"){
-      window.location.href="http://localhost:5001/group07-co227/us-central1/app";
-    }
-    else{
-      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html";
-    }
-    }
-  </script>
-
-
-<!-- -------------------------------------- addTestCase functions --------------------------------------------------------- -->
-<script>
-  async function addTestCase(){
-   
-      
-    let aNoOfTestCases = document.getElementById("inputNo").value;
-    let aTestCaseName = document.getElementById("tName").value;
-    let aInputs = document.getElementById("tInput").value;
-    let aOutputs = document.getElementById("tOutput").value;
-    let aMarks = document.getElementById("tMarks").value;
-
-    let assignATemplate = document.getElementById("inputSol").value;
-
-    const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllTestCases',{
-    method:'GET'
-  });
-
-  const data = await response.json();
-  console.log(data);
-
-  for(i=0;i< data['data'].length;i++){
-    var element = data['data'][i];
-
-    if(element['TestCaseName']==aTestCaseName){
-      
-      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html";
-
-      return;
-      
-    }
-        
-  }
-  // see AssignmentName????
-  const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createTestCase/'+AssignmentName+"/"+aTestCaseName,+"/"+aInputs,+"/"+aOutputs,+"/"+aMarks,{
-    method:'POST',
-    
-  });
-  const data2 = await response2.json();
-
-  if(data2['status']=="Success"){
-    window.location.href="http://localhost:5001/group07-co227/us-central1/app";
-  }
-  else{
-    window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html";
-  }
-  }
-</script>
-
-
-
-
-
-
 </head>
 
 <body class="dark-edition">
@@ -262,36 +58,14 @@
               <p>User Profile</p>
             </a>
           </li>
-          <li class="nav-item active ">
+          <li class="nav-item ">
             <a class="nav-link" href="./Course.html">
               <i class="material-icons">content_paste</i>
-              <p>Courses</p>
+              <p>Course</p>
             </a>
           </li>
-
-          
-          <li class="nav-item ">
-            <a class="nav-link">
-              <i class="material-icons">library_books</i>
-              <p>Filter Assignments</p><br>              
-              <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Assignments.." title="Type in a assignment name">
-              
-              <ul id="myUL">
-                <li><a href="#">Assignment 1</a></li>
-                <li><a href="#">Assignment 2</a></li>
-              
-                <li><a href="#">Assignment 3</a></li>
-                <li><a href="#">Assignment 4</a></li>
-              
-                <li><a href="#">Assignment 5</a></li>
-                <li><a href="#">Assignment 6</a></li>
-                <li><a href="#">Assignment 7</a></li>
-              </ul>
-              </p>
-            </a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./students.html">
+          <li class="nav-item active ">
+            <a class="nav-link" href="./Students.html">
               <i class="material-icons">bubble_chart</i>
               <p>Students</p>
             </a>
@@ -317,15 +91,12 @@
         </ul>
       </div>
     </div>
-
     <div class="main-panel">
       <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-
-            <!-- should load according to selected course ====================================== --> 
-            <a class="navbar-brand" href="javascript:void(0)">Course code1</a>
+            <a class="navbar-brand" href="javascript:void(0)">Icons</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation" data-target="#navigation-example">
             <span class="sr-only">Toggle navigation</span>
@@ -381,207 +152,187 @@
         </div>
       </nav>
       <!-- End Navbar -->
-
-      <!-- <div class="content"> -->
-      <!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" role="button" data-bs-target="#offcanvasRight" aria-controls="sidebar">
-        Filter Assignments</button>
-
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebar-label">
-          <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="sidebar-label">Filter Assignments</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-          </div>
-          <div class="offcanvas-body">
-            <p><h2>Hi</h2></p>
-          </div>
-        </div> -->
-      <!-- </div> -->
-
       <div class="content">
-
-        <script>
-        function myFunction() {
-            var input, filter, ul, li, a, i, txtValue;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            ul = document.getElementById("myUL");
-            li = ul.getElementsByTagName("li");
-            for (i = 0; i < li.length; i++) {
-                a = li[i].getElementsByTagName("a")[0];
-                txtValue = a.textContent || a.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    li[i].style.display = "";
-                } else {
-                    li[i].style.display = "none";
-                }
-            }
-        }
-        </script>
-
-        
-
-        <!-- <div class="jumbotron" style="background-color: rgb(15, 21, 69); margin: auto;"> -->
-          <div class="row">
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
-              <div class="card card-stats">
-                <div class="card-header card-header-success card-header-icon">
-                  <div class="card-icon">
-                    <i class="material-icons">store</i>
-                  </div>
-                  <p class="card-category"><b>STUDENTS</b></p>
-                  <!-- get no of students -->
-                  <h3 class="card-title">4</h3>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">update</i> Just Updated
-                  </div>
-                </div>
+        <div class="container-fluid">
+          <div class="container-fluid">
+            <div class="card card-plain">
+              <div class="card-header card-header-primary">
+                <h4 class="card-title">Students</h4>
+                <p class="card-category">Undergraduates of University
+                  <a target="_blank" href="https://design.google.com/icons/">Google</a>
+                </p>
               </div>
+              <!-- <div class="row">
+                <div class="col-md-12">
+                  <div class="card-body">
+                    <div class="iframe-container d-none d-lg-block">
+                      <iframe src="https://design.google.com/icons/">
+                        <p>Your browser does not support iframes.</p>
+                      </iframe>
+                    </div>
+                    <div class="col-md-12 d-none d-sm-block d-md-block d-lg-none d-block d-sm-none text-center ml-auto mr-auto">
+                      <h5 class="card-description">The icons are visible on Desktop mode inside an iframe. Since the iframe is not working on Mobile and Tablets please visit the icons on their original page on Google. Check the
+                        <a href="https://design.google.com/icons/" target="_blank">Material Icons</a>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+
+              
+
+
             </div>
-
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
-              <div class="card card-stats">
-                <div class="card-header card-header-warning card-header-icon">
-                  <div class="card-icon">
-                    <i class="material-icons">content_copy</i>
-                  </div>
-                  <p class="card-category">ASSIGNMENTS</p>
-                  <h3 class="card-title">7
-                  </h3>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">update</i> Just Updated
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            
-
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-              <div class="card card-stats">
-                <div class="card-header card-header-danger card-header-icon">
-                  <div class="card-icon">
-                    <i class="material-icons">info_outline</i>
-                  </div>
-                  <p class="card-category">UPCOMING ASSIGNMENTS</p>
-                  <h3 class="card-title">3</h3>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">update</i> Just Updated
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
-              <div class="card card-stats">
-                <div class="card-header card-header-info card-header-icon">
-                  <div class="card-icon">
-                    <i class="fa fa-twitter"></i>
-                  </div>
-                  <p class="card-category">Followers</p>
-                  <h3 class="card-title">+245</h3>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">update</i> Just Updated
-                  </div>
-                </div>
-              </div>
-            </div> -->
           </div>
 
 
-          <section class="bg-dark text-light p-5 text-center">
-            <div class="container">
-              <div class="d-sm-flex align-items-center justify-content-between">
-                <div>
-                  <h1>Add Students <span class="text-warning"> here </span></h1>
-                  <p class="lead my-4">
-                    ....
-                  </p>                  
-                  <a href="students.html" class="btn btn-primary btn-lg" role="button">Add New Student</a>
+          <h3 class="mdb-color white-text"><b>Students Details</b></h3><br>
+
+          <div class="jumbotron" style="background-color: rgb(4, 4, 41); margin: auto;">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="Info-tab" data-toggle="tab" data-target="#Info-tab-pane" type="button" role="tab" 
+                      aria-controls="Info-tab-pane" aria-selected="true">Information</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="AddNew-tab" data-toggle="tab" data-target="#AddNew-tab-pane" type="button" role="tab" 
+                      aria-controls="AddNew-tab-pane" aria-selected="false">Add New One</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="Bench-tab" data-toggle="tab" data-target="#Bench-tab-pane" type="button" role="tab" 
+                      aria-controls="Bench-tab-pane" aria-selected="false">mmm</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="ModelSolution-tab" data-toggle="tab" data-target="#ModelSolution-tab-pane" type="button" role="tab" 
+                      aria-controls="ModelSolution-tab-pane" aria-selected="false">mmmmm</button>
+                  </li>
+                </ul> 
+      
+                <!-- tab-contents -->
+                <div class="tab-content" id="myTabContent">
+                  <!-- Information -->
+                  <div class="tab-pane fade show active" id="Info-tab-pane" role="tabpanel" aria-labelledby="Info-tab" tabindex="0">
+                    <div class="container">
+                      <br><hr>
+                      <!-- Do a card view for each student when pointing-->
+                      <div class="col-lg-6 col-md-12">
+                        <div class="card">
+                          <div class="card-header card-header-primary">
+                            <h4 class="card-title">Students Stats</h4>
+                            <p class="card-category">Existing Students on today</p>
+                          </div>
+                          <div class="card-body table-responsive">
+                            <table class="table table-hover">
+                              <thead class="text-warning">
+                                <th>Student ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Gender</th>
+                                <!-- phone , bday, profile photo-->
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>1</td>
+                                  <td>Dakota Rice</td>
+                                  <td>$36,738</td>
+                                  <td>Niger</td>
+                                </tr>
+                                <tr>
+                                  <td>2</td>
+                                  <td>Minerva Hooper</td>
+                                  <td>$23,789</td>
+                                  <td>Curaçao</td>
+                                </tr>
+                                <tr>
+                                  <td>3</td>
+                                  <td>Sage Rodriguez</td>
+                                  <td>$56,142</td>
+                                  <td>Netherlands</td>
+                                </tr>
+                                <tr>
+                                  <td>4</td>
+                                  <td>Philip Chaney</td>
+                                  <td>$38,735</td>
+                                  <td>Korea, South</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+
+
+
+                    </div>
+                    
+                  </div>
+      
+                  <!-- Add New One -->
+                  <div class="tab-pane fade" id="AddNew-tab-pane" role="tabpanel" aria-labelledby="AddNew-tab" tabindex="0">
+                    <div class="container">
+                      <br><hr>
+                      <form>
+                        <h3>NEW</h3><br>
+                        <div class="row mb-3">
+                          <label for="inputSID" class="col-sm-4 col-form-label">Student ID:</label>
+                          <div class="col-sm-6">
+                            <input type="text" class="form-control" id="inputSID" placeholder="Enter in E/XX/XXX format">
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label for="inputName" class="col-sm-4 col-form-label">Name:</label>
+                          <div class="col-sm-6">
+                            <input type="text" class="form-control" id="inputName" placeholder="Enter Full Name of the student">
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label for="inputEmail" class="col-sm-4 col-form-label">Email:</label>
+                          <div class="col-sm-6">
+                            <input type="email" id="inputEmail" name="email" class="bg-transparent text-white">
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputPhone" class="col-sm-4 col-form-label">Phone:</label>
+                            <div class="col-sm-6">
+                              <input type="text" id="inputEmail" name="inputPhone" class="bg-transparent text-white">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                          <form>
+                            <label for="picker1" class="col-sm-4 col-form-label">Birthday:</label>
+                            <div class="col-sm-6 ">
+                                <input type="date"  id="picker1" class="bg-transparent form-control" placeholder="Select birthdate">
+                            </div>
+                            
+                          </form>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputGender" class="col-sm-4 col-form-label">Gender:</label>
+                            <div class="col-sm-6">
+                                <div class="form-group" id="inputGender">
+                                    <select class="form-control text-gray bg-transparent text-white" id="sel1">
+                                      <option>Male</option>
+                                      <option>Female</option>
+                                    </select>
+                                </div> 
+                            </div>
+                        </div>
+                                
+                        <br><button type="submit" class="btn btn-primary">Save Changes</button>
+                      </form>
+                    </div>              
+                  </div>
+      
+                  <!-- mmm -->
+                 
+      
                 </div>
-                <img
-                  class="img-fluid w-50 d-none d-sm-block"
-                  src="../assets/img/addStud.png"
-                  alt=""
-                />
               </div>
-            </div>
+              
 
-          </section>
 
-          <hr>
-
-          <section class="bg-dark text-light p-5 text-center">
-            <div class="container">
-              <div class="d-sm-flex align-items-center justify-content-between">
-                <div>
-                  <h1>Create Assignment<span class="text-warning"> here </span></h1>
-                  <p class="lead my-4">
-                    ....
-                  </p>                
-                  <a href="assignment.html" class="btn btn-primary btn-lg" role="button">Create New Assignment</a>
-                </div>
-                <img
-                  class="img-fluid w-50 d-none d-sm-block"
-                  src="../assets/img/newAssig.png"
-                  alt=""
-                />
-                
-              </div>
-            </div>
-
-            
-          </section>
-
-        <!-- </div> -->
-          <br><br><br>
-        <div class="content">
-          <div class="container">
-            <div class="container row justify-content-center">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Assignment name</th>
-                    <th>Due Date</th>
-                    <th>Language</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-              </table>
-            </div>
-        
-        <!-- while -->
-            <tr>
-              <td>
-                <!-- echo Assignment name -->...
-              </td>
-              <td>
-                <!-- echo Due Date -->...
-              </td>
-              <td>
-                <!-- echo Language -->...
-              </td>
-              <td>
-                <a href="assignment.html" class="btn btn-info">Edit</a>
-                <a href="assignment.html" class="btn btn-danger">Delete</a>
-              </td>
-            </tr>
-          </div>
         </div>
       </div>
-
-    
-    
-
-
-    
       <footer class="footer">
         <div class="container-fluid">
           <nav class="float-left">
@@ -694,7 +445,6 @@
   <script src="../assets/js/core/bootstrap-material-design.min.js"></script>
   <script src="https://unpkg.com/default-passive-events"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  
   <!-- Place this tag in your head or just before your close body tag. -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!--  Google Maps Plugin    -->
@@ -707,9 +457,6 @@
   <script src="../assets/js/material-dashboard.js?v=2.1.0"></script>
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
   <script src="../assets/demo/demo.js"></script>
-
-
-
   <script>
     $(document).ready(function() {
       $().ready(function() {
@@ -872,25 +619,6 @@
       });
     });
   </script>
-
-  <!-- dateTime Plugin -->
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script>
-    config = {
-      enableTime: true,
-      dateFormat: "Y-m-d H:i",
-      altInput: true,
-      altFormat: "F j, Y (h:S K)"
-    }
-    flatpickr("input[type=datetime-local]", config);
-  </script>
-
-  <!-- upload file Plugin -->
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.9/js/fileinput.min.js"></script>
-
 </body>
 
 </html>
