@@ -38,23 +38,6 @@
   
   <!-- make looping testcase -->
   <script>
-    var course;
-    window.onload = function() {
-        var url = window.location.href,
-        params = url.split('?')[1].split('&'),
-        data = {}, tmp;
-        for (var i = 0, l = params.length; i < l; i++) {
-            tmp = params[i].split('=');
-            data[tmp[0]] = tmp[1];
-        }
-        course = data.cName;
-    	  
-    };
-    function direct(){
-            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/newAssignment.html?cName="+encodeURIComponent(course);
-    }
-
-
     var htmlElements = "";
     var container = document.getElementById("test");
     // let name;
@@ -435,163 +418,184 @@
         }
         </script>
 
-        
+        <h3 class="mdb-color white-text"><b>Create New Assignment</b></h3><br>
 
-        <!-- <div class="jumbotron" style="background-color: rgb(15, 21, 69); margin: auto;"> -->
-          <div class="row">
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
-              <div class="card card-stats">
-                <div class="card-header card-header-success card-header-icon">
-                  <div class="card-icon">
-                    <i class="material-icons">store</i>
+        <div class="jumbotron" style="background-color: rgb(4, 4, 41); margin: auto;">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="Form-tab" data-toggle="tab" data-target="#Form-tab-pane" type="button" role="tab" 
+                aria-controls="Form-tab-pane" aria-selected="true">Form</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="Template-tab" data-toggle="tab" data-target="#Template-tab-pane" type="button" role="tab" 
+                aria-controls="Template-tab-pane" aria-selected="false">Template</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="Bench-tab" data-toggle="tab" data-target="#Bench-tab-pane" type="button" role="tab" 
+                aria-controls="Bench-tab-pane" aria-selected="false">Test Bench</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="ModelSolution-tab" data-toggle="tab" data-target="#ModelSolution-tab-pane" type="button" role="tab" 
+                aria-controls="ModelSolution-tab-pane" aria-selected="false">Model Solution</button>
+            </li>
+          </ul> 
+
+          <!-- tab-contents -->
+          <div class="tab-content" id="myTabContent">
+            <!-- Form -->
+            <div class="tab-pane fade show active" id="Form-tab-pane" role="tabpanel" aria-labelledby="Form-tab" tabindex="0">
+              <div class="container">
+                <br><hr>
+                <form><br>
+                  <div class="row mb-3">
+                    <label for="inputName" class="col-sm-4 col-form-label">Assignment Name:</label>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" id="inputName">
+                    </div>
                   </div>
-                  <p class="card-category"><b>STUDENTS</b></p>
-                  <!-- get no of students -->
-                  <h3 class="card-title">4</h3>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">update</i> Just Updated
+                  <div class="row mb-3">
+                    <label for="inputLanguages" class="col-sm-4 col-form-label">Language should used:</label>
+                    <div class="col-sm-6">
+                      <div class="form-group" id="inputLanguages">
+                        <select class="form-control text-gray bg-transparent" id="sel1">
+                          <option>Java</option>
+                          <option>Python</option>
+                          <option>C</option>
+                          <option>C++</option>
+                        </select>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                  <div class="row mb-3">
+                    <label for="inputTopics" class="col-sm-4 col-form-label">Covered topics:</label>
+                    <div class="col-sm-6">
+                      <textarea class="form-control" rows="5" id="inputTopics"></textarea><br><br> 
+                    </div>
+                  </div>
+  
+                  <div class="row mb-3">
+                    <form>
+                      <label for="picker1" class="col-sm-2 col-form-label">Start Date:</label>
+                      <input type="datetime-local"  id="picker1" class="bg-transparent col-sm-3 form-control ml-8 ml-lg-0" placeholder="Select Start DateTime">
+                      <label for="picker2" class="col-sm-2 col-form-label ml-8 ml-lg-0">End Date:</label>
+                      <input type="datetime-local" id="picker2" class="bg-transparent col-sm-3 form-control" placeholder="Select End DateTime">
+                    </form>
+                  </div>           
+                  <br><button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
               </div>
+              
             </div>
 
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
-              <div class="card card-stats">
-                <div class="card-header card-header-warning card-header-icon">
-                  <div class="card-icon">
-                    <i class="material-icons">content_copy</i>
-                  </div>
-                  <p class="card-category">ASSIGNMENTS</p>
-                  <h3 class="card-title">7
-                  </h3>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">update</i> Just Updated
-                  </div>
-                </div>
-              </div>
+            <!-- Template -->
+            <div class="tab-pane fade" id="Template-tab-pane" role="tabpanel" aria-labelledby="Template-tab" tabindex="0">
+              <div class="container">
+                <br><hr>
+                <form>        
+                  <div class="row mb-3">
+                    <label for="inputAssgn" class="col-sm-6 col-form-label">Upload Assignment here:</label><br><br>
+                    <div class="container">
+                      <input id="inputAssgn" name="input-b1" type="file" class="file" data-browse-on-zone-click="true">                    
+                    </div>  
+                  </div>                             
+                  <br><button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+              </div>              
             </div>
 
-            
-
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-              <div class="card card-stats">
-                <div class="card-header card-header-danger card-header-icon">
-                  <div class="card-icon">
-                    <i class="material-icons">info_outline</i>
+            <!-- Test Bench -->
+            <div class="tab-pane fade" id="Bench-tab-pane" role="tabpanel" aria-labelledby="Bench-tab" tabindex="0">
+              <div class="container">
+                <br><hr>       
+                <div class="row mb-3">
+                 <label for="inputNo" class="col-sm-3 col-form-label">No of Testcases:</label>
+                 <div class="col-sm-3">
+                   <input type="number" class="form-control" id="inputNo">
+                 </div>
+               </div>
+             
+               <script>
+                 function myfun(){
+                   const no = document.getElementById('inputNo').value;
+                   alert("No :" +no);
+                 }                           
+                 // var outputHTML = "";
+                 // outputHTML +=  "<div>";
+                 // for (var i = 0; i < no; i++){
+                 //   <div class="row mb-3">
+                 //     <label for="inputLanguages" class="col-sm-2 col-form-label">output:</label>
+                 //     <div class="col-sm-10">
+                 //       <input type="text" class="form-control" id="inputLanguages"></input>
+                 //     </div>
+                 //   </div>
+                 //   outputHTML += "<div>";
+                 // }
+                 // outputHTML += "</div>";
+               </script>
+               
+              <div class="content" id="test">
+                 <br>  
+                 <form>
+                  <div class="row">
+                    <label for="tName" class="col-sm-3 col-form-label">TestCase Name:</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" id="tName"><br> 
+                    </div>
                   </div>
-                  <p class="card-category">UPCOMING ASSIGNMENTS</p>
-                  <h3 class="card-title">3</h3>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">update</i> Just Updated
-                  </div>
-                </div>
+                   
+                   <div class="row">
+                    <label for="tInput" class="col-sm-3 col-form-label">Inputs:</label>
+                   <div class="col-sm-5">
+                     <textarea class="form-control" rows="5" id="tInput"></textarea><br>               
+                   </div>
+                   </div>
+                   
+                   <div class="row">
+                    <label for="tOutput" class="col-sm-3 col-form-label">Expected Output:</label>
+                    <div class="col-sm-5">
+                      <textarea class="form-control" rows="5" id="tOutput"></textarea><br> 
+                    </div>
+                   </div>
+                   
+                   <div class="row">
+                    <label for="tMarks" class="col-sm-3 col-form-label">Marks Allocated:</label>
+                    <div class="col-sm-5">
+                      <input type="number" class="form-control" id="tMarks"><br> 
+                    </div>
+                   </div>
+                   
+                </form>
+                                  
               </div>
+
+              <br><button type="submit" class="btn btn-primary" onclick="myfun()">Save Changes</button>
+
+              </div>
+              
             </div>
 
-            <!-- <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
-              <div class="card card-stats">
-                <div class="card-header card-header-info card-header-icon">
-                  <div class="card-icon">
-                    <i class="fa fa-twitter"></i>
-                  </div>
-                  <p class="card-category">Followers</p>
-                  <h3 class="card-title">+245</h3>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">update</i> Just Updated
-                  </div>
-                </div>
-              </div>
-            </div> -->
-          </div>
-
-
-          <section class="bg-dark text-light p-5 text-center">
-            <div class="container">
-              <div class="d-sm-flex align-items-center justify-content-between">
-                <div>
-                  <h1>Add Students <span class="text-warning"> here </span></h1>
-                  <p class="lead my-4">
-                    ....
-                  </p>                  
-                  <a href="students.html" class="btn btn-primary btn-lg" role="button">Add New Student</a>
-                </div>
-                <img
-                  class="img-fluid w-50 d-none d-sm-block"
-                  src="../assets/img/addStud.png"
-                  alt=""
-                />
-              </div>
+            <!-- ModelSolution -->
+            <div class="tab-pane fade" id="ModelSolution-tab-pane" role="tabpanel" aria-labelledby="ModelSolution-tab" tabindex="0">
+              <div class="container">
+                <br><hr>
+                <form>      
+                  <div class="row mb-3">
+                    <label for="inputSol" class="col-sm-6 col-form-label">Upload solution here:</label><br><br>
+                    <div class="container">
+                      <input id="inputSol" name="inputSol" type="file" class="file" data-browse-on-zone-click="true">                    
+                    </div>  
+                  </div>                             
+                  <br><button type="submit" class="btn btn-primary">Save Changes</button><br><br>
+                  <a href="Course.html" class="btn btn-outline-success btn-lg" role="button">Create the Assignment</a>
+                </form>
+              </div>              
             </div>
 
-          </section>
-
-          <hr>
-
-          <section class="bg-dark text-light p-5 text-center">
-            <div class="container">
-              <div class="d-sm-flex align-items-center justify-content-between">
-                <div>
-                  <h1>Create Assignment<span class="text-warning"> here </span></h1>
-                  <p class="lead my-4">
-                    ....
-                  </p>                
-                  <a href="assignment.html" class="btn btn-primary btn-lg" role="button">Create New Assignment</a>
-                </div>
-                <img
-                  class="img-fluid w-50 d-none d-sm-block"
-                  src="../assets/img/newAssig.png"
-                  alt=""
-                />
-                
-              </div>
-            </div>
-
-            
-          </section>
-
-        <!-- </div> -->
-          <br><br><br>
-        <div class="content">
-          <div class="container">
-            <div class="container row justify-content-center">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Assignment name</th>
-                    <th>Due Date</th>
-                    <th>Language</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-              </table>
-            </div>
-        
-        <!-- while -->
-            <tr>
-              <td>
-                <!-- echo Assignment name -->...
-              </td>
-              <td>
-                <!-- echo Due Date -->...
-              </td>
-              <td>
-                <!-- echo Language -->...
-              </td>
-              <td>
-                <a href="assignment.html" class="btn btn-info">Edit</a>
-                <a href="assignment.html" class="btn btn-danger">Delete</a>
-              </td>
-            </tr>
           </div>
         </div>
+        
+
+
       </div>
 
     

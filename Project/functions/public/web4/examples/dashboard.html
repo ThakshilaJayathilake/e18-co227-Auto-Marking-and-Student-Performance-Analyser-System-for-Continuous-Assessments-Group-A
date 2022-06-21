@@ -32,7 +32,8 @@
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <!--link href="../assets/demo/demo.css" rel="stylesheet" /-->
 
-  
+
+  <!-- -------------------------------------- displayCourse functions --------------------------------------------------------- -->
   <script >
     var user;
     function courseDetails() {
@@ -151,6 +152,55 @@
     }
     
   </script>
+
+
+
+<!-- -------------------------------------- addCourse functions --------------------------------------------------------- -->
+  <script>
+    async function addCourse(){
+      let courseCode = document.getElementById("course-code").value;
+      let courseTitle = document.getElementById("course-title").value;
+      let defaultLang = document.getElementById("code-language-def").value;
+
+      const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllCourses',{
+      method:'GET'
+    });
+
+    const data = await response.json();
+    console.log(data);
+
+    for(i=0;i< data['data'].length;i++){
+      var element = data['data'][i];
+
+      if(element['CourseCode']==courseCode){
+        
+        window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html";
+
+        return;
+        
+      }
+          
+    }
+
+    // see user????
+    const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createCourse/'+user+"/"+courseCode,+"/"+courseTitle,{
+      method:'POST',
+      
+    });
+    const data2 = await response2.json();
+
+    if(data2['status']=="Success"){
+       window.location.href="http://localhost:5001/group07-co227/us-central1/app";
+    }
+    else{
+      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html";
+    }
+    }
+  </script>
+
+
+
+
 </head>
 
 <body class="dark-edition">
@@ -353,75 +403,7 @@
           </div>
           </div>
           <br>
-          <div class="row">
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
-              <div class="card card-stats">
-                <div class="card-header card-header-warning card-header-icon">
-                  <div class="card-icon">
-                    <i class="material-icons">content_copy</i>
-                  </div>
-                  <p class="card-category">Used Space</p>
-                  <h3 class="card-title">49/50
-                    <small>GB</small>
-                  </h3>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons text-warning">warning</i>
-                    <a href="#pablo" class="warning-link">Get More Space...</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
-              <div class="card card-stats">
-                <div class="card-header card-header-success card-header-icon">
-                  <div class="card-icon">
-                    <i class="material-icons">store</i>
-                  </div>
-                  <p class="card-category">Revenue</p>
-                  <h3 class="card-title">$34,245</h3>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">date_range</i> Last 24 Hours
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
-              <div class="card card-stats">
-                <div class="card-header card-header-danger card-header-icon">
-                  <div class="card-icon">
-                    <i class="material-icons">info_outline</i>
-                  </div>
-                  <p class="card-category">Fixed Issues</p>
-                  <h3 class="card-title">75</h3>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">local_offer</i> Tracked from Github
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
-              <div class="card card-stats">
-                <div class="card-header card-header-info card-header-icon">
-                  <div class="card-icon">
-                    <i class="fa fa-twitter"></i>
-                  </div>
-                  <p class="card-category">Followers</p>
-                  <h3 class="card-title">+245</h3>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">update</i> Just Updated
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          
           <div class="row">
             <div class="col-lg-6 col-md-12">
               <div class="card">
