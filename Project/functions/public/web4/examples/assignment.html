@@ -39,6 +39,7 @@
   <!-- make looping testcase -->
   <script>
     var course;
+    var assignment;
     window.onload = async function() {
         var url = window.location.href,
         params = url.split('?')[1].split('&'),
@@ -48,6 +49,14 @@
             data[tmp[0]] = tmp[1];
         }
         course = data.cName;
+        assignment = data.Assignment;
+
+        //###########################################################################
+        //Write a code to load assignment details
+        if(assignment){
+
+        }
+        //###########################################################################
         var element= document.getElementById("course");
         element.innerHTML = course;
         const response_a = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllAssignments',{
