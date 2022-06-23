@@ -42,15 +42,19 @@
     var assignment;
     window.onload = async function() {
         var url = window.location.href,
-        params = url.split('?')[1].split('&'),
+        params = url.split('?'),
         data = {}, tmp;
+        
+        
         for (var i = 0, l = params.length; i < l; i++) {
             tmp = params[i].split('=');
             data[tmp[0]] = tmp[1];
+            
         }
         course = data.cName;
         assignment = data.Assignment;
-
+        
+        
         //###########################################################################
         //Write a code to load assignment details
         if(assignment){
@@ -64,14 +68,116 @@
         });
         const data_a = await response_a.json();
         console.log(data_a);
+
+        const response_b = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllTestCases',{
+          method:'GET'
+        });
+        const data_b = await response_b.json();
+        console.log(data_b);
+
+
         var list= document.getElementById("myUL");
+        var ele_assignment= document.getElementById("assignment");
+        var element2= document.getElementById("url");
+        var element3= document.getElementById("url2");
+        var ass=document.getElementById("inputName2");
+        var due = document.getElementById("picker2");
         for(i=0;i< data_a['data'].length;i++){
           var element1 = data_a['data'][i];
-
+          
           if(element1['CourseName']==course){
+            
             
             var name=element1['AssignmentName'];
             list.innerHTML += `<li><a href="#">${name}</a></li>`;
+
+            if(element1['AssignmentName']==assignment){
+              var dueDate=element1['DueDate'];
+              var url=element1['URL'];
+              console.log(assignment);
+              
+              ele_assignment.innerHTML = assignment;
+              
+              element2.innerHTML = "URL";
+              
+              element3.innerHTML = url;
+
+        
+            
+              ass.innerHTML=assignment;
+            //  ass.setAttribute('disabled','disabled');
+        //document.getElementById("inputLanguages").setAttribute('disabled','disabled'); //TODO : Store in firebase
+        //document.getElementById("inputTopics").setAttribute('disabled','disabled'); //TODO : Store in firebase
+        //document.getElementById("picker1").setAttribute('disabled','disabled'); //TODO : Store in firebase
+              
+              due.innerHTML = dueDate;
+            //  due.setAttribute('disabled','disabled');
+            }
+            
+
+          }
+              
+        }
+        var container = document.getElementById("Bench-tab-pane");
+        
+        var name;
+        var input;
+        var output;
+        var points;
+        term=0;
+        for(i=0;i< data_b['data'].length;i++){
+          var element1 = data_b['data'][i];
+
+          if(element1['AssignmentName']==assignment){
+            
+            if(term==0){
+              container.innerHTML="";
+            }
+            term++;
+            name=element1['TestCaseName'];
+            input=element1['Input'];
+            output=element1['Output'];
+            points=element1['Points'];
+            container.innerHTML += `<br><hr>   
+                 <form>
+                  <div class="row">
+                    <label for="tName" class="col-sm-3 col-form-label">TestCase Name:</label>
+                    <div class="col-sm-5">${name}
+                      
+                    </div>
+                  </div>
+                   
+                   <div class="row">
+                    <label for="tInput" class="col-sm-3 col-form-label">Inputs:</label>
+                   <div class="col-sm-5">${input}           
+                   </div>
+                   </div>
+                   
+                   <div class="row">
+                    <label for="tOutput" class="col-sm-3 col-form-label">Expected Output:</label>
+                    <div class="col-sm-5">${output}
+                      
+                    </div>
+                   </div>
+                   
+                   <div class="row">
+                    <label for="tMarks" class="col-sm-3 col-form-label">Marks Allocated:</label>
+                    <div class="col-sm-5">${points}
+                      
+                    </div>
+                   </div>
+                   
+                </form>
+                                  
+              </div>
+
+              
+              `;
+            //  document.getElementById(`tName${i}`).setAttribute('disabled','disabled');
+            //  document.getElementById(`tInput${i}`).setAttribute('disabled','disabled');
+            //  document.getElementById(`tOutput${i}`).setAttribute('disabled','disabled');
+            //  document.getElementById(`tMarks${i}`).setAttribute('disabled','disabled');
+
           }
               
         }
@@ -558,7 +664,7 @@
                   </div>
                   <div class="row mb-3">
                     <label for="inputName" class="col-sm-4 col-form-label" >Assignment Name:</label>
-                    <div class="col-sm-6">
+                    <div class="col-sm-6"id="inputName2">
                       <input type="text" class="form-control" id="inputName">
                     </div>
                   </div>
