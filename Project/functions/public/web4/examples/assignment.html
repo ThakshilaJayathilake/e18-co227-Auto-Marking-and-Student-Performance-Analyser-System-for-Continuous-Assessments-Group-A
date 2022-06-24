@@ -40,27 +40,24 @@
   <script>
     var course;
     var assignment;
+
+    //###########################################################################
+    //When loading this page
     window.onload = async function() {
         var url = window.location.href,
         params = url.split('?'),
         data = {}, tmp;
-        
         
         for (var i = 0, l = params.length; i < l; i++) {
             tmp = params[i].split('=');
             data[tmp[0]] = tmp[1];
             
         }
+        //Get course name and assignment name from the url
         course = data.cName;
         assignment = data.Assignment;
         
-        
-        //###########################################################################
-        //Write a code to load assignment details
-        if(assignment){
-
-        }
-        //###########################################################################
+        //Search for all assignments created under given given course
         var element= document.getElementById("course");
         element.innerHTML = course;
         const response_a = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllAssignments',{
@@ -69,27 +66,31 @@
         const data_a = await response_a.json();
         console.log(data_a);
 
+        //Search for all testcases under given assignment
         const response_b = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllTestCases',{
           method:'GET'
         });
         const data_b = await response_b.json();
         console.log(data_b);
 
-
+        //Get elements by ID 
         var list= document.getElementById("myUL");
         var ele_assignment= document.getElementById("assignment");
         var element2= document.getElementById("url");
         var element3= document.getElementById("url2");
-        var ass=document.getElementById("inputName2");
-        var due = document.getElementById("picker2");
+        var ass=document.getElementById("inputName");
+        var due = document.getElementById("due");
+        var save = document.getElementById("save");
+
+        //Find the data belongs to given course and given assignment
         for(i=0;i< data_a['data'].length;i++){
           var element1 = data_a['data'][i];
           
           if(element1['CourseName']==course){
             
-            
             var name=element1['AssignmentName'];
-            list.innerHTML += `<li><a href="#">${name}</a></li>`;
+            var direct="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?Assignment="+encodeURIComponent(name);
+            list.innerHTML += `<li><a href="${direct}">${name}</a></li>`;
 
             if(element1['AssignmentName']==assignment){
               var dueDate=element1['DueDate'];
@@ -97,27 +98,26 @@
               console.log(assignment);
               
               ele_assignment.innerHTML = assignment;
-              
               element2.innerHTML = "URL";
-              
-              element3.innerHTML = url;
-
-        
-            
-              ass.innerHTML=assignment;
-            //  ass.setAttribute('disabled','disabled');
+              element3.innerHTML = url;    
+              ass.setAttribute("value",assignment);
+              ass.setAttribute('disabled','disabled');
+              //###########################################
+              //TODO
         //document.getElementById("inputLanguages").setAttribute('disabled','disabled'); //TODO : Store in firebase
         //document.getElementById("inputTopics").setAttribute('disabled','disabled'); //TODO : Store in firebase
-        //document.getElementById("picker1").setAttribute('disabled','disabled'); //TODO : Store in firebase
-              
+        //document.getElementById("picker1").setAttribute('disabled','disabled'); //TODO : Store in firebase     
+              //###########################################
               due.innerHTML = dueDate;
-            //  due.setAttribute('disabled','disabled');
+              save.hidden = true;
+      
             }
             
-
           }
               
         }
+
+        //Find the data belongs to given assignment
         var container = document.getElementById("Bench-tab-pane");
         
         var name;
@@ -134,6 +134,7 @@
               container.innerHTML="";
             }
             term++;
+            //Fill the test cases
             name=element1['TestCaseName'];
             input=element1['Input'];
             output=element1['Output'];
@@ -173,59 +174,13 @@
 
               
               `;
-            //  document.getElementById(`tName${i}`).setAttribute('disabled','disabled');
-            //  document.getElementById(`tInput${i}`).setAttribute('disabled','disabled');
-            //  document.getElementById(`tOutput${i}`).setAttribute('disabled','disabled');
-            //  document.getElementById(`tMarks${i}`).setAttribute('disabled','disabled');
 
           }
               
         }
-
     	  
     };
-    var htmlElements = "";
-    var container = document.getElementById("test");
-    // let name;
-    const j = document.getElementById('inputNo').value;;
-    for (var i = 0; i < j; i++) {
-      // name=courses[i];
-      container.innerHTML += `<div class="content" id="test">
-                 <br>  
-                 <form>
-                  <div class="row">
-                    <label for="tName" class="col-sm-3 col-form-label">TestCase Name:</label>
-                    <div class="col-sm-5">
-                      <input type="text" class="form-control" id="tName"><br> 
-                    </div>
-                  </div>
-                   
-                   <div class="row">
-                    <label for="tInput" class="col-sm-3 col-form-label">Inputs:</label>
-                   <div class="col-sm-5">
-                     <textarea class="form-control" rows="5" id="tInput"></textarea><br>               
-                   </div>
-                   </div>
-                   
-                   <div class="row">
-                    <label for="tOutput" class="col-sm-3 col-form-label">Expected Output:</label>
-                    <div class="col-sm-5">
-                      <textarea class="form-control" rows="5" id="tOutput"></textarea><br> 
-                    </div>
-                   </div>
-                   
-                   <div class="row">
-                    <label for="tMarks" class="col-sm-3 col-form-label">Marks Allocated:</label>
-                    <div class="col-sm-5">
-                      <input type="text" class="form-control" id="tMarks"><br> 
-                    </div>
-                   </div>
-                   
-                 </form>
-                                  
-               </div>`;
-    }
-
+    
   
 
 
@@ -390,61 +345,10 @@
     }
   </script>
 
-
-<!-- -------------------------------------- addTestCase functions --------------------------------------------------------- -->
-<script>
-  async function addTestCase(){
-   
-      
-    let aNoOfTestCases = document.getElementById("inputNo").value;
-    let aTestCaseName = document.getElementById("tName").value;
-    let aInputs = document.getElementById("tInput").value;
-    let aOutputs = document.getElementById("tOutput").value;
-    let aMarks = document.getElementById("tMarks").value;
-
-    let assignATemplate = document.getElementById("inputSol").value;
-
-    const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllTestCases',{
-    method:'GET'
-  });
-
-  const data = await response.json();
-  console.log(data);
-
-  for(i=0;i< data['data'].length;i++){
-    var element = data['data'][i];
-
-    if(element['TestCaseName']==aTestCaseName){
-      
-      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html";
-
-      return;
-      
-    }
-        
-  }
-  // see AssignmentName????
-  const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createTestCase/'+AssignmentName+"/"+aTestCaseName,+"/"+aInputs,+"/"+aOutputs,+"/"+aMarks,{
-    method:'POST',
-    
-  });
-  const data2 = await response2.json();
-
-  if(data2['status']=="Success"){
-    window.location.href="http://localhost:5001/group07-co227/us-central1/app";
-  }
-  else{
-    window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html";
-  }
-  }
-</script>
-
-
-
-
-
-
 </head>
+
+
+
 
 <body class="dark-edition">
   <div class="wrapper ">
@@ -486,15 +390,7 @@
               <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Assignments.." title="Type in a assignment name">
               
               <ul id="myUL">
-                <!--li><a href="#">Assignment 1</a></!--li>
-                <li><a href="#">Assignment 2</a></li>
-              
-                <li><a href="#">Assignment 3</a></li>
-                <li><a href="#">Assignment 4</a></li>
-              
-                <li><a href="#">Assignment 5</a></li>
-                <li><a href="#">Assignment 6</a></li>
-                <li><a href="#">Assignment 7</a></li>-->
+                
               </ul>
               </p>
             </a>
@@ -532,8 +428,6 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-
-            <!-- should load according to selected course ====================================== --> 
             <a class="navbar-brand" href="javascript:void(0)" id="course"></a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation" data-target="#navigation-example">
@@ -693,10 +587,11 @@
                       <label for="picker1" class="col-sm-2 col-form-label">Start Date:</label>
                       <input type="datetime-local"  id="picker1" class="bg-transparent col-sm-3 form-control ml-8 ml-lg-0" placeholder="Select Start DateTime">
                       <label for="picker2" class="col-sm-2 col-form-label ml-8 ml-lg-0">End Date:</label>
-                      <input type="datetime-local" id="picker2" class="bg-transparent col-sm-3 form-control" placeholder="Select End DateTime">
+                      <div id = "due"><input type="datetime-local" id="picker2" class="bg-transparent col-sm-3 form-control" placeholder="Select End DateTime">
+                      </div>
                     </form>
                   </div>           
-                  <br><button type="submit" class="btn btn-primary">Save Changes</button>
+                  <br><button type="submit" class="btn btn-primary" id="save">Save Changes</button>
                 </form>
               </div>
               
@@ -792,42 +687,7 @@
                  // outputHTML += "</div>";
                </script>
                
-              <!--div class="content" id="test">
-                 <br>  
-                 <form>
-                  <div class="row">
-                    <label for="tName" class="col-sm-3 col-form-label">TestCase Name:</label>
-                    <div class="col-sm-5">
-                      <input type="text" class="form-control" id="tName"><br> 
-                    </div>
-                  </div>
-                   
-                   <div class="row">
-                    <label for="tInput" class="col-sm-3 col-form-label">Inputs:</label>
-                   <div class="col-sm-5">
-                     <textarea class="form-control" rows="5" id="tInput"></textarea><br>               
-                   </div>
-                   </div>
-                   
-                   <div class="row">
-                    <label for="tOutput" class="col-sm-3 col-form-label">Expected Output:</label>
-                    <div class="col-sm-5">
-                      <textarea class="form-control" rows="5" id="tOutput"></textarea><br> 
-                    </div>
-                   </div>
-                   
-                   <div class="row">
-                    <label for="tMarks" class="col-sm-3 col-form-label">Marks Allocated:</label>
-                    <div class="col-sm-5">
-                      <input type="number" class="form-control" id="tMarks"><br> 
-                    </div>
-                   </div>
-                   
-                </form>
-                                  
-              </!--div>
-
-              <br><button-- type="submit" class="btn btn-primary" onclick="myfun()">Save Changes</button-->
+              
 
               </div>
               
