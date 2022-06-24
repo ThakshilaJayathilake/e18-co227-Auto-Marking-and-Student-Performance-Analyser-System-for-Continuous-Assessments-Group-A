@@ -158,26 +158,11 @@
             <div class="card card-plain">
               <div class="card-header card-header-primary">
                 <h4 class="card-title">Students</h4>
-                <p class="card-category">Undergraduates of University
-                  <a target="_blank" href="https://design.google.com/icons/">Google</a>
+                <p class="card-category">Undergraduates of 
+                  <a target="_blank" href="https://people.ce.pdn.ac.lk/students/e18/">University of Peradeniya</a>
                 </p>
               </div>
-              <!-- <div class="row">
-                <div class="col-md-12">
-                  <div class="card-body">
-                    <div class="iframe-container d-none d-lg-block">
-                      <iframe src="https://design.google.com/icons/">
-                        <p>Your browser does not support iframes.</p>
-                      </iframe>
-                    </div>
-                    <div class="col-md-12 d-none d-sm-block d-md-block d-lg-none d-block d-sm-none text-center ml-auto mr-auto">
-                      <h5 class="card-description">The icons are visible on Desktop mode inside an iframe. Since the iframe is not working on Mobile and Tablets please visit the icons on their original page on Google. Check the
-                        <a href="https://design.google.com/icons/" target="_blank">Material Icons</a>
-                      </h5>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
+        
 
               
 
@@ -230,13 +215,27 @@
                                 <th>Gender</th>
                                 <!-- phone , bday, profile photo-->
                               </thead>
+                              <!-- loop through each student -->
                               <tbody>
                                 <tr>
-                                  <td>1</td>
+                                  <td class="pizzaname">1
+                                    <div class="popup" style=" height: 50px;"></div>
+                                  </td>
                                   <td>Dakota Rice</td>
                                   <td>$36,738</td>
                                   <td>Niger</td>
+                                  <td>
+                                    <div class="dropdown">
+                                      <button class="dropbtn">Details</button>
+                                      <div class="dropdown-content">
+                                        <a href="profile.html"><b>Profile</b></a>
+                                        <a href="#"><b>Marks</b></a>
+                                      </div>
+                                    </div>
+                                  </td>
                                 </tr>
+
+                                
                                 <tr>
                                   <td>2</td>
                                   <td>Minerva Hooper</td>
@@ -469,6 +468,12 @@
         $sidebar_responsive = $('body > .navbar-collapse');
 
         window_width = $(window).width();
+
+        $('.pizzaname').hover(function() {
+        $(this).find('.popup').show();
+        }, function() {
+          $(this).find('.popup').hide();
+        });
 
         $('.fixed-plugin a').click(function(event) {
           // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
