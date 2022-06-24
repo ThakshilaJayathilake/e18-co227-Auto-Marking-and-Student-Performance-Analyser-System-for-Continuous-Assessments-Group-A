@@ -41,7 +41,7 @@
       window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-up.html"
     }
     function directToAssPage(Assname){
-      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?Assignment="+encodeURIComponent(Assname);
+      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?Assignment="+encodeURIComponent(Assname)+"?user="+encodeURIComponent(user);
       
     }
     
@@ -78,25 +78,49 @@
       
     }
     var course;
+    var user;
     window.onload = async function() {
         var url = window.location.href,
-        params = url.split('?')[1].split('&'),
+        params = url.split('?'),
         data = {}, tmp;
+        
         for (var i = 0, l = params.length; i < l; i++) {
             tmp = params[i].split('=');
             data[tmp[0]] = tmp[1];
+            
         }
+        user = data.user;
         course = data.cName;
         var title1 = document.getElementById("course");
         title1.innerHTML=course;
       
         courses(course);
+
+        const response_ = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllAssignments',{
+          method:'GET'
+        });
+        const data_ = await response_.json();
+        console.log(data_);
+        var list= document.getElementById("myUL");
+        k=0;
+        for(i=0;i< data_['data'].length;i++){
+          var element1 = data_['data'][i];
+
+          if(element1['CourseName']==course){
+            k++;
+            var name=element1['AssignmentName'];
+            var direct="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?Assignment="+encodeURIComponent(name)+"?user="+encodeURIComponent(user);
+            list.innerHTML += `<li><a href="${direct}">${name}</a></li>`;
+            
+          }
+              
+        }
         
 
     	  
     };
     function directToNewAssignment(){
-      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course);
+      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
       
     }
     //var user="Ni";
@@ -206,7 +230,7 @@
        window.location.href="http://localhost:5001/group07-co227/us-central1/app";
     }
     else{
-      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html";
+      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html?name="+encodeURIComponent(user);
     }
     }
   </script>
@@ -230,7 +254,13 @@
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="nav-item active  ">
-            <a class="nav-link" href="./dashboard.html">
+            <script>
+              function dashboard(){
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html?name="+encodeURIComponent(user);
+              }
+              
+            </script>
+            <a class="nav-link" onclick="dashboard()">
               <i class="material-icons">dashboard</i>
               <p>Dashboard</p>
             </a>
@@ -241,28 +271,44 @@
               <p>User Profile</p>
             </a>
           </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./tables.html">
+        
+          <li class="nav-item">
+            <script>
+              function courses_(){
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+              }
+              
+            </script>
+            <a class="nav-link" onclick="courses_()">
               <i class="material-icons">content_paste</i>
-              <p>Table List</p>
+              <p>Course</p>
             </a>
           </li>
+
           <li class="nav-item ">
-            <a class="nav-link" href="./typography.html">
+            <a class="nav-link">
               <i class="material-icons">library_books</i>
-              <p>Typography</p>
-            </a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./icons.html">
-              <i class="material-icons">bubble_chart</i>
-              <p>Icons</p>
+              <p>Filter Assignments</p><br>              
+              <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Assignments.." title="Type in a assignment name">
+              
+              <ul id="myUL">
+                <!--li><a href="#">Assignment 1</a></!--li>
+                <li><a href="#">Assignment 2</a></li>
+              
+                <li><a href="#">Assignment 3</a></li>
+                <li><a href="#">Assignment 4</a></li>
+              
+                <li><a href="#">Assignment 5</a></li>
+                <li><a href="#">Assignment 6</a></li>
+                <li><a href="#">Assignment 7</a></li>-->
+              </ul>
+              </p>
             </a>
           </li>
           <li class="nav-item ">
             <a class="nav-link" href="./map.html">
               <i class="material-icons">location_ons</i>
-              <p>Maps</p>
+              <p>TODO List</p>
             </a>
           </li>
           <li class="nav-item ">

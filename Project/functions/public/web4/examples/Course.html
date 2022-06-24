@@ -39,15 +39,19 @@
   <!-- make looping testcase -->
   <script>
     var course;
+    var user;
     window.onload = async function() {
         var url = window.location.href,
-        params = url.split('?')[1].split('&'),
+        params = url.split('?'),
         data = {}, tmp;
+        
         for (var i = 0, l = params.length; i < l; i++) {
             tmp = params[i].split('=');
             data[tmp[0]] = tmp[1];
+            
         }
         course = data.cName;
+        user = data.user;
         var element= document.getElementById("course");
         element.innerHTML = course;
         const response_ = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllAssignments',{
@@ -63,7 +67,7 @@
           if(element1['CourseName']==course){
             k++;
             var name=element1['AssignmentName'];
-            var direct="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?Assignment="+encodeURIComponent(name);
+            var direct="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?Assignment="+encodeURIComponent(name)+"?user="+encodeURIComponent(user);
             list.innerHTML += `<li><a href="${direct}">${name}</a></li>`;
             
           }
@@ -75,10 +79,10 @@
     	  
     };
     function direct(){
-            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course);
+            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
     }
     function directToAss(){
-            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignmentDetails.html?cName="+encodeURIComponent(course);
+            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignmentDetails.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
     }
 
 
@@ -295,7 +299,13 @@
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="nav-item  ">
-            <a class="nav-link" href="./dashboard.html">
+            <script>
+              function dashboard(){
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html?name="+encodeURIComponent(user);
+              }
+              
+            </script>
+            <a class="nav-link" onclick="dashboard()">
               <i class="material-icons">dashboard</i>
               <p>Dashboard</p>
             </a>
@@ -307,9 +317,15 @@
             </a>
           </li>
           <li class="nav-item active ">
-            <a class="nav-link" href="./Course.html">
+            <script>
+              function courses(){
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+              }
+              
+            </script>
+            <a class="nav-link" onclick="courses()">
               <i class="material-icons">content_paste</i>
-              <p>Courses</p>
+              <p>Course</p>
             </a>
           </li>
 
@@ -343,7 +359,7 @@
           <li class="nav-item ">
             <a class="nav-link" href="./map.html">
               <i class="material-icons">location_ons</i>
-              <p>Maps</p>
+              <p>TODO List</p>
             </a>
           </li>
           <li class="nav-item ">
@@ -413,7 +429,7 @@
                 </div>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">
+                <a class="nav-link" href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-in.html">
                   <i class="material-icons">person</i>
                   <p class="d-lg-none d-md-block">
                     Account
@@ -491,7 +507,7 @@
                     <i class="material-icons">content_copy</i>
                   </div>
                   <p class="card-category">ASSIGNMENTS</p>
-                  <h3 class="card-title" id="NoOfAssignments">7
+                  <h3 class="card-title" id="NoOfAssignments">
                   </h3>
                 </div>
                 <div class="card-footer">
