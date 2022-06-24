@@ -38,10 +38,52 @@
   
   <!-- make looping testcase -->
   <script>
+    var course;
+    window.onload = async function() {
+        var url = window.location.href,
+        params = url.split('?')[1].split('&'),
+        data = {}, tmp;
+        for (var i = 0, l = params.length; i < l; i++) {
+            tmp = params[i].split('=');
+            data[tmp[0]] = tmp[1];
+        }
+        course = data.cName;
+        var element= document.getElementById("course");
+        element.innerHTML = course;
+        const response_ = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllAssignments',{
+          method:'GET'
+        });
+        const data_ = await response_.json();
+        console.log(data_);
+        var list= document.getElementById("myUL");
+        k=0;
+        for(i=0;i< data_['data'].length;i++){
+          var element1 = data_['data'][i];
+
+          if(element1['CourseName']==course){
+            k++;
+            var name=element1['AssignmentName'];
+            list.innerHTML += `<li><a href="#">${name}</a></li>`;
+          }
+              
+        }
+        var numOfAss = document.getElementById("NoOfAssignments");
+        numOfAss.innerHTML = k;
+
+    	  
+    };
+    function direct(){
+            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course);
+    }
+    function directToAss(){
+            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignmentDetails.html?cName="+encodeURIComponent(course);
+    }
+
+
     var htmlElements = "";
     var container = document.getElementById("test");
     // let name;
-    const j = document.getElementById('inputNo').value;;
+    const j = document.getElementById('inputNo').value;
     for (var i = 0; i < j; i++) {
       // name=courses[i];
       container.innerHTML += `<div class="content" id="test">
@@ -277,7 +319,7 @@
               <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Assignments.." title="Type in a assignment name">
               
               <ul id="myUL">
-                <li><a href="#">Assignment 1</a></li>
+                <!--li><a href="#">Assignment 1</a></!--li>
                 <li><a href="#">Assignment 2</a></li>
               
                 <li><a href="#">Assignment 3</a></li>
@@ -285,7 +327,7 @@
               
                 <li><a href="#">Assignment 5</a></li>
                 <li><a href="#">Assignment 6</a></li>
-                <li><a href="#">Assignment 7</a></li>
+                <li><a href="#">Assignment 7</a></li>-->
               </ul>
               </p>
             </a>
@@ -325,7 +367,7 @@
           <div class="navbar-wrapper">
 
             <!-- should load according to selected course ====================================== --> 
-            <a class="navbar-brand" href="javascript:void(0)">Course code1</a>
+            <a class="navbar-brand" href="javascript:void(0)" id="course"></a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation" data-target="#navigation-example">
             <span class="sr-only">Toggle navigation</span>
@@ -440,14 +482,14 @@
               </div>
             </div>
 
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6" id="Asssignments" onclick="directToAss()">
               <div class="card card-stats">
                 <div class="card-header card-header-warning card-header-icon">
                   <div class="card-icon">
                     <i class="material-icons">content_copy</i>
                   </div>
                   <p class="card-category">ASSIGNMENTS</p>
-                  <h3 class="card-title">7
+                  <h3 class="card-title" id="NoOfAssignments">7
                   </h3>
                 </div>
                 <div class="card-footer">
@@ -526,7 +568,7 @@
                   <p class="lead my-4">
                     ....
                   </p>                
-                  <a href="assignment.html" class="btn btn-primary btn-lg" role="button">Create New Assignment</a>
+                  <a  class="btn btn-primary btn-lg" role="button" onclick="direct()">Create New Assignment</a>
                 </div>
                 <img
                   class="img-fluid w-50 d-none d-sm-block"

@@ -38,6 +38,37 @@
   
   <!-- make looping testcase -->
   <script>
+    var course;
+    window.onload = async function() {
+        var url = window.location.href,
+        params = url.split('?')[1].split('&'),
+        data = {}, tmp;
+        for (var i = 0, l = params.length; i < l; i++) {
+            tmp = params[i].split('=');
+            data[tmp[0]] = tmp[1];
+        }
+        course = data.cName;
+        var element= document.getElementById("course");
+        element.innerHTML = course;
+        const response_a = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllAssignments',{
+          method:'GET'
+        });
+        const data_a = await response_a.json();
+        console.log(data_a);
+        var list= document.getElementById("myUL");
+        for(i=0;i< data_a['data'].length;i++){
+          var element1 = data_a['data'][i];
+
+          if(element1['CourseName']==course){
+            
+            var name=element1['AssignmentName'];
+            list.innerHTML += `<li><a href="#">${name}</a></li>`;
+          }
+              
+        }
+
+    	  
+    };
     var htmlElements = "";
     var container = document.getElementById("test");
     // let name;
@@ -80,11 +111,11 @@
                </div>`;
     }
 
-  </script>
+  
 
 
-<!-- -------------------------------------- addStudent functions --------------------------------------------------------- -->
-<script>
+// -------------------------------------- addStudent functions --------------------------------------------------------- -->
+
   async function addStudent(){
    
       
@@ -129,12 +160,12 @@
     window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html";
   }
   }
-</script>
 
 
-  <!-- -------------------------------------- addAssignment functions --------------------------------------------------------- -->
-  <script>
-    async function addAssignment(){
+
+  //-- -------------------------------------- addAssignment functions --------------------------------------------------------- -->
+  
+    async function newAssignment(no){
      
       let assignName = document.getElementById("inputName").value;
       let assignLang = document.getElementById("inputLanguages").value;
@@ -145,7 +176,20 @@
       let assignQTemplate = document.getElementById("inputAssgn").value;
       
       let assignATemplate = document.getElementById("inputSol").value;
+      let testNames=[];
+      let inputs=[];
+      let outputs=[];
+      let marks=[];
 
+      for(i=0;i<no;i++){
+          testNames[i]=document.getElementById(`tName${i}`).value;
+          inputs[i]=document.getElementById(`tInput${i}`).value;
+          outputs[i]=document.getElementById(`tOutput${i}`).value;
+          marks[i]=document.getElementById(`tMarks${i}`).value;
+
+
+
+      }
       const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllAssignments',{
       method:'GET'
     });
@@ -156,28 +200,78 @@
     for(i=0;i< data['data'].length;i++){
       var element = data['data'][i];
 
-      if(element['AssignmentName']==assignName){
+      if(element['CourseName']==course){
+        if(element['AssignmentName']==assignName){
         
-        window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html";
+          alert("Assignment Already Exists!");
+          window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course);
+    
 
-        return;
+          return;
+        }
         
       }
           
     }
-    // see CourseName????
-    const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createAssignment/'+CourseName+"/"+assignName,+"/"+aEndDateTime,+"/"+assignLang,{
-      method:'POST',
-      
-    });
-    const data2 = await response2.json();
+      // app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:TestInputs/:TestOutputs/:TestMarks'
 
-    if(data2['status']=="Success"){
-      window.location.href="http://localhost:5001/group07-co227/us-central1/app";
-    }
-    else{
-      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html";
-    }
+      const responseG = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getUrl/'+course+"/"+assignName+"/"+aEndDateTime+"/"+no+
+      "/"+[testNames]+"/"+[inputs]+"/"+[outputs]+"/"+[marks],{
+          method:'GET',
+
+      });
+      const dataG = await responseG.json();
+      console.log(dataG);
+      var url = dataG['msg'];
+      
+      if(dataG['status']=="Success"){
+        const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createAssignment/'+course+"/"+assignName+"/"+aEndDateTime+"/"+assignLang+"/"+encodeURIComponent(url),{
+          method:'POST',
+      
+        });
+        const data2 = await response2.json();
+        for(i=0;i<no;i++){
+          const response3 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createTestCase/'+assignName+"/"+testNames[i]+"/"+inputs[i]+"/"+outputs[i]+"/"+marks[i],{
+            method:'POST',
+    
+          });
+          const data3 = await response3.json();
+          
+
+        }
+        
+        var element1= document.getElementById("assignment");
+        element1.innerHTML = assignName;
+        var element2= document.getElementById("url");
+        element2.innerHTML = "URL";
+        var element3= document.getElementById("url2");
+        element3.innerHTML = dataG['msg'];
+
+        
+        document.getElementById("inputName").setAttribute('disabled','disabled');
+        document.getElementById("inputLanguages").setAttribute('disabled','disabled');
+        document.getElementById("inputTopics").setAttribute('disabled','disabled');
+        document.getElementById("picker1").setAttribute('disabled','disabled');
+        document.getElementById("picker2").setAttribute('disabled','disabled');
+        for(i=0;i<no;i++){
+          document.getElementById(`tName${i}`).setAttribute('disabled','disabled');
+          document.getElementById(`tInput${i}`).setAttribute('disabled','disabled');
+          document.getElementById(`tOutput${i}`).setAttribute('disabled','disabled');
+          document.getElementById(`tMarks${i}`).setAttribute('disabled','disabled');
+
+
+
+      }
+       // window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignmentDetails.html?url="+encodeURIComponent(dataG['msg'])+"?cName="+encodeURIComponent(course)+"?assignment="+encodeURIComponent(assignName);
+      }
+      else{
+        window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course);
+      }
+      
+   
+    
+
+    
     }
   </script>
 
@@ -277,7 +371,7 @@
               <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Assignments.." title="Type in a assignment name">
               
               <ul id="myUL">
-                <li><a href="#">Assignment 1</a></li>
+                <!--li><a href="#">Assignment 1</a></!--li>
                 <li><a href="#">Assignment 2</a></li>
               
                 <li><a href="#">Assignment 3</a></li>
@@ -285,7 +379,7 @@
               
                 <li><a href="#">Assignment 5</a></li>
                 <li><a href="#">Assignment 6</a></li>
-                <li><a href="#">Assignment 7</a></li>
+                <li><a href="#">Assignment 7</a></li>-->
               </ul>
               </p>
             </a>
@@ -325,7 +419,7 @@
           <div class="navbar-wrapper">
 
             <!-- should load according to selected course ====================================== --> 
-            <a class="navbar-brand" href="javascript:void(0)">Course code1</a>
+            <a class="navbar-brand" href="javascript:void(0)" id="course"></a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation" data-target="#navigation-example">
             <span class="sr-only">Toggle navigation</span>
@@ -418,7 +512,7 @@
         }
         </script>
 
-        <h3 class="mdb-color white-text"><b>Create New Assignment</b></h3><br>
+        <h3 class="mdb-color white-text" id="assignment"><b>Create New Assignment</b></h3><br>
 
         <div class="jumbotron" style="background-color: rgb(4, 4, 41); margin: auto;">
           <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -448,7 +542,13 @@
                 <br><hr>
                 <form><br>
                   <div class="row mb-3">
-                    <label for="inputName" class="col-sm-4 col-form-label">Assignment Name:</label>
+                    <label for="inputName" class="col-sm-4 col-form-label" id="url"></label>
+                    <div class="col-sm-6">
+                      <label for="inputName" class="col-sm-4 col-form-label" id="url2"></label>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputName" class="col-sm-4 col-form-label" >Assignment Name:</label>
                     <div class="col-sm-6">
                       <input type="text" class="form-control" id="inputName">
                     </div>
@@ -513,11 +613,55 @@
                    <input type="number" class="form-control" id="inputNo">
                  </div>
                </div>
+               <br><button type="submit" class="btn btn-primary" onclick="myfun()">Save Changes</button>
              
                <script>
                  function myfun(){
                    const no = document.getElementById('inputNo').value;
+                   var container = document.getElementById('Bench-tab-pane');
+                   container.innerHTML="";
                    alert("No :" +no);
+                   for (i=0;i<no;i++){
+                        container.innerHTML += `<br><hr>   
+                 <form>
+                  <div class="row">
+                    <label for="tName" class="col-sm-3 col-form-label">TestCase Name:</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" id="tName${i}"><br> 
+                    </div>
+                  </div>
+                   
+                   <div class="row">
+                    <label for="tInput" class="col-sm-3 col-form-label">Inputs:</label>
+                   <div class="col-sm-5">
+                     <textarea class="form-control" rows="5" id="tInput${i}"></textarea><br>               
+                   </div>
+                   </div>
+                   
+                   <div class="row">
+                    <label for="tOutput" class="col-sm-3 col-form-label">Expected Output:</label>
+                    <div class="col-sm-5">
+                      <textarea class="form-control" rows="5" id="tOutput${i}"></textarea><br> 
+                    </div>
+                   </div>
+                   
+                   <div class="row">
+                    <label for="tMarks" class="col-sm-3 col-form-label">Marks Allocated:</label>
+                    <div class="col-sm-5">
+                      <input type="number" class="form-control" id="tMarks${i}"><br> 
+                    </div>
+                   </div>
+                   
+                </form>
+                                  
+              </div>
+
+              <br><button type="submit" class="btn btn-primary" onclick="myfun2()">Save Changes</button>
+              `;
+
+                   }
+                   container.innerHTML += `<br> <hr>
+              <button type="submit" class="btn btn-primary" onclick="newAssignment('${no}')">Save All Changes</button>`;
                  }                           
                  // var outputHTML = "";
                  // outputHTML +=  "<div>";
@@ -533,7 +677,7 @@
                  // outputHTML += "</div>";
                </script>
                
-              <div class="content" id="test">
+              <!--div class="content" id="test">
                  <br>  
                  <form>
                   <div class="row">
@@ -566,9 +710,9 @@
                    
                 </form>
                                   
-              </div>
+              </!--div>
 
-              <br><button type="submit" class="btn btn-primary" onclick="myfun()">Save Changes</button>
+              <br><button-- type="submit" class="btn btn-primary" onclick="myfun()">Save Changes</button-->
 
               </div>
               

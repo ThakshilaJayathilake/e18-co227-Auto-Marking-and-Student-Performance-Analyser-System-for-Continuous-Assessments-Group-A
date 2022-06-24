@@ -12,7 +12,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
  */
-/*     brand Colors              */
+/*     brand Colors              */ form-control
 .card {
   font-size: .875rem;
 }
@@ -2327,6 +2327,7 @@ pre code {
   padding: 0.4375rem 0;
   font-size: 1rem;
   line-height: 1.5;
+  text-emphasis-color: black;
   color: #495057;
   background-color: rgba(0, 0, 0, 0);
   background-clip: padding-box;
