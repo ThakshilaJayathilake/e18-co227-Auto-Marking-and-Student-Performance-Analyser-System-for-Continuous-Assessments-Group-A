@@ -63,7 +63,9 @@
           if(element1['CourseName']==course){
             k++;
             var name=element1['AssignmentName'];
-            list.innerHTML += `<li><a href="#">${name}</a></li>`;
+            var direct="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?Assignment="+encodeURIComponent(name);
+            list.innerHTML += `<li><a href="${direct}">${name}</a></li>`;
+            
           }
               
         }
