@@ -386,6 +386,7 @@ app.get('/api/getAllStudents',(req,res)=>{
                         CourseName : doc.data().CourseName,
                         Marks : doc.data().Marks,
                         StudentName : doc.data().StudentName,
+                        Username : doc.data().Username, 
                         Eno  : doc.data().Eno ,
                         Email : doc.data().Email,
                         PhoneNo : doc.data().PhoneNo,
