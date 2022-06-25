@@ -144,7 +144,8 @@ app.post("/api/createTestCase/:AssignmentName/:TestCaseName/:Input/:Output/:Poin
 );
 
 //Add Student-> Post()
-app.post("/api/addStudent/:CourseName/:StudentName",(req,res)=>{
+//+course+'/'+name+'/'+Eno+'/'+username+'/'+email+'/'+phoneNo+'/'+birthday+'/'+gender
+app.post("/api/addStudent/:CourseName/:StudentName/:Eno/:username/:email/:phoneNo/:birthday/:gender",(req,res)=>{
     (async()=>{
         try {
             await db.collection('Students').doc(`/${Date.now()}/`).create({
@@ -152,6 +153,13 @@ app.post("/api/addStudent/:CourseName/:StudentName",(req,res)=>{
                 StudentName : req.params.StudentName,
                 Marks : 0,
                 AssignmentName : "",
+
+                Eno : req.params.Eno,
+                Username : req.params.username,
+                Email : req.params.email,
+                PhoneNo : req.params.phoneNo,
+                Birthday : req.params.birthday,
+                Gender : req.params.gender,
                 
 
                
@@ -378,6 +386,12 @@ app.get('/api/getAllStudents',(req,res)=>{
                         CourseName : doc.data().CourseName,
                         Marks : doc.data().Marks,
                         StudentName : doc.data().StudentName,
+                        Eno  : doc.data().Eno ,
+                        Email : doc.data().Email,
+                        PhoneNo : doc.data().PhoneNo,
+                        Birthday : doc.data().Birthday,
+                        Gender : doc.data().Gender,
+
                         
 
                     };
