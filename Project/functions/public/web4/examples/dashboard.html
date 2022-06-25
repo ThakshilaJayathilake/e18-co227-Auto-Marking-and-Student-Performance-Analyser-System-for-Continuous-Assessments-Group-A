@@ -40,7 +40,7 @@
       window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-up.html"
     }
     function directToCoursePage(cname){
-      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html?cName="+encodeURIComponent(cname);
+      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html?cName="+encodeURIComponent(cname)+"?user="+encodeURIComponent(user);
       
     }
     async function createCourse() {
@@ -130,7 +130,7 @@
                   <div class="ct-chart" id="${ids[m]}"></div>
                 </div>
                 <div class="card-body">
-                  <h4 class="card-title"><a href="Course.html" class="link-btn">${code}</a></h4>
+                  <h4 class="card-title"><a  class="link-btn" disabled>${code}</a></h4>
                   <p class="card-category">${name}</p>
                 </div>
                 <div class="card-footer">
@@ -231,25 +231,25 @@
           <li class="nav-item ">
             <a class="nav-link" href="./tables.html">
               <i class="material-icons">content_paste</i>
-              <p>Table List</p>
+              <p>TODO List</p>
             </a>
           </li>
           <li class="nav-item ">
             <a class="nav-link" href="./typography.html">
               <i class="material-icons">library_books</i>
-              <p>Typography</p>
+              <p>Section</p>
             </a>
           </li>
           <li class="nav-item ">
             <a class="nav-link" href="./icons.html">
               <i class="material-icons">bubble_chart</i>
-              <p>Icons</p>
+              <p>Section</p>
             </a>
           </li>
           <li class="nav-item ">
             <a class="nav-link" href="./map.html">
               <i class="material-icons">location_ons</i>
-              <p>Maps</p>
+              <p>Section</p>
             </a>
           </li>
           <li class="nav-item ">

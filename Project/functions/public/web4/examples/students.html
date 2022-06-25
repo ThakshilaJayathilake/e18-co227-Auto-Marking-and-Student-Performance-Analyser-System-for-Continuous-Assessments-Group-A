@@ -31,6 +31,112 @@
   <link href="../assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
+
+
+  <script>
+    var course;
+
+    window.onload = async function() {
+        var url = window.location.href,
+        params = url.split('?'),
+        data = {}, tmp;
+        
+        for (var i = 0, l = params.length; i < l; i++) {
+            tmp = params[i].split('=');
+            data[tmp[0]] = tmp[1];
+            
+        }
+        course = data.cName;
+        user = data.user;
+        var element= document.getElementById("course");
+        element.innerHTML = course;
+        const response_ = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllStudents',{
+          method:'GET'
+        });
+        const data_ = await response_.json();
+        console.log(data_);
+        var list= document.getElementById("studentList");
+        k=0;
+        
+        for(i=0;i< data_['data'].length;i++){
+          var element1 = data_['data'][i];
+
+          if(element1['CourseName']==course){
+            k++;
+            var name=element1['StudentName'];
+            var Eno=element1['Eno'];
+            var Username=element1['Username'];
+            var Email=element1['Email'];
+            var PhoneNo=element1['PhoneNo'];
+            var Birthday=element1['Birthday'];
+            var Gender=element1['Gender'];
+            
+
+            var direct="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?Assignment="+encodeURIComponent(name)+"?user="+encodeURIComponent(user);
+            list.innerHTML += `<tr>
+                                  <td class="pizzaname">${Eno}
+                                    <div class="popup" style=" height: 50px;"></div>
+                                  </td>
+                                  <td>${name}</td>
+                                  <td>${Username}</td>
+                                  <td>${Email}</td>
+                                  <td>${PhoneNo}</td>
+                                  <td>${Birthday}</td>
+                                  <td>${Gender}</td>
+                                  <td>
+                                    <div class="dropdown">
+                                      <button class="dropbtn">Details</button>
+                                      <div class="dropdown-content">
+                                        <a href="profile.html"><b>Profile</b></a>
+                                        <a href="#"><b>Marks</b></a>
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>`;
+            
+          }
+              
+        }
+        var numOfAss = document.getElementById("NoOfAssignments");
+        numOfAss.innerHTML = k;
+
+    	  
+    };
+
+
+
+    async function addStudent(){
+     
+        
+      let Eno = document.getElementById("inputSID").value;
+      let name = document.getElementById("inputName").value;
+      let username = document.getElementById("userName").value;
+      let email = document.getElementById("inputEmail").value;
+      let phoneNo = document.getElementById("inputPhoneNo").value;
+      let birthday = document.getElementById("picker1").value;
+      let gender = document.getElementById("sel1").value;
+  
+    
+  
+      const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/addStudent/'+course+'/'+name+'/'+encodeURIComponent(Eno)+'/'+username+'/'+email+'/'+phoneNo+'/'+birthday+'/'+gender,{
+        method:'POST'
+    
+      });
+  
+      const data = await response.json();
+      console.log(data);
+    
+    
+    
+      if(data['status']=="Success"){
+        window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+      }
+      else{
+        alert("Process Failed! Try Again");
+        window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+      }
+    }
+  </script>
 </head>
 
 <body class="dark-edition">
@@ -96,7 +202,7 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:void(0)">Icons</a>
+            <a class="navbar-brand" href="javascript:void(0)" id="course"></a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation" data-target="#navigation-example">
             <span class="sr-only">Toggle navigation</span>
@@ -140,7 +246,7 @@
                 </div>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">
+                <a class="nav-link" href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-in.html">
                   <i class="material-icons">person</i>
                   <p class="d-lg-none d-md-block">
                     Account
@@ -211,13 +317,16 @@
                               <thead class="text-warning">
                                 <th>Student ID</th>
                                 <th>Name</th>
+                                <th>Username</th>
                                 <th>Email</th>
+                                <th>PhoneNo</th>
+                                <th>Birthday</th>
                                 <th>Gender</th>
                                 <!-- phone , bday, profile photo-->
                               </thead>
                               <!-- loop through each student -->
-                              <tbody>
-                                <tr>
+                              <tbody id="studentList">
+                                <!--tr>
                                   <td class="pizzaname">1
                                     <div class="popup" style=" height: 50px;"></div>
                                   </td>
@@ -233,7 +342,7 @@
                                       </div>
                                     </div>
                                   </td>
-                                </tr>
+                                </!--tr>
 
                                 
                                 <tr>
@@ -253,7 +362,7 @@
                                   <td>Philip Chaney</td>
                                   <td>$38,735</td>
                                   <td>Korea, South</td>
-                                </tr>
+                                </tr>-->
                               </tbody>
                             </table>
                           </div>
@@ -285,6 +394,12 @@
                           </div>
                         </div>
                         <div class="row mb-3">
+                          <label for="inputName" class="col-sm-4 col-form-label">GitHub username:</label>
+                          <div class="col-sm-6">
+                            <input type="text" class="form-control" id="userName" placeholder="Enter username">
+                          </div>
+                        </div>
+                        <div class="row mb-3">
                           <label for="inputEmail" class="col-sm-4 col-form-label">Email:</label>
                           <div class="col-sm-6">
                             <input type="email" id="inputEmail" name="email" class="bg-transparent text-white">
@@ -293,7 +408,7 @@
                         <div class="row mb-3">
                             <label for="inputPhone" class="col-sm-4 col-form-label">Phone:</label>
                             <div class="col-sm-6">
-                              <input type="text" id="inputEmail" name="inputPhone" class="bg-transparent text-white">
+                              <input type="text" id="inputPhoneNo" name="inputPhone" class="bg-transparent text-white">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -317,7 +432,7 @@
                             </div>
                         </div>
                                 
-                        <br><button type="submit" class="btn btn-primary">Save Changes</button>
+                        <br><button type="submit" class="btn btn-primary" onclick="addStudent()">Save Changes</button>
                       </form>
                     </div>              
                   </div>

@@ -39,21 +39,29 @@
   <!-- make looping testcase -->
   <script>
     var course;
+    var user;
     window.onload = async function() {
         var url = window.location.href,
-        params = url.split('?')[1].split('&'),
+        params = url.split('?'),
         data = {}, tmp;
+        
         for (var i = 0, l = params.length; i < l; i++) {
             tmp = params[i].split('=');
             data[tmp[0]] = tmp[1];
+            
         }
         course = data.cName;
+        user = data.user;
         var element= document.getElementById("course");
         element.innerHTML = course;
         const response_ = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllAssignments',{
           method:'GET'
         });
+        const response_2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllStudents',{
+          method:'GET'
+        });
         const data_ = await response_.json();
+        const data_2 = await response_2.json();
         console.log(data_);
         var list= document.getElementById("myUL");
         k=0;
@@ -63,23 +71,38 @@
           if(element1['CourseName']==course){
             k++;
             var name=element1['AssignmentName'];
-            var direct="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?Assignment="+encodeURIComponent(name);
+            var direct="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?Assignment="+encodeURIComponent(name)+"?user="+encodeURIComponent(user);
             list.innerHTML += `<li><a href="${direct}">${name}</a></li>`;
             
           }
               
         }
+        noOfStudents=0;
+        for(i=0;i< data_2['data'].length;i++){
+          var element1 = data_2['data'][i];
+
+          if(element1['CourseName']==course){
+            noOfStudents++;
+          }
+              
+        }
         var numOfAss = document.getElementById("NoOfAssignments");
         numOfAss.innerHTML = k;
+        var numOfStu = document.getElementById("NoOfStudents");
+        numOfStu.innerHTML = noOfStudents;
 
     	  
     };
     function direct(){
-            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course);
+            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
     }
     function directToAss(){
-            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignmentDetails.html?cName="+encodeURIComponent(course);
+            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignmentDetails.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
     }
+    function directToStudents(){
+            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+    }
+    
 
 
     var htmlElements = "";
@@ -295,7 +318,13 @@
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="nav-item  ">
-            <a class="nav-link" href="./dashboard.html">
+            <script>
+              function dashboard(){
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html?name="+encodeURIComponent(user);
+              }
+              
+            </script>
+            <a class="nav-link" onclick="dashboard()">
               <i class="material-icons">dashboard</i>
               <p>Dashboard</p>
             </a>
@@ -307,9 +336,15 @@
             </a>
           </li>
           <li class="nav-item active ">
-            <a class="nav-link" href="./Course.html">
+            <script>
+              function courses(){
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+              }
+              
+            </script>
+            <a class="nav-link" onclick="courses()">
               <i class="material-icons">content_paste</i>
-              <p>Courses</p>
+              <p>Course</p>
             </a>
           </li>
 
@@ -343,7 +378,7 @@
           <li class="nav-item ">
             <a class="nav-link" href="./map.html">
               <i class="material-icons">location_ons</i>
-              <p>Maps</p>
+              <p>TODO List</p>
             </a>
           </li>
           <li class="nav-item ">
@@ -413,7 +448,7 @@
                 </div>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">
+                <a class="nav-link" href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-in.html">
                   <i class="material-icons">person</i>
                   <p class="d-lg-none d-md-block">
                     Account
@@ -466,7 +501,7 @@
 
         <!-- <div class="jumbotron" style="background-color: rgb(15, 21, 69); margin: auto;"> -->
           <div class="row">
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6" onclick="directToStudents()">
               <div class="card card-stats">
                 <div class="card-header card-header-success card-header-icon">
                   <div class="card-icon">
@@ -474,7 +509,7 @@
                   </div>
                   <p class="card-category"><b>STUDENTS</b></p>
                   <!-- get no of students -->
-                  <h3 class="card-title">4</h3>
+                  <h3 class="card-title" id="NoOfStudents"></h3>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
@@ -491,7 +526,7 @@
                     <i class="material-icons">content_copy</i>
                   </div>
                   <p class="card-category">ASSIGNMENTS</p>
-                  <h3 class="card-title" id="NoOfAssignments">7
+                  <h3 class="card-title" id="NoOfAssignments">
                   </h3>
                 </div>
                 <div class="card-footer">
@@ -548,7 +583,7 @@
                   <p class="lead my-4">
                     ....
                   </p>                  
-                  <a href="students.html" class="btn btn-primary btn-lg" role="button">Add New Student</a>
+                  <a onclick="directToStudents()" class="btn btn-primary btn-lg" role="button">Add New Student</a>
                 </div>
                 <img
                   class="img-fluid w-50 d-none d-sm-block"
