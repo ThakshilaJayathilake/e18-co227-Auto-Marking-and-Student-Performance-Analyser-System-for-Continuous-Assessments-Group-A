@@ -370,7 +370,12 @@
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="./students.html">
+            <script>
+              function directToStudent() {
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+              }
+            </script>
+            <a class="nav-link" onclick="directToStudent()">
               <i class="material-icons">bubble_chart</i>
               <p>Students</p>
             </a>

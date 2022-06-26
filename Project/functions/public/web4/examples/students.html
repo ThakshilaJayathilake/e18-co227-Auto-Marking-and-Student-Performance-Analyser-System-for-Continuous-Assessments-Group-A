@@ -56,13 +56,19 @@
         const data_ = await response_.json();
         console.log(data_);
         var list= document.getElementById("studentList");
+        var markslist = document.getElementById("Bench-tab-pane");
+        let assignmentList=[];
+        let elementList=[];
         k=0;
         
+        
+
+
         for(i=0;i< data_['data'].length;i++){
           var element1 = data_['data'][i];
 
           if(element1['CourseName']==course){
-            k++;
+            
             var name=element1['StudentName'];
             var Eno=element1['Eno'];
             var Username=element1['Username'];
@@ -70,6 +76,12 @@
             var PhoneNo=element1['PhoneNo'];
             var Birthday=element1['Birthday'];
             var Gender=element1['Gender'];
+            
+            var assignment=element1['AssignmentName'];
+            var marks=element1['Marks'];
+            assignmentList[k]=element1['AssignmentName'];
+            elementList[k]=element1;
+            k++;
             
 
             var direct="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?Assignment="+encodeURIComponent(name)+"?user="+encodeURIComponent(user);
@@ -93,10 +105,46 @@
                                     </div>
                                   </td>
                                 </tr>`;
-            
+                                
           }
               
         }
+        n=0;
+        //assignmentList.sort();
+        assignmentList = [...new Set(assignmentList)];
+        for(ass in assignmentList){
+          var Ass= assignmentList[n];
+          n++;
+          markslist.innerHTML += `<br><hr>   
+                 <form>
+                  <div class="row">
+                    <label for="tName" class="col-sm-3 col-form-label">Assignment: ${Ass}</label>
+                    
+                  </div>`;
+          m=0;
+          for(ele in elementList){
+            var Ele = elementList[m];
+            m++;
+            if(Ele['AssignmentName']==Ass){
+              var marks=Ele['Marks'];
+              var name=Ele['StudentName'];
+
+              markslist.innerHTML += `
+                   <div class="row">
+                    <label for="tInput" class="col-sm-3 col-form-label">${name} &emsp;&emsp; ${marks}     </label>
+                   
+                   </div>
+                           
+                </form>
+                                  
+              </div>
+
+              
+              `;
+            }
+          }
+        }
+        
         var numOfAss = document.getElementById("NoOfAssignments");
         numOfAss.innerHTML = k;
 
@@ -165,13 +213,24 @@
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="./Course.html">
+            <script>
+              function courses(){
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+              }
+              
+            </script>
+            <a class="nav-link" onclick="courses()">
               <i class="material-icons">content_paste</i>
               <p>Course</p>
             </a>
           </li>
           <li class="nav-item active ">
-            <a class="nav-link" href="./Students.html">
+            <script>
+              function directToStudent() {
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+              }
+            </script>
+            <a class="nav-link" onclick="directToStudent()">
               <i class="material-icons">bubble_chart</i>
               <p>Students</p>
             </a>
@@ -291,7 +350,7 @@
                   </li>
                   <li class="nav-item" role="presentation">
                     <button class="nav-link" id="Bench-tab" data-toggle="tab" data-target="#Bench-tab-pane" type="button" role="tab" 
-                      aria-controls="Bench-tab-pane" aria-selected="false">mmm</button>
+                      aria-controls="Bench-tab-pane" aria-selected="false">Marks</button>
                   </li>
                   <li class="nav-item" role="presentation">
                     <button class="nav-link" id="ModelSolution-tab" data-toggle="tab" data-target="#ModelSolution-tab-pane" type="button" role="tab" 
@@ -438,6 +497,66 @@
                   </div>
       
                   <!-- mmm -->
+                  <div class="tab-pane fade" id="Bench-tab-pane" role="tabpanel" aria-labelledby="AddNew-tab" tabindex="0">
+                    <div class="container">
+                      <br><hr>
+                      <!--form>
+                        <h3>NEW</h3><br>
+                        <div class="row mb-3">
+                          <label for="inputSID" class="col-sm-4 col-form-label">Student ID:</label>
+                          <div class="col-sm-6">
+                            <input type="text" class="form-control" id="inputSID" placeholder="Enter in E/XX/XXX format">
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label for="inputName" class="col-sm-4 col-form-label">Name:</label>
+                          <div class="col-sm-6">
+                            <input type="text" class="form-control" id="inputName" placeholder="Enter Full Name of the student">
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label for="inputName" class="col-sm-4 col-form-label">GitHub username:</label>
+                          <div class="col-sm-6">
+                            <input type="text" class="form-control" id="userName" placeholder="Enter username">
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label for="inputEmail" class="col-sm-4 col-form-label">Email:</label>
+                          <div class="col-sm-6">
+                            <input type="email" id="inputEmail" name="email" class="bg-transparent text-white">
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputPhone" class="col-sm-4 col-form-label">Phone:</label>
+                            <div class="col-sm-6">
+                              <input type="text" id="inputPhoneNo" name="inputPhone" class="bg-transparent text-white">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                          <form>
+                            <label for="picker1" class="col-sm-4 col-form-label">Birthday:</label>
+                            <div class="col-sm-6 ">
+                                <input type="date"  id="picker1" class="bg-transparent form-control" placeholder="Select birthdate">
+                            </div>
+                            
+                          </form>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputGender" class="col-sm-4 col-form-label">Gender:</label>
+                            <div class="col-sm-6">
+                                <div class="form-group" id="inputGender">
+                                    <select class="form-control text-gray bg-transparent text-white" id="sel1">
+                                      <option>Male</option>
+                                      <option>Female</option>
+                                    </select>
+                                </div> 
+                            </div>
+                        </div>
+                                
+                        <br><button type="submit" class="btn btn-primary" onclick="addStudent()">Save Changes</button>
+                      </!--form-->
+                    </div>              
+                  </div>
                  
       
                 </div>
