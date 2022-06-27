@@ -302,6 +302,24 @@
       
         });
         const data2 = await response2.json();
+//Add entry to Marks table create assignment for all students in the course
+        const responseAllStudents = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllStudents',{
+          method:'GET'
+        });
+        const dataAllStudents = await responseAllStudents.json();
+
+        for(i=0;i< dataAllStudents['data'].length;i++){
+          var element1 = dataAllStudents['data'][i];
+          if(element1['CourseName']==course){
+            var student = element1['StudentName'];
+            //createMarks/:CourseName/:StudentName/:Assignment
+            const responseStudent = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createMarks/'+course+"/"+student+"/"+assignName,{
+              method:'POST',
+      
+            });
+          }
+          
+        }
         for(i=0;i<no;i++){
           const response3 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createTestCase/'+assignName+"/"+testNames[i]+"/"+inputs[i]+"/"+outputs[i]+"/"+marks[i],{
             method:'POST',
@@ -467,7 +485,7 @@
             </form>
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">
+                <a class="nav-link" onclick="dashboard()">
                   <i class="material-icons">dashboard</i>
                   <p class="d-lg-none d-md-block">
                     Stats

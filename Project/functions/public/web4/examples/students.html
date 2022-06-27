@@ -59,6 +59,7 @@
         var markslist = document.getElementById("Bench-tab-pane");
         let assignmentList=[];
         let elementList=[];
+        let studentDetails = {};
         k=0;
         
         
@@ -79,10 +80,12 @@
             
             var assignment=element1['AssignmentName'];
             var marks=element1['Marks'];
-            assignmentList[k]=element1['AssignmentName'];
-            elementList[k]=element1;
+           // assignmentList[k]=element1['AssignmentName'];
+           // elementList[k]=element1;
+           studentDetails[name]=Username;
             k++;
             
+           
 
             var direct="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?Assignment="+encodeURIComponent(name)+"?user="+encodeURIComponent(user);
             list.innerHTML += `<tr>
@@ -109,11 +112,31 @@
           }
               
         }
+        const response_marks = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllMarks',{
+          method:'GET'
+        });
+        const data_marks = await response_marks.json();
+        console.log(data_marks);
+        k=0;
+        var elementMarks;
+        for(i=0;i< data_marks['data'].length;i++){
+          elementMarks = data_marks['data'][i];
+
+          if(elementMarks['CourseName']==course){
+            console.log(elementMarks['AssignmentName']);
+            assignmentList[k]=elementMarks['AssignmentName'];
+            elementList[k]=elementMarks;
+            k++;
+
+          }
+        }
         n=0;
+        //console.log(assignmentList);
         //assignmentList.sort();
         assignmentList = [...new Set(assignmentList)];
         for(ass in assignmentList){
           var Ass= assignmentList[n];
+          console.log(Ass);
           n++;
           markslist.innerHTML += `<br><hr>   
                  <form>
@@ -122,13 +145,47 @@
                     
                   </div>`;
           m=0;
+          console.log(studentDetails);
           for(ele in elementList){
             var Ele = elementList[m];
             m++;
             if(Ele['AssignmentName']==Ass){
               var marks=Ele['Marks'];
               var name=Ele['StudentName'];
+              var id = Ele['id'];
+              //var username=Ele['Username'];
+              var username = studentDetails[name];
+              console.log(username);
+              let marks1="Not Completed";
+              if(marks=='Not Completed'){
+              const response_marks= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getMarks/'+username+'/'+course+'/'+Ass,{
+                method:'GET'
+              });
+              const data_marks = await response_marks.json();
+              console.log(data_marks);
+              
+              if(data_marks['status']=="Success"){
+                marks1 = data_marks['msg'];
+                console.log(marks1);
+              }
+              else{
+                marks1 = 'Not Completed';
+                console.log(marks1);
 
+              }
+            }
+            
+              
+              //api/updateMarks/:StudentName/:marks/:Assignment
+              if(marks1!='Not Completed'){
+                marks=marks1;
+                console.log(id);
+                let varmarks=encodeURIComponent(marks1);
+                
+              const update_marks= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/updateMarks/'+id+'/'+varmarks,{
+                method:'PUT'
+              });
+              }
               markslist.innerHTML += `
                    <div class="row">
                     <label for="tInput" class="col-sm-3 col-form-label">${name} &emsp;&emsp; ${marks}     </label>
@@ -201,7 +258,12 @@
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="nav-item  ">
-            <a class="nav-link" href="./dashboard.html">
+            <script>
+              function dashboardDirect() {
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html?name="+encodeURIComponent(user);
+              }
+            </script>
+            <a class="nav-link" onclick="dashboardDirect()">
               <i class="material-icons">dashboard</i>
               <p>Dashboard</p>
             </a>
@@ -235,12 +297,7 @@
               <p>Students</p>
             </a>
           </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./map.html">
-              <i class="material-icons">location_ons</i>
-              <p>Maps</p>
-            </a>
-          </li>
+          
           <li class="nav-item ">
             <a class="nav-link" href="./notifications.html">
               <i class="material-icons">notifications</i>
@@ -281,7 +338,9 @@
             </form>
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">
+                
+                
+                <a class="nav-link" onclick="dashboardDirect()">
                   <i class="material-icons">dashboard</i>
                   <p class="d-lg-none d-md-block">
                     Stats
@@ -352,10 +411,7 @@
                     <button class="nav-link" id="Bench-tab" data-toggle="tab" data-target="#Bench-tab-pane" type="button" role="tab" 
                       aria-controls="Bench-tab-pane" aria-selected="false">Marks</button>
                   </li>
-                  <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="ModelSolution-tab" data-toggle="tab" data-target="#ModelSolution-tab-pane" type="button" role="tab" 
-                      aria-controls="ModelSolution-tab-pane" aria-selected="false">mmmmm</button>
-                  </li>
+                  
                 </ul> 
       
                 <!-- tab-contents -->
