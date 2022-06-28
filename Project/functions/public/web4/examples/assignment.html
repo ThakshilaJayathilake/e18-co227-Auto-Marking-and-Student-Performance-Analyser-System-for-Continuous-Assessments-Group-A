@@ -40,6 +40,7 @@
   <script>
     var course;
     var assignment;
+    var user;
 
     //###########################################################################
     //When loading this page
@@ -56,6 +57,7 @@
         //Get course name and assignment name from the url
         course = data.cName;
         assignment = data.Assignment;
+        user = data.user;
         
         //Search for all assignments created under given given course
         var element= document.getElementById("course");
@@ -89,7 +91,7 @@
           if(element1['CourseName']==course){
             
             var name=element1['AssignmentName'];
-            var direct="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?Assignment="+encodeURIComponent(name);
+            var direct="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?Assignment="+encodeURIComponent(name)+"?user="+encodeURIComponent(user);
             list.innerHTML += `<li><a href="${direct}">${name}</a></li>`;
 
             if(element1['AssignmentName']==assignment){
@@ -276,7 +278,7 @@
         if(element['AssignmentName']==assignName){
         
           alert("Assignment Already Exists!");
-          window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course);
+          window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
     
 
           return;
@@ -304,6 +306,24 @@
       
         });
         const data2 = await response2.json();
+//Add entry to Marks table create assignment for all students in the course
+        const responseAllStudents = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllStudents',{
+          method:'GET'
+        });
+        const dataAllStudents = await responseAllStudents.json();
+
+        for(i=0;i< dataAllStudents['data'].length;i++){
+          var element1 = dataAllStudents['data'][i];
+          if(element1['CourseName']==course){
+            var student = element1['StudentName'];
+            //createMarks/:CourseName/:StudentName/:Assignment
+            const responseStudent = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createMarks/'+course+"/"+student+"/"+assignName,{
+              method:'POST',
+      
+            });
+          }
+          
+        }
         for(i=0;i<no;i++){
           const response3 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createTestCase/'+assignName+"/"+testNames[i]+"/"+inputs[i]+"/"+outputs[i]+"/"+marks[i],{
             method:'POST',
@@ -341,7 +361,7 @@
        // window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignmentDetails.html?url="+encodeURIComponent(dataG['msg'])+"?cName="+encodeURIComponent(course)+"?assignment="+encodeURIComponent(assignName);
       }
       else{
-        window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course);
+        window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
       }
       
    
@@ -370,7 +390,13 @@
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="nav-item  ">
-            <a class="nav-link" href="./dashboard.html">
+            <script>
+              function dashboard(){
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html?name="+encodeURIComponent(user);
+              }
+              
+            </script>
+            <a class="nav-link" onclick="dashboard()">
               <i class="material-icons">dashboard</i>
               <p>Dashboard</p>
             </a>
@@ -382,9 +408,15 @@
             </a>
           </li>
           <li class="nav-item active ">
-            <a class="nav-link" href="./Course.html">
+            <script>
+              function courses(){
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+              }
+              
+            </script>
+            <a class="nav-link" onclick="courses()">
               <i class="material-icons">content_paste</i>
-              <p>Courses</p>
+              <p>Course</p>
             </a>
           </li>
 
@@ -402,7 +434,12 @@
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="./students.html">
+            <script>
+              function directToStudent() {
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+              }
+            </script>
+            <a class="nav-link" onclick="directToStudent()">
               <i class="material-icons">bubble_chart</i>
               <p>Students</p>
             </a>
@@ -410,7 +447,7 @@
           <li class="nav-item ">
             <a class="nav-link" href="./map.html">
               <i class="material-icons">location_ons</i>
-              <p>Maps</p>
+              <p>TODO List</p>
             </a>
           </li>
           <li class="nav-item ">
@@ -454,7 +491,7 @@
             </form>
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">
+                <a class="nav-link" onclick="dashboard()">
                   <i class="material-icons">dashboard</i>
                   <p class="d-lg-none d-md-block">
                     Stats
@@ -478,7 +515,7 @@
                 </div>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">
+                <a class="nav-link" href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-in.html">
                   <i class="material-icons">person</i>
                   <p class="d-lg-none d-md-block">
                     Account

@@ -40,7 +40,7 @@
       window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-up.html"
     }
     function directToCoursePage(cname){
-      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html?cName="+encodeURIComponent(cname);
+      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html?cName="+encodeURIComponent(cname)+"?user="+encodeURIComponent(user);
       
     }
     async function createCourse() {
@@ -130,7 +130,7 @@
                   <div class="ct-chart" id="${ids[m]}"></div>
                 </div>
                 <div class="card-body">
-                  <h4 class="card-title"><a href="Course.html" class="link-btn">${code}</a></h4>
+                  <h4 class="card-title"><a  class="link-btn" disabled>${code}</a></h4>
                   <p class="card-category">${name}</p>
                 </div>
                 <div class="card-footer">
@@ -217,7 +217,7 @@
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="nav-item active  ">
-            <a class="nav-link" href="./dashboard.html">
+            <a class="nav-link" onclick="dashboard()">
               <i class="material-icons">dashboard</i>
               <p>Dashboard</p>
             </a>
@@ -231,27 +231,11 @@
           <li class="nav-item ">
             <a class="nav-link" href="./tables.html">
               <i class="material-icons">content_paste</i>
-              <p>Table List</p>
+              <p>TODO List</p>
             </a>
           </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./typography.html">
-              <i class="material-icons">library_books</i>
-              <p>Typography</p>
-            </a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./icons.html">
-              <i class="material-icons">bubble_chart</i>
-              <p>Icons</p>
-            </a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./map.html">
-              <i class="material-icons">location_ons</i>
-              <p>Maps</p>
-            </a>
-          </li>
+          
+         
           <li class="nav-item ">
             <a class="nav-link" href="./notifications.html">
               <i class="material-icons">notifications</i>
@@ -293,7 +277,13 @@
             </form>
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">
+                <script>
+                  function dashboard(){
+                    window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html?name="+encodeURIComponent(user);
+                  }
+                  
+                </script>
+                <a class="nav-link" onclick="dashboard()">
                   <i class="material-icons">dashboard</i>
                   <p class="d-lg-none d-md-block">
                     Stats
@@ -404,7 +394,7 @@
           </div>
           <br>
           
-          <div class="row">
+          <!--div class="row">
             <div class="col-lg-6 col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary">
@@ -694,7 +684,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </!--div>-->
         </div>
       </div>
 
@@ -739,7 +729,7 @@
       
 
 
-      <footer class="footer">
+      <!--footer class="footer">
         <div class="container-fluid">
           <nav class="float-left">
             <ul>
@@ -770,7 +760,7 @@
             <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
           </div>
         </div>
-      </footer>
+      </!--footer>-->
       <script>
         const x = new Date().getFullYear();
         let date = document.getElementById('date');

@@ -145,7 +145,8 @@ app.post("/api/createTestCase/:AssignmentName/:TestCaseName/:Input/:Output/:Poin
 );
 
 //Add Student-> Post()
-app.post("/api/addStudent/:CourseName/:StudentName",(req,res)=>{
+//+course+'/'+name+'/'+Eno+'/'+username+'/'+email+'/'+phoneNo+'/'+birthday+'/'+gender
+app.post("/api/addStudent/:CourseName/:StudentName/:Eno/:username/:email/:phoneNo/:birthday/:gender",(req,res)=>{
     (async()=>{
         try {
             await db.collection('Students').doc(`/${Date.now()}/`).create({
@@ -153,6 +154,40 @@ app.post("/api/addStudent/:CourseName/:StudentName",(req,res)=>{
                 StudentName : req.params.StudentName,
                 Marks : 0,
                 AssignmentName : "",
+
+                Eno : req.params.Eno,
+                Username : req.params.username,
+                Email : req.params.email,
+                PhoneNo : req.params.phoneNo,
+                Birthday : req.params.birthday,
+                Gender : req.params.gender,
+                
+
+               
+            });
+            return res.status(200).send({status: 'Success',msg: "Data Saved"});
+           
+            
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send({status: 'Failed',msg: error});
+        }
+        })();
+    }
+);
+
+//Add Assignment for all Student-> Post()
+
+app.post("/api/createMarks/:CourseName/:StudentName/:Assignment",(req,res)=>{
+    (async()=>{
+        try {
+            await db.collection('Marks').doc(`/${Date.now()}/`).create({
+                CourseName : req.params.CourseName,
+                StudentName : req.params.StudentName,
+                Marks : 'Not Completed',
+                AssignmentName : req.params.Assignment,
+                id : Date.now(),
+
                 
 
                
@@ -179,6 +214,28 @@ app.get('/api/get/:id',(req,res)=>{
     (async()=>{
         try {
             const reqDoc = db.collection('Login').doc(req.params.id);
+            let Login = await reqDoc.get();
+            let response = Login.data();
+            
+
+            return response;
+
+            
+            
+        } catch (error) {
+            console.log(error)
+            return res.status(500).send({status: 'Failed',msg: error});
+
+            
+        }
+
+    })();
+
+});
+app.get('/api/getUsername/:StudentName',(req,res)=>{
+    (async()=>{
+        try {
+            const reqDoc = db.collection('Students').doc(req.params.StudentName);
             let Login = await reqDoc.get();
             let response = Login.data();
             
@@ -380,6 +437,53 @@ app.get('/api/getAllStudents',(req,res)=>{
                         CourseName : doc.data().CourseName,
                         Marks : doc.data().Marks,
                         StudentName : doc.data().StudentName,
+                        Username : doc.data().Username, 
+                        Eno  : doc.data().Eno ,
+                        Email : doc.data().Email,
+                        PhoneNo : doc.data().PhoneNo,
+                        Birthday : doc.data().Birthday,
+                        Gender : doc.data().Gender,
+
+                        
+
+                    };
+                    response.push(selectedItem);
+                });
+                return response;
+            });
+
+            return res.status(200).send({status: 'Success',data : response});
+            //return response;
+            
+            
+        } catch (error) {
+            console.log(error)
+            return res.status(500).send({status: 'Failed',msg: error});
+
+            
+        }
+
+    })();
+
+})
+
+app.get('/api/getAllMarks',(req,res)=>{
+    (async()=>{
+        try {
+            const query = db.collection('Marks');
+            let response =[];
+
+            await query.get().then((data)=>{
+                let docs = data.docs;
+                docs.map((doc)=>{
+                    const selectedItem = {
+                        AssignmentName : doc.data().AssignmentName,
+                        CourseName : doc.data().CourseName,
+                        Marks : doc.data().Marks,
+                        StudentName : doc.data().StudentName,
+                        id : doc.data().id,
+                        
+
                         
 
                     };
@@ -453,12 +557,14 @@ app.put("/api/updateAssignment/:CourseName",(req,res)=>{
 
 });
 //Update Student Table-Marks -> put()
-app.put("/api/updateMarks/:StudentName",(req,res)=>{
+app.put("/api/updateMarks/:id/:marks",(req,res)=>{
     (async()=>{
         try {
-            const reqDoc = db.collection('Students').doc(req.params.StudentName);
+            const reqDoc = db.collection('Marks').doc(req.params.id);
+           // reqDoc.doc(req.params.StudentName);
             await reqDoc.update({
-                Marks : req.body.Marks,
+                Marks : req.params.marks,
+                
                 
             });
             
@@ -755,11 +861,13 @@ app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:T
 //######################################################################################################################
 //############################################## GET MARKS FROM GITHUB #################################################
 //Get marks of a student by GitHub username
-app.get('/api/getMarks/:StudentName',(req,res)=>{
+app.get('/api/getMarks/:StudentName/:courseName/:assignmentName',(req,res)=>{
     (async()=>{
+        var driver;
         try {
             let name = req.params.StudentName;
-            
+            let course = req.params.courseName;
+            let assignment = req.params.assignmentName;
 
             function sleep(ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
@@ -775,7 +883,7 @@ app.get('/api/getMarks/:StudentName',(req,res)=>{
             //#############################################################################################
             o.addArguments("start-minimized");
             o.excludeSwitches("enable-automation");
-            var driver = new Builder().withCapabilities(Capabilities.chrome()).setChromeOptions(o).build(); 
+            driver = new Builder().withCapabilities(Capabilities.chrome()).setChromeOptions(o).build(); 
             driver.manage().window().minimize();
 
 
@@ -783,10 +891,12 @@ app.get('/api/getMarks/:StudentName',(req,res)=>{
             //Go to github classroom
             await driver.get("https://classroom.github.com/classrooms");
             //select the classroom
-            await driver.findElement(By.xpath("//h1[text()='test-for-coding-classroom-2']")).click();
+            let path = "//h1[text()='"+course+"']";
+            await driver.findElement(By.xpath(path)).click();
             
             //select the assignment
-            await driver.findElement(By.xpath("//a[contains(.,'Assignment For1111')]")).click();
+            let path2 = "//a[contains(.,'"+assignment+"')]";
+            await driver.findElement(By.xpath(path2)).click();
             //search student by username
             await driver.findElement(By.id("search-query-field")).sendKeys(name,Key.ENTER);
             sleep(10000);
@@ -799,7 +909,8 @@ app.get('/api/getMarks/:StudentName',(req,res)=>{
           
             
         } catch (error) {
-            console.log(error)
+            console.log(error);
+            driver.quit();
             return res.status(500).send({status: 'Failed',msg: error});
 
             
