@@ -63,13 +63,14 @@
                 });
                 
                 const data = await response.json();
-                console.log(data);
+                console.log(user);
           
                 for(i=0;i< data['data'].length;i++){
                     var element = data['data'][i];
 
                     if(element['UserName']==user){
                         if(element['Password']==userPass){
+                        
                          //   document.getElementById("demo").innerHTML ="Successfuly Logged into Account!";
                           //  document.location.href="http://localhost:9000/group07-co227/us-central1/app/logged.html";                     
 							window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html?name="+encodeURIComponent(user);
