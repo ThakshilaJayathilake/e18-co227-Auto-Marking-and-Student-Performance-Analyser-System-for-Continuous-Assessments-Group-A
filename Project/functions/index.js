@@ -101,9 +101,11 @@ app.post("/api/createAssignment/:CourseName/:AssignmentName/:StartDate/:DueDate/
             await db.collection('Assignment').doc(`/${Date.now()}/`).create({
                 AssignmentID : Date.now(),
                 AssignmentName : req.params.AssignmentName,
+                StartDate : req.params.StartDate,
                 DueDate : req.params.DueDate,
                 StartDate : req.params.StartDate,
                 Language : req.params.Language,
+                CoveredTopics : req.params.CoveredTopics,
                 CourseName : req.params.CourseName,
                 CoveredTopics : req.params.CoveredTopics,
                 URL : req.params.url,
@@ -364,7 +366,9 @@ app.get('/api/getAllAssignments',(req,res)=>{
                     const selectedItem = {
                         AssignmentName : doc.data().AssignmentName,
                         DueDate : doc.data().DueDate,
+                        StartDate : doc.data().StartDate,
                         Language : doc.data().Language,
+                        CoveredTopics : doc.data().CoveredTopics,
                         CourseName : doc.data().CourseName,
                         URL : doc.data().URL,
                         QTemplate : doc.data().QTemplate,

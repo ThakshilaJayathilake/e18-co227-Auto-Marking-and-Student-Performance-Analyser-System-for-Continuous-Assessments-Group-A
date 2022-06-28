@@ -2,14 +2,10 @@
 =========================================================
 * Material Dashboard Dark Edition - v2.1.0
 =========================================================
-
 * Product Page: https://www.creative-tim.com/product/material-dashboard-dark
 * Copyright 2019 Creative Tim (http://www.creative-tim.com)
-
 * Coded by www.creative-tim.com
-
 =========================================================
-
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 <!DOCTYPE html>
@@ -82,13 +78,14 @@
         var element3= document.getElementById("url2");
         var ass=document.getElementById("inputName");
         var due = document.getElementById("due");
+        // var el = document.getElementById("sel1");
+        // var sel1 = el.options[el.selectedIndex].text;
+        var sel1 = document.getElementById("sel1");
         var start = document.getElementById("start");
-        var topics = document.getElementById("topics");
+        var inputAssgn = document.getElementById("inputAssgn");
+        var inputTopics = document.getElementById("inputTopics");
+
         var save = document.getElementById("save");
-        var assignQTemplate = document.getElementById("inputAssgn");
-        var solution = document.getElementById("solution");
-        var date1 = document.getElementById("pick1");
-        var date2 = document.getElementById("pick2");
 
         //Find the data belongs to given course and given assignment
         for(i=0;i< data_a['data'].length;i++){
@@ -102,11 +99,11 @@
 
             if(element1['AssignmentName']==assignment){
               var dueDate=element1['DueDate'];
-              var startDate=element1['StartDate'];
+              var StartDate=element1['StartDate'];
+              var qTemplate=element1['QTemplate'];
+              var language=element1['Language'];
               var coveredTopics=element1['CoveredTopics'];
               var url=element1['URL'];
-              var template = element1['QTemplate'];
-              var answer = element1['ModelSolution'];
               console.log(assignment);
               
               ele_assignment.innerHTML = assignment;
@@ -120,22 +117,15 @@
         //document.getElementById("inputTopics").setAttribute('disabled','disabled'); //TODO : Store in firebase
         //document.getElementById("picker1").setAttribute('disabled','disabled'); //TODO : Store in firebase     
               //###########################################
-              due.innerHTML += "&emsp;&emsp;&emsp;";
-              due.innerHTML += dueDate;
-              start.innerHTML += "&emsp;&emsp;&emsp;";
-              start.innerHTML += startDate;
-              topics.innerHTML = coveredTopics;
-             // save.hidden = true;
-             date1.hidden=true;
-             date2.hidden=true;
-
-              //assignQTemplate.innerHTML = template;
-              
-              assignQTemplate.setAttribute("value",template);
-              assignQTemplate.setAttribute('disabled','disabled');
-              solution.innerHTML=answer;
-              solution.setAttribute('disabled','disabled');
-
+              due.innerHTML = dueDate;
+              start.innerHTML = StartDate;
+              inputAssgn.innerHTML = qTemplate;
+              inputAssgn.setAttribute('disabled','disabled');  
+              sel1.innerHTML = language;
+              sel1.setAttribute('disabled','disabled');
+              inputTopics.innerHTML = coveredTopics;
+              inputTopics.setAttribute('disabled','disabled');           
+              save.hidden = true;
       
             }
             
@@ -151,7 +141,6 @@
         var output;
         var points;
         term=0;
-        console.log(data_b);
         for(i=0;i< data_b['data'].length;i++){
           var element1 = data_b['data'][i];
 
@@ -198,7 +187,6 @@
                 </form>
                                   
               </div>
-
               
               `;
 
@@ -265,28 +253,17 @@
     async function newAssignment(no){
      
       let assignName = document.getElementById("inputName").value;
-      if(!assignName){
-        alert("Assignment Name Can Not Be Null!");
-        window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
-      }
-      let assignLang = document.getElementById("inputLanguages").value;
+
+      let e = document.getElementById("sel1");
+      let assignLang = e.options[e.selectedIndex].text;
       let aCoveredTopics = document.getElementById("inputTopics").value;
+
       let aStartDateTime = document.getElementById("picker1").value;
       let aEndDateTime = document.getElementById("picker2").value;
 
       let assignQTemplate = document.getElementById("inputAssgn").value;
-      if(!assignQTemplate){
-        alert("Assignment Template Can Not Be Null!");
-        window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
-      }
-           // ....................
-      // alert("assignQTemplate :" +assignQTemplate);
-
       let assignATemplate = document.getElementById("inputSol").value;
-      if(!assignQTemplate){
-        alert("Assignment Answer Can Not Be Null!");
-        window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
-      }
+
       let testNames=[];
       let inputs=[];
       let outputs=[];
@@ -301,7 +278,6 @@
 
 
       }
-      
       const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllAssignments',{
       method:'GET'
     });
@@ -325,10 +301,7 @@
       }
           
     }
-      // app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:TestInputs/:TestOutputs/:TestMarks'
-
-      // const responseG = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getUrl/'+course+"/"+assignName+"/"+aEndDateTime+"/"+no+
-      // "/"+[testNames]+"/"+[inputs]+"/"+[outputs]+"/"+[marks],{
+     
         const responseG = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getUrl/'+course+"/"+assignName+"/"+aEndDateTime+"/"+no+    // ....................
       "/"+[testNames]+"/"+[inputs]+"/"+[outputs]+"/"+[marks]+"/"+encodeURIComponent(assignQTemplate),{
           method:'GET',
@@ -339,7 +312,7 @@
       var url = dataG['msg'];
       
       if(dataG['status']=="Success"){
-        const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createAssignment/'+course+"/"+assignName+"/"+aStartDateTime+"/"+aEndDateTime+"/"+aCoveredTopics+"/"+assignLang+"/"+encodeURIComponent(url)+"/"+encodeURIComponent(assignQTemplate)+"/"+encodeURIComponent(assignATemplate),{
+        const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createAssignment/'+course+"/"+assignName+"/"+aStartDateTime+"/"+aEndDateTime+"/"+assignLang+"/"+aCoveredTopics+"/"+encodeURIComponent(url)+"/"+encodeURIComponent(assignQTemplate)+"/"+encodeURIComponent(assignATemplate),{
           method:'POST',
       
         });
@@ -381,7 +354,7 @@
 
         
         document.getElementById("inputName").setAttribute('disabled','disabled');
-        document.getElementById("inputLanguages").setAttribute('disabled','disabled');
+        document.getElementById("sel1").setAttribute('disabled','disabled');
         document.getElementById("inputTopics").setAttribute('disabled','disabled');
         document.getElementById("picker1").setAttribute('disabled','disabled');
         document.getElementById("picker2").setAttribute('disabled','disabled');
@@ -419,7 +392,6 @@
     <div class="sidebar" data-color="purple" data-background-color="black" data-image="../assets/img/sidebar-2.jpg">
       <!--
         Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
-
         Tip 2: you can also add an image using data-image tag
     -->
       <div class="logo"><a href="http://www.creative-tim.com" class="simple-text logo-normal">
@@ -440,7 +412,7 @@
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="http://localhost:5001/group07-co227/us-central1/app/examples/profile.html">
+            <a class="nav-link" href="./user.html">
               <i class="material-icons">person</i>
               <p>User Profile</p>
             </a>
@@ -569,7 +541,6 @@
       <!-- <div class="content"> -->
       <!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" role="button" data-bs-target="#offcanvasRight" aria-controls="sidebar">
         Filter Assignments</button>
-
         <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebar-label">
           <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="sidebar-label">Filter Assignments</h5>
@@ -615,13 +586,14 @@
                 aria-controls="Template-tab-pane" aria-selected="false">Template</button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link" id="Bench-tab" data-toggle="tab" data-target="#Bench-tab-pane" type="button" role="tab" 
-                aria-controls="Bench-tab-pane" aria-selected="false">Test Bench</button>
-            </li>
-            <li class="nav-item" role="presentation">
               <button class="nav-link" id="ModelSolution-tab" data-toggle="tab" data-target="#ModelSolution-tab-pane" type="button" role="tab" 
                 aria-controls="ModelSolution-tab-pane" aria-selected="false">Model Solution</button>
             </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="Bench-tab" data-toggle="tab" data-target="#Bench-tab-pane" type="button" role="tab" 
+                aria-controls="Bench-tab-pane" aria-selected="false">Test Bench</button>
+            </li>
+            
           </ul> 
 
           <!-- tab-contents -->
@@ -640,7 +612,7 @@
                   <div class="row mb-3">
                     <label for="inputName" class="col-sm-4 col-form-label" >Assignment Name:</label>
                     <div class="col-sm-6"id="inputName2">
-                      <input type="text" class="form-control" id="inputName" required>
+                      <input type="text" class="form-control" id="inputName">
                     </div>
                   </div>
                   <div class="row mb-3">
@@ -658,21 +630,26 @@
                   </div>
                   <div class="row mb-3">
                     <label for="inputTopics" class="col-sm-4 col-form-label">Covered topics:</label>
-                    <div class="col-sm-6" id="topics">
+                    <div class="col-sm-6">
                       <textarea class="form-control" rows="5" id="inputTopics"></textarea><br><br> 
                     </div>
                   </div>
   
                   <div class="row mb-3">
                     <form>
-                      <label id="start" for="picker1" class="col-sm-2 col-form-label">Start Date:&emsp;</label>
-                      <div id="pick1"><input type="datetime-local"  id="picker1" class="bg-transparent col-sm-3 form-control ml-8 ml-lg-0" placeholder="Select Start DateTime" required></div>
-                      <label id = "due" for="picker2" class="col-sm-2 col-form-label ml-8 ml-lg-0">End Date:&emsp;</label>
-                      <div id="pick2"><input type="datetime-local" id="picker2" class="bg-transparent col-sm-3 form-control" placeholder="Select End DateTime" required>
+                      <div class="col md-4">
+                        <label for="picker1" class="col-md-3 col-form-label">Start Date:</label>
+                        <div id="start"><input type="datetime-local"  id="picker1" class="col-md-12 bg-transparent form-control" placeholder="Select Start DateTime">
+                        </div>
+                      </div>
+                      <div class="col md-4">
+                        <label for="picker2" class="col-md-3 col-form-label">End Date:</label>
+                        <div id = "due"><input type="datetime-local" id="picker2" class="col-md-12 bg-transparent form-control" placeholder="Select End DateTime">
+                        </div>                  
                       </div>
                     </form>
                   </div>           
-                  <br><!--button type="submit" class="btn btn-primary" id="save" data-toggle="tab" data-target="#Template-tab-pane" role="tab">Save Changes</!--button>-->
+                  <br><label type="submit" class="btn btn-primary" id="save">>></label>
                 </form>
               </div>
               
@@ -689,8 +666,8 @@
                       <!-- // .................... -->
                       <br><br>
                       <div class="form-floating">
-                        <input class="form-control" placeholder="Please input in this format: 'Github display name/repo name'" id="inputAssgn"></input>
-                        <label for="floatingTextarea">Input how you want your students to hand in their</label>
+                        <textarea class="form-control" placeholder="Please input in this format:--- 'Github display name/repo name'" id="inputAssgn"></textarea>
+                        <label for="floatingTextarea">Input how you want your students to hand in there</label>
                       </div>
 
                       <!-- <input type="text" class="form-control" id="inputAssgn" placeholder="Please input in this format: 'Github display name/repo name'"> <br><br> -->
@@ -698,10 +675,30 @@
                       <!-- <input id="inputAssgnFile" name="input-b1" type="file" class="file" data-browse-on-zone-click="true">                     -->
                     </div>  
                   </div>                             
-                  <br><!--button type="submit" class="btn btn-primary">Save Changes</!--button-->
+                  <br><label class="btn btn-primary">>></label>
                 </form>
               </div>              
             </div>
+
+
+             <!-- ModelSolution -->
+             <div class="tab-pane fade" id="ModelSolution-tab-pane" role="tabpanel" aria-labelledby="ModelSolution-tab" tabindex="0">
+              <div class="container">
+                <br><hr>
+                <form>      
+                  <div class="row mb-3">
+                    <label for="inputSol" class="col-sm-6 col-form-label">Upload solution here:</label><br><br>
+                    <div class="container">
+                      <input id="inputSol" name="inputSol" type="file" class="file" data-browse-on-zone-click="true">                    
+                    </div>  
+                  </div>                             
+                  <br><label type="submit" class="btn btn-primary">>></label><br><br>
+                  
+
+                </form>
+              </div>              
+            </div>
+
 
             <!-- Test Bench -->
             <div class="tab-pane fade" id="Bench-tab-pane" role="tabpanel" aria-labelledby="Bench-tab" tabindex="0">
@@ -748,20 +745,19 @@
                    <div class="row">
                     <label for="tMarks" class="col-sm-3 col-form-label">Marks Allocated:</label>
                     <div class="col-sm-5">
-                      <input type="number" class="form-control" id="tMarks${i}"><br> 
+                      <input type="number" class="form-control" id="tMarks${i}"><br>    
                     </div>
                    </div>
                    
                 </form>
                                   
               </div>
-
-              <br><button type="submit" class="btn btn-primary" onclick="myfun2()">Save Changes</button>
+              <br><button type="submit" class="btn btn-primary" onclick="myfun2()"></button>
               `;
 
                    }
                    container.innerHTML += `<br> <hr>
-              <button type="submit" class="btn btn-primary" onclick="newAssignment('${no}')">Save All Changes</button>`;
+              <button type="submit" class="btn btn-outline-success btn-lg" role="button" onclick="newAssignment('${no}')">Create the Assignment</button>`;
                  }                           
                  // var outputHTML = "";
                  // outputHTML +=  "<div>";
@@ -775,31 +771,12 @@
                  //   outputHTML += "<div>";
                  // }
                  // outputHTML += "</div>";
+           
                </script>
-               
-              
-
               </div>
               
             </div>
-
-            <!-- ModelSolution -->
-            <div class="tab-pane fade" id="ModelSolution-tab-pane" role="tabpanel" aria-labelledby="ModelSolution-tab" tabindex="0">
-              <div class="container" id="solution">
-                <br><hr>
-                <form>      
-                  <div class="row mb-3">
-                    <label for="inputSol" class="col-sm-6 col-form-label">Upload solution here:</label><br><br>
-                    <div class="container">
-                      <input id="inputSol" name="inputSol" type="file" class="file" data-browse-on-zone-click="true">                    
-                    </div>  
-                  </div>                             
-                  <br><button type="submit" class="btn btn-primary">Save Changes</button><br><br>
-                  <a href="Course.html" class="btn btn-outline-success btn-lg" role="button">Create the Assignment</a>
-                </form>
-              </div>              
-            </div>
-
+           
           </div>
         </div>
         
@@ -1110,9 +1087,20 @@
       enableTime: true,
       dateFormat: "Y-m-d H:i",
       altInput: true,
-      altFormat: "F j, Y (h:S K)"
+      altFormat: "F j, Y (h:S K)",
+      minDate: "today"
+    }
+
+    configClose = {
+      noCalendar: true,
+      enableTime: true,
+      dateFormat: "Y-m-d H:i",
+      altInput: true,
+      altFormat: "F j, Y (h:S K)",
+      minDate: "today"
     }
     flatpickr("input[type=datetime-local]", config);
+    flatpickr("input[type=datetime-localClose]", configClose);
   </script>
 
   <!-- upload file Plugin -->
