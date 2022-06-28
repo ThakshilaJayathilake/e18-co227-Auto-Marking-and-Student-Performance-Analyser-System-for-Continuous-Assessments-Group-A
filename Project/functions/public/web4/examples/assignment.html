@@ -244,7 +244,9 @@
       let aEndDateTime = document.getElementById("picker2").value;
 
       let assignQTemplate = document.getElementById("inputAssgn").value;
-      
+           // ....................
+      // alert("assignQTemplate :" +assignQTemplate);
+
       let assignATemplate = document.getElementById("inputSol").value;
       let testNames=[];
       let inputs=[];
@@ -285,8 +287,10 @@
     }
       // app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:TestInputs/:TestOutputs/:TestMarks'
 
-      const responseG = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getUrl/'+course+"/"+assignName+"/"+aEndDateTime+"/"+no+
-      "/"+[testNames]+"/"+[inputs]+"/"+[outputs]+"/"+[marks],{
+      // const responseG = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getUrl/'+course+"/"+assignName+"/"+aEndDateTime+"/"+no+
+      // "/"+[testNames]+"/"+[inputs]+"/"+[outputs]+"/"+[marks],{
+        const responseG = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getUrl/'+course+"/"+assignName+"/"+aEndDateTime+"/"+no+    // ....................
+      "/"+[testNames]+"/"+[inputs]+"/"+[outputs]+"/"+[marks]+"/"+encodeURIComponent(assignQTemplate),{
           method:'GET',
 
       });
@@ -295,7 +299,7 @@
       var url = dataG['msg'];
       
       if(dataG['status']=="Success"){
-        const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createAssignment/'+course+"/"+assignName+"/"+aEndDateTime+"/"+assignLang+"/"+encodeURIComponent(url),{
+        const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createAssignment/'+course+"/"+assignName+"/"+aEndDateTime+"/"+assignLang+"/"+encodeURIComponent(url)+"/"+encodeURIComponent(assignQTemplate)+"/"+encodeURIComponent(assignATemplate),{
           method:'POST',
       
         });
@@ -323,6 +327,8 @@
         document.getElementById("inputTopics").setAttribute('disabled','disabled');
         document.getElementById("picker1").setAttribute('disabled','disabled');
         document.getElementById("picker2").setAttribute('disabled','disabled');
+        document.getElementById("inputAssgn").setAttribute('disabled','disabled');
+        document.getElementById("inputSol").setAttribute('disabled','disabled');
         for(i=0;i<no;i++){
           document.getElementById(`tName${i}`).setAttribute('disabled','disabled');
           document.getElementById(`tInput${i}`).setAttribute('disabled','disabled');
@@ -605,7 +611,16 @@
                   <div class="row mb-3">
                     <label for="inputAssgn" class="col-sm-6 col-form-label">Upload Assignment here:</label><br><br>
                     <div class="container">
-                      <input id="inputAssgn" name="input-b1" type="file" class="file" data-browse-on-zone-click="true">                    
+                      <!-- // .................... -->
+                      <br><br>
+                      <div class="form-floating">
+                        <textarea class="form-control" placeholder="Please input in this format: 'Github display name/repo name'" id="inputAssgn"></textarea>
+                        <label for="floatingTextarea">Input how you want your students to hand in their</label>
+                      </div>
+
+                      <!-- <input type="text" class="form-control" id="inputAssgn" placeholder="Please input in this format: 'Github display name/repo name'"> <br><br> -->
+
+                      <!-- <input id="inputAssgnFile" name="input-b1" type="file" class="file" data-browse-on-zone-click="true">                     -->
                     </div>  
                   </div>                             
                   <br><button type="submit" class="btn btn-primary">Save Changes</button>

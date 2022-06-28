@@ -95,7 +95,7 @@ app.post("/api/createCourse/:UserName/:CourseCode/:CourseName",(req,res)=>{
 );
 
 //Create New Assignmnet-> Post()
-app.post("/api/createAssignment/:CourseName/:AssignmentName/:DueDate/:Language/:url",(req,res)=>{
+app.post("/api/createAssignment/:CourseName/:AssignmentName/:DueDate/:Language/:url/:QTemplate/:ModelSol",(req,res)=>{
     (async()=>{
         try {
             await db.collection('Assignment').doc(`/${Date.now()}/`).create({
@@ -105,7 +105,8 @@ app.post("/api/createAssignment/:CourseName/:AssignmentName/:DueDate/:Language/:
                 Language : req.params.Language,
                 CourseName : req.params.CourseName,
                 URL : req.params.url,
-
+                QTemplate : req.params.QTemplate,
+                ModelSolution : req.params.ModelSol,
                
             });
             return res.status(200).send({status: 'Success',msg: "Data Saved"});
@@ -307,7 +308,8 @@ app.get('/api/getAllAssignments',(req,res)=>{
                         Language : doc.data().Language,
                         CourseName : doc.data().CourseName,
                         URL : doc.data().URL,
-
+                        QTemplate : doc.data().QTemplate,
+                        ModelSolution : doc.data().ModelSolution,
                     };
                     response.push(selectedItem);
                 });
@@ -519,8 +521,8 @@ app.post('/api/createCourseGITHUB/:CourseName',(req,res)=>{
 
             //#############################################################################################
             //You should change this on your own
-            o.addArguments("--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data/");
-            o.addArguments("--profile-directory=Profile 3");
+            o.addArguments("--user-data-dir=C:/Users/ASUS/AppData/Local/Google/Chrome/User Data/");
+            o.addArguments("--profile-directory=Profile 5");
             //#############################################################################################
             
             o.addArguments("start-minimized");
@@ -619,10 +621,11 @@ app.post('/api/createCourseGITHUB/:CourseName',(req,res)=>{
 //######################################################GET URL#########################################################
 
 //Create New Assignment in GitHub Classroom and generate the url and return it.
-app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:TestInputs/:TestOutputs/:TestMarks',(req,res)=>{
+// app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:TestInputs/:TestOutputs/:TestMarks',(req,res)=>{
+app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:TestInputs/:TestOutputs/:TestMarks/:assignmentTemplate',(req,res)=>{  // ....................
     (async()=>{
         try {
-            
+            // console.log(decodeURIComponent(assignmentTemplate));
             //sleep function to sleep the process
             function sleep(ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
@@ -635,8 +638,8 @@ app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:T
 
             //#############################################################################################
             //You should change this on your own
-            o.addArguments("--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data/");
-            o.addArguments("--profile-directory=Profile 3");
+            o.addArguments("--user-data-dir=C:/Users/ASUS/AppData/Local/Google/Chrome/User Data/");
+            o.addArguments("--profile-directory=Profile 5");
             //#############################################################################################
             
             o.addArguments("start-minimized");
@@ -665,9 +668,12 @@ app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:T
             await driver.findElement(By.id("new-assignment-submit")).click();
 
             //page II
-  
+            var assTemp=req.params.assignmentTemplate;            // ....................
+            var assTemplate = decodeURIComponent(assTemp);        
+            
             await driver.findElement(By.css("#starter-code-repo-name")).click();
-            await driver.findElement(By.name("assignment_form[starter_code_repo_full_name]")).sendKeys("test-for-coding/template-for-java");
+            // await driver.findElement(By.name("assignment_form[starter_code_repo_full_name]")).sendKeys("test-for-coding/template-for-java");
+            await driver.findElement(By.name("assignment_form[starter_code_repo_full_name]")).sendKeys(assTemplate);         // ....................
             await sleep(5000);
             await driver.findElement(By.css(".autocomplete-suggestions-list ul li strong")).click();
             await driver.findElement(By.name("commit")).click();
@@ -764,8 +770,8 @@ app.get('/api/getMarks/:StudentName',(req,res)=>{
             var o = new chrome.Options();
             //#############################################################################################
             //You should change this on your own
-            o.addArguments("--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data/");
-            o.addArguments("--profile-directory=Profile 3");
+            o.addArguments("--user-data-dir=C:/Users/ASUS/AppData/Local/Google/Chrome/User Data/");
+            o.addArguments("--profile-directory=Profile 5");
             //#############################################################################################
             o.addArguments("start-minimized");
             o.excludeSwitches("enable-automation");
