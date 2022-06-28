@@ -82,6 +82,13 @@
         var element3= document.getElementById("url2");
         var ass=document.getElementById("inputName");
         var due = document.getElementById("due");
+        // var el = document.getElementById("sel1");
+        // var sel1 = el.options[el.selectedIndex].text;
+        var sel1 = document.getElementById("sel1");
+        var start = document.getElementById("start");
+        var inputAssgn = document.getElementById("inputAssgn");
+        var inputTopics = document.getElementById("inputTopics");
+
         var save = document.getElementById("save");
 
         //Find the data belongs to given course and given assignment
@@ -96,6 +103,10 @@
 
             if(element1['AssignmentName']==assignment){
               var dueDate=element1['DueDate'];
+              var StartDate=element1['StartDate'];
+              var qTemplate=element1['QTemplate'];
+              var language=element1['Language'];
+              var coveredTopics=element1['CoveredTopics'];
               var url=element1['URL'];
               console.log(assignment);
               
@@ -111,6 +122,13 @@
         //document.getElementById("picker1").setAttribute('disabled','disabled'); //TODO : Store in firebase     
               //###########################################
               due.innerHTML = dueDate;
+              start.innerHTML = StartDate;
+              inputAssgn.innerHTML = qTemplate;
+              inputAssgn.setAttribute('disabled','disabled');  
+              sel1.innerHTML = language;
+              sel1.setAttribute('disabled','disabled');
+              inputTopics.innerHTML = coveredTopics;
+              inputTopics.setAttribute('disabled','disabled');           
               save.hidden = true;
       
             }
@@ -240,16 +258,17 @@
     async function newAssignment(no){
      
       let assignName = document.getElementById("inputName").value;
-      let assignLang = document.getElementById("inputLanguages").value;
+
+      let e = document.getElementById("sel1");
+      let assignLang = e.options[e.selectedIndex].text;
       let aCoveredTopics = document.getElementById("inputTopics").value;
+
       let aStartDateTime = document.getElementById("picker1").value;
       let aEndDateTime = document.getElementById("picker2").value;
 
       let assignQTemplate = document.getElementById("inputAssgn").value;
-           // ....................
-      // alert("assignQTemplate :" +assignQTemplate);
-
       let assignATemplate = document.getElementById("inputSol").value;
+
       let testNames=[];
       let inputs=[];
       let outputs=[];
@@ -287,10 +306,7 @@
       }
           
     }
-      // app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:TestInputs/:TestOutputs/:TestMarks'
-
-      // const responseG = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getUrl/'+course+"/"+assignName+"/"+aEndDateTime+"/"+no+
-      // "/"+[testNames]+"/"+[inputs]+"/"+[outputs]+"/"+[marks],{
+     
         const responseG = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getUrl/'+course+"/"+assignName+"/"+aEndDateTime+"/"+no+    // ....................
       "/"+[testNames]+"/"+[inputs]+"/"+[outputs]+"/"+[marks]+"/"+encodeURIComponent(assignQTemplate),{
           method:'GET',
@@ -301,7 +317,7 @@
       var url = dataG['msg'];
       
       if(dataG['status']=="Success"){
-        const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createAssignment/'+course+"/"+assignName+"/"+aEndDateTime+"/"+assignLang+"/"+encodeURIComponent(url)+"/"+encodeURIComponent(assignQTemplate)+"/"+encodeURIComponent(assignATemplate),{
+        const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createAssignment/'+course+"/"+assignName+"/"+aStartDateTime+"/"+aEndDateTime+"/"+assignLang+"/"+aCoveredTopics+"/"+encodeURIComponent(url)+"/"+encodeURIComponent(assignQTemplate)+"/"+encodeURIComponent(assignATemplate),{
           method:'POST',
       
         });
@@ -343,7 +359,7 @@
 
         
         document.getElementById("inputName").setAttribute('disabled','disabled');
-        document.getElementById("inputLanguages").setAttribute('disabled','disabled');
+        document.getElementById("sel1").setAttribute('disabled','disabled');
         document.getElementById("inputTopics").setAttribute('disabled','disabled');
         document.getElementById("picker1").setAttribute('disabled','disabled');
         document.getElementById("picker2").setAttribute('disabled','disabled');
@@ -577,13 +593,14 @@
                 aria-controls="Template-tab-pane" aria-selected="false">Template</button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link" id="Bench-tab" data-toggle="tab" data-target="#Bench-tab-pane" type="button" role="tab" 
-                aria-controls="Bench-tab-pane" aria-selected="false">Test Bench</button>
-            </li>
-            <li class="nav-item" role="presentation">
               <button class="nav-link" id="ModelSolution-tab" data-toggle="tab" data-target="#ModelSolution-tab-pane" type="button" role="tab" 
                 aria-controls="ModelSolution-tab-pane" aria-selected="false">Model Solution</button>
             </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="Bench-tab" data-toggle="tab" data-target="#Bench-tab-pane" type="button" role="tab" 
+                aria-controls="Bench-tab-pane" aria-selected="false">Test Bench</button>
+            </li>
+            
           </ul> 
 
           <!-- tab-contents -->
@@ -627,14 +644,19 @@
   
                   <div class="row mb-3">
                     <form>
-                      <label for="picker1" class="col-sm-2 col-form-label">Start Date:</label>
-                      <input type="datetime-local"  id="picker1" class="bg-transparent col-sm-3 form-control ml-8 ml-lg-0" placeholder="Select Start DateTime">
-                      <label for="picker2" class="col-sm-2 col-form-label ml-8 ml-lg-0">End Date:</label>
-                      <div id = "due"><input type="datetime-local" id="picker2" class="bg-transparent col-sm-3 form-control" placeholder="Select End DateTime">
+                      <div class="col md-4">
+                        <label for="picker1" class="col-md-3 col-form-label">Start Date:</label>
+                        <div id="start"><input type="datetime-local"  id="picker1" class="col-md-12 bg-transparent form-control" placeholder="Select Start DateTime">
+                        </div>
+                      </div>
+                      <div class="col md-4">
+                        <label for="picker2" class="col-md-3 col-form-label">End Date:</label>
+                        <div id = "due"><input type="datetime-local" id="picker2" class="col-md-12 bg-transparent form-control" placeholder="Select End DateTime">
+                        </div>                  
                       </div>
                     </form>
                   </div>           
-                  <br><button type="submit" class="btn btn-primary" id="save">Save Changes</button>
+                  <br><label type="submit" class="btn btn-primary" id="save">>></label>
                 </form>
               </div>
               
@@ -651,8 +673,8 @@
                       <!-- // .................... -->
                       <br><br>
                       <div class="form-floating">
-                        <textarea class="form-control" placeholder="Please input in this format: 'Github display name/repo name'" id="inputAssgn"></textarea>
-                        <label for="floatingTextarea">Input how you want your students to hand in their</label>
+                        <textarea class="form-control" placeholder="Please input in this format:--- 'Github display name/repo name'" id="inputAssgn"></textarea>
+                        <label for="floatingTextarea">Input how you want your students to hand in there</label>
                       </div>
 
                       <!-- <input type="text" class="form-control" id="inputAssgn" placeholder="Please input in this format: 'Github display name/repo name'"> <br><br> -->
@@ -660,10 +682,30 @@
                       <!-- <input id="inputAssgnFile" name="input-b1" type="file" class="file" data-browse-on-zone-click="true">                     -->
                     </div>  
                   </div>                             
-                  <br><button type="submit" class="btn btn-primary">Save Changes</button>
+                  <br><label class="btn btn-primary">>></label>
                 </form>
               </div>              
             </div>
+
+
+             <!-- ModelSolution -->
+             <div class="tab-pane fade" id="ModelSolution-tab-pane" role="tabpanel" aria-labelledby="ModelSolution-tab" tabindex="0">
+              <div class="container">
+                <br><hr>
+                <form>      
+                  <div class="row mb-3">
+                    <label for="inputSol" class="col-sm-6 col-form-label">Upload solution here:</label><br><br>
+                    <div class="container">
+                      <input id="inputSol" name="inputSol" type="file" class="file" data-browse-on-zone-click="true">                    
+                    </div>  
+                  </div>                             
+                  <br><label type="submit" class="btn btn-primary">>></label><br><br>
+                  
+
+                </form>
+              </div>              
+            </div>
+
 
             <!-- Test Bench -->
             <div class="tab-pane fade" id="Bench-tab-pane" role="tabpanel" aria-labelledby="Bench-tab" tabindex="0">
@@ -710,7 +752,7 @@
                    <div class="row">
                     <label for="tMarks" class="col-sm-3 col-form-label">Marks Allocated:</label>
                     <div class="col-sm-5">
-                      <input type="number" class="form-control" id="tMarks${i}"><br> 
+                      <input type="number" class="form-control" id="tMarks${i}"><br>    
                     </div>
                    </div>
                    
@@ -718,12 +760,12 @@
                                   
               </div>
 
-              <br><button type="submit" class="btn btn-primary" onclick="myfun2()">Save Changes</button>
+              <br><button type="submit" class="btn btn-primary" onclick="myfun2()"></button>
               `;
 
                    }
                    container.innerHTML += `<br> <hr>
-              <button type="submit" class="btn btn-primary" onclick="newAssignment('${no}')">Save All Changes</button>`;
+              <button type="submit" class="btn btn-outline-success btn-lg" role="button" onclick="newAssignment('${no}')">Create the Assignment</button>`;
                  }                           
                  // var outputHTML = "";
                  // outputHTML +=  "<div>";
@@ -737,31 +779,12 @@
                  //   outputHTML += "<div>";
                  // }
                  // outputHTML += "</div>";
+           
                </script>
-               
-              
-
               </div>
               
             </div>
-
-            <!-- ModelSolution -->
-            <div class="tab-pane fade" id="ModelSolution-tab-pane" role="tabpanel" aria-labelledby="ModelSolution-tab" tabindex="0">
-              <div class="container">
-                <br><hr>
-                <form>      
-                  <div class="row mb-3">
-                    <label for="inputSol" class="col-sm-6 col-form-label">Upload solution here:</label><br><br>
-                    <div class="container">
-                      <input id="inputSol" name="inputSol" type="file" class="file" data-browse-on-zone-click="true">                    
-                    </div>  
-                  </div>                             
-                  <br><button type="submit" class="btn btn-primary">Save Changes</button><br><br>
-                  <a href="Course.html" class="btn btn-outline-success btn-lg" role="button">Create the Assignment</a>
-                </form>
-              </div>              
-            </div>
-
+           
           </div>
         </div>
         
@@ -1072,9 +1095,20 @@
       enableTime: true,
       dateFormat: "Y-m-d H:i",
       altInput: true,
-      altFormat: "F j, Y (h:S K)"
+      altFormat: "F j, Y (h:S K)",
+      minDate: "today"
+    }
+
+    configClose = {
+      noCalendar: true,
+      enableTime: true,
+      dateFormat: "Y-m-d H:i",
+      altInput: true,
+      altFormat: "F j, Y (h:S K)",
+      minDate: "today"
     }
     flatpickr("input[type=datetime-local]", config);
+    flatpickr("input[type=datetime-localClose]", configClose);
   </script>
 
   <!-- upload file Plugin -->

@@ -95,14 +95,16 @@ app.post("/api/createCourse/:UserName/:CourseCode/:CourseName",(req,res)=>{
 );
 
 //Create New Assignmnet-> Post()
-app.post("/api/createAssignment/:CourseName/:AssignmentName/:DueDate/:Language/:url/:QTemplate/:ModelSol",(req,res)=>{
+app.post("/api/createAssignment/:CourseName/:AssignmentName/:StartDate/:DueDate/:Language/:CoveredTopics/:url/:QTemplate/:ModelSol",(req,res)=>{
     (async()=>{
         try {
             await db.collection('Assignment').doc(`/${Date.now()}/`).create({
                 AssignmentID : Date.now(),
                 AssignmentName : req.params.AssignmentName,
+                StartDate : req.params.StartDate,
                 DueDate : req.params.DueDate,
                 Language : req.params.Language,
+                CoveredTopics : req.params.CoveredTopics,
                 CourseName : req.params.CourseName,
                 URL : req.params.url,
                 QTemplate : req.params.QTemplate,
@@ -362,7 +364,9 @@ app.get('/api/getAllAssignments',(req,res)=>{
                     const selectedItem = {
                         AssignmentName : doc.data().AssignmentName,
                         DueDate : doc.data().DueDate,
+                        StartDate : doc.data().StartDate,
                         Language : doc.data().Language,
+                        CoveredTopics : doc.data().CoveredTopics,
                         CourseName : doc.data().CourseName,
                         URL : doc.data().URL,
                         QTemplate : doc.data().QTemplate,
