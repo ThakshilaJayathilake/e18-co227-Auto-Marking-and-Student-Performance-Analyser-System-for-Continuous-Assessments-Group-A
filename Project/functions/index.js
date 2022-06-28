@@ -95,15 +95,17 @@ app.post("/api/createCourse/:UserName/:CourseCode/:CourseName",(req,res)=>{
 );
 
 //Create New Assignmnet-> Post()
-app.post("/api/createAssignment/:CourseName/:AssignmentName/:DueDate/:Language/:url/:QTemplate/:ModelSol",(req,res)=>{
+app.post("/api/createAssignment/:CourseName/:AssignmentName/:StartDate/:DueDate/:CoveredTopics/:Language/:url/:QTemplate/:ModelSol",(req,res)=>{
     (async()=>{
         try {
             await db.collection('Assignment').doc(`/${Date.now()}/`).create({
                 AssignmentID : Date.now(),
                 AssignmentName : req.params.AssignmentName,
                 DueDate : req.params.DueDate,
+                StartDate : req.params.StartDate,
                 Language : req.params.Language,
                 CourseName : req.params.CourseName,
+                CoveredTopics : req.params.CoveredTopics,
                 URL : req.params.url,
                 QTemplate : req.params.QTemplate,
                 ModelSolution : req.params.ModelSol,
@@ -367,6 +369,9 @@ app.get('/api/getAllAssignments',(req,res)=>{
                         URL : doc.data().URL,
                         QTemplate : doc.data().QTemplate,
                         ModelSolution : doc.data().ModelSolution,
+                        CoveredTopics :  doc.data().CoveredTopics,
+                        StartDate :  doc.data().StartDate,
+                        
                     };
                     response.push(selectedItem);
                 });
@@ -627,8 +632,8 @@ app.post('/api/createCourseGITHUB/:CourseName',(req,res)=>{
 
             //#############################################################################################
             //You should change this on your own
-            o.addArguments("--user-data-dir=C:/Users/ASUS/AppData/Local/Google/Chrome/User Data/");
-            o.addArguments("--profile-directory=Profile 5");
+            o.addArguments("--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data/");
+            o.addArguments("--profile-directory=Profile 3");
             //#############################################################################################
             
             o.addArguments("start-minimized");
@@ -744,8 +749,8 @@ app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:T
 
             //#############################################################################################
             //You should change this on your own
-            o.addArguments("--user-data-dir=C:/Users/ASUS/AppData/Local/Google/Chrome/User Data/");
-            o.addArguments("--profile-directory=Profile 5");
+            o.addArguments("--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data/");
+            o.addArguments("--profile-directory=Profile 3");
             //#############################################################################################
             
             o.addArguments("start-minimized");
@@ -878,8 +883,8 @@ app.get('/api/getMarks/:StudentName/:courseName/:assignmentName',(req,res)=>{
             var o = new chrome.Options();
             //#############################################################################################
             //You should change this on your own
-            o.addArguments("--user-data-dir=C:/Users/ASUS/AppData/Local/Google/Chrome/User Data/");
-            o.addArguments("--profile-directory=Profile 5");
+            o.addArguments("--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data/");
+            o.addArguments("--profile-directory=Profile 3");
             //#############################################################################################
             o.addArguments("start-minimized");
             o.excludeSwitches("enable-automation");
