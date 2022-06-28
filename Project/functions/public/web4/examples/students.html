@@ -49,7 +49,7 @@
         course = data.cName;
         user = data.user;
         var element= document.getElementById("course");
-        element.innerHTML = course;
+        element.innerHTML = decodeURIComponent(decodeURIComponent(course));
         const response_ = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllStudents',{
           method:'GET'
         });
@@ -87,7 +87,7 @@
             
            
 
-            var direct="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?Assignment="+encodeURIComponent(name)+"?user="+encodeURIComponent(user);
+            var direct="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+course+"?Assignment="+encodeURIComponent(name)+"?user="+encodeURIComponent(user);
             list.innerHTML += `<tr>
                                   <td >${Eno}
                                   
@@ -234,11 +234,11 @@
     
     
       if(data['status']=="Success"){
-        window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+        window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
       }
       else{
         alert("Process Failed! Try Again");
-        window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+        window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
       }
     }
   </script>
@@ -277,7 +277,7 @@
           <li class="nav-item ">
             <script>
               function courses(){
-                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html?cName="+course+"?user="+encodeURIComponent(user);
               }
               
             </script>
@@ -289,7 +289,7 @@
           <li class="nav-item active ">
             <script>
               function directToStudent() {
-                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
               }
             </script>
             <a class="nav-link" onclick="directToStudent()">

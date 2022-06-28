@@ -53,7 +53,7 @@
         course = data.cName;
         user = data.user;
         var element= document.getElementById("course");
-        element.innerHTML = course;
+        element.innerHTML = decodeURIComponent(course);
         const response_ = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllAssignments',{
           method:'GET'
         });
@@ -71,7 +71,7 @@
           if(element1['CourseName']==course){
             k++;
             var name=element1['AssignmentName'];
-            var direct="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?Assignment="+encodeURIComponent(name)+"?user="+encodeURIComponent(user);
+            var direct="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+course+"?Assignment="+encodeURIComponent(name)+"?user="+encodeURIComponent(user);
             list.innerHTML += `<li><a href="${direct}">${name}</a></li>`;
             
           }
@@ -94,13 +94,13 @@
     	  
     };
     function direct(){
-            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+course+"?user="+encodeURIComponent(user);
     }
     function directToAss(){
-            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignmentDetails.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignmentDetails.html?cName="+course+"?user="+encodeURIComponent(user);
     }
     function directToStudents(){
-            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
     }
     
 
