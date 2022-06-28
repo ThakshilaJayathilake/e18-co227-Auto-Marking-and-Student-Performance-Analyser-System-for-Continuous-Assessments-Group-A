@@ -1,0 +1,12 @@
+pendo.guides=[];
+pendo.normalizedUrl="http://www.shutterstock.com/image-photo/digital-transformation-concept-binary-code-programming-1842229708";
+pendo.lastGuideStepSeen={"isMultiStep":false,"state":""};
+pendo.guideWidget={"enabled":false,"hidePoweredBy":false};
+pendo.guideCssUrl="";
+pendo.throttling={"count":1,"enabled":true,"interval":1,"unit":"Hour"};
+pendo.autoOrdering=["U-Lu6Hj3va3nXkcAarLtW1KH-ys","b6D-zeDDmLfGtGwlwb_eXnfR3RY","RcoMtUa2OeJ5J-6Z5nnnJb3ZDjU","_T3ogP7xmmUlJjjGzSwOmkc8dsc","l_AT-JsVn5pXcsOZJ3HQBJEEgs8","Ecb7gEiNHkGFEZnCjSkOgQsrJyE","TIAjOpBYhE48ZZMU72VLNXcqzsU","mwMUKky11hV0cpo7x1VSclr_G3s","AiBaU9PWPrCIeMC0OFpVsLz-Bt8","7cGM8N3HyKtO3-ByuDxTREsU0ew","xNN9QEulGxXD0qbMueODXt8VUBo","Vu-Nxap9NQxvRe__ww_1-9HuwHE","ALrh4LbD56ufIZWCs4tcgtFnlYE","gpLiKmBMQ1zc7TZ0VTnFUe41tuY"];
+pendo.globalJsUrl="";
+pendo.segmentFlags=[];
+pendo.designerEnabled=false;
+pendo.features=null;
+pendo.preventCodeInjection=false;
