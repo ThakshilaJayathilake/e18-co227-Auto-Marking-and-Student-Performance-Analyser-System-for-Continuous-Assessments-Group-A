@@ -16,13 +16,13 @@ title:
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Problem Statement](#Problem-Statement)
-3. [Solution](#Solution)
+2. [Problem Statement](#problem-statement)
+3. [Solution](#solution)
 4. [Phase I](#phase-i---auto-marking-system-for-coding-assessments)
 5. [Phase II](#phase-ii---student-performance-analyser)
 6. [Solution Architecture](#solution-architecture)
 7. [Project Plan](#project-plan)
-8. [Team](#Team)
+8. [Team](#team)
 9. [Links](#links)
 
 
@@ -78,7 +78,7 @@ Below phases add functionalities for the system
 - User friendly Web Interface for instructors to mark the assignments
 - Auto marking processed with GitHub Classroom
 - User can create courses, assignments and add students according to their preference
-- Finally instructor can view the marks of the each student
+- Finally instructor can view the marks of the each student under each course
 
 
 
@@ -97,7 +97,8 @@ Below phases add functionalities for the system
 
 
 <p align="left">
-<img src="https://user-images.githubusercontent.com/73390233/172587593-d2fdc650-1eb5-4c4a-81d2-012d605345f5.jpg" width="600" height="300"></p>
+<img src="https://user-images.githubusercontent.com/73390233/176501294-28612461-42ba-44b1-a2e4-c6b7d9ab70b9.jpg" width="600" height="300"></p>
+
 
 1. User ; instructor interact by using web inetrfaces
 2. Extract data from web; Assignment details
