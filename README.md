@@ -56,6 +56,10 @@ Actually it is very time consuming and tough work. If there is an easier way to 
 Our solution is automated testing which leads to _GRADINGENIUS_ platform.
 Below phases add functionalities for the system
 
+
+# FUNCTIONALITIES
+
+
 ## Phase I - Auto Marking System for Coding Assessments
 
 ---
@@ -101,11 +105,12 @@ Below phases add functionalities for the system
 
 .....
 
+## Team
 
+---
 
 ### **Developers:**
 
----
 
 - E/18/036, BANDARA L.R.M.U., [email](mailto:e18036@eng.pdn.ac.lk)
 - E/18/156, JAYATHILAKE W.A.T.N., [email](mailto:e18156@eng.pdn.ac.lk)
@@ -113,13 +118,11 @@ Below phases add functionalities for the system
 
 ### **Project Owner:**
 
----
 
 - Dr. Mahanama Wickramasinghe
 
 ### **Scrum Master:**
 
----
 
 - Ms. Poornima Lankani
 
