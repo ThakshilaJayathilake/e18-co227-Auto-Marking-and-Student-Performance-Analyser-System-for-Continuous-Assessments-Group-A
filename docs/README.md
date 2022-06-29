@@ -18,12 +18,12 @@ title:
 1. [Introduction](#introduction)
 2. [Problem Statement](#Problem-Statement)
 3. [Solution](#Solution)
-2. [Phase I](#phase-i---auto-marking-system-for-coding-assessments)
-3. [Phase II](#phase-ii---student-performance-analyser)
-4. [Solution Architecture](#solution-architecture)
-5. [Project Plan](#project-plan)
+4. [Phase I](#phase-i---auto-marking-system-for-coding-assessments)
+5. [Phase II](#phase-ii---student-performance-analyser)
+6. [Solution Architecture](#solution-architecture)
+7. [Project Plan](#project-plan)
 8. [Team](#Team)
-6. [Links](#links)
+9. [Links](#links)
 
 
 
