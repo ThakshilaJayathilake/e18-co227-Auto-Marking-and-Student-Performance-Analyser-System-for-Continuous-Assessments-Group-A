@@ -59,9 +59,6 @@ Below phases add functionalities for the system
 
 # FUNCTIONALITIES
 
----
-
----
 
 ## Phase I - Auto Marking System for Coding Assessments
 
