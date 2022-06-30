@@ -86,7 +86,7 @@ Below phases add functionalities for the system
 ---
 
 <p align="left">
-<img src="https://user-images.githubusercontent.com/73390233/176500152-efc4d37f-de63-421d-b749-a5235ed3b6bb.jpg" width="600" height="300"></p>
+<img src="https://user-images.githubusercontent.com/73567971/176613234-594885e5-dc9c-49a5-9ae5-4b3516552e01.png" width="700" height="400"></p>
 
 
 1. User ; instructor interact by using web inetrfaces
