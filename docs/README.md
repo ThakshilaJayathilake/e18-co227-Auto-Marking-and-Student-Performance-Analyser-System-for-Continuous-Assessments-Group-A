@@ -96,10 +96,9 @@ Below phases add functionalities for the system
 
 
 ## Solution Architecture
-
-
+ 
 <p align="left">
-<img src="https://user-images.githubusercontent.com/73390233/176501294-28612461-42ba-44b1-a2e4-c6b7d9ab70b9.jpg" width="600" height="300"></p>
+<img src="https://user-images.githubusercontent.com/73567971/176610119-d4e06168-5b06-43f3-84e7-d9538ff1eea7.png" width="700" height="400"></p>
 
 
 1. User ; instructor interact by using web inetrfaces
