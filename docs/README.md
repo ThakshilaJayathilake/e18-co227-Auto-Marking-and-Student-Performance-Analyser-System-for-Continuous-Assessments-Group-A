@@ -110,7 +110,7 @@ Below phases add functionalities for the system
 
 #### Use Case Diagram
 
-<img src="https://user-images.githubusercontent.com/73567971/176608106-d59f84a5-ef49-4906-82d9-c050d35c65d3.png" width="700" height="700"></p>
+<img src="https://user-images.githubusercontent.com/73567971/176608106-d59f84a5-ef49-4906-82d9-c050d35c65d3.png" width="700" height="700">
 
 
 
