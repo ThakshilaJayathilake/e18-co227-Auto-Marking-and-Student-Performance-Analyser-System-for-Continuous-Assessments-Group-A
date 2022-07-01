@@ -6,13 +6,13 @@
 ### **Table of Contents:**
 
 1. [Introduction](#introduction)
-2. [Problem Statement](#Problem-Statement)
-3. [Solution](#Solution)
+2. [Problem Statement](#problem-statement)
+3. [Solution](#solution)
 4. [Phase I](#phase-i---auto-marking-system-for-coding-assessments)
 5. [Phase II](#phase-ii---student-performance-analyser)
 6. [Solution Architecture](#solution-architecture)
 7. [Project Plan](#project-plan)
-8. [Team](#Team)
+8. [Team](#team)
 9. [Links](#links)
 
 ---
@@ -56,6 +56,10 @@ Actually it is very time consuming and tough work. If there is an easier way to 
 Our solution is automated testing which leads to _GRADINGENIUS_ platform.
 Below phases add functionalities for the system
 
+
+# FUNCTIONALITIES
+
+
 ## Phase I - Auto Marking System for Coding Assessments
 
 ---
@@ -65,7 +69,7 @@ Below phases add functionalities for the system
 - User friendly Web Interface for instructors to mark the assignments
 - Auto marking processed with GitHub Classroom
 - User can create courses, assignments and add students according to their preference
-- Finally instructor can view the marks of the each student
+- Finally instructor can view the marks of the each student under each course
 
 ## Phase II - Student Performance Analyser
 
@@ -82,7 +86,8 @@ Below phases add functionalities for the system
 ---
 
 <p align="left">
-<img src="https://user-images.githubusercontent.com/73390233/172587593-d2fdc650-1eb5-4c4a-81d2-012d605345f5.jpg" width="600" height="300"></p>
+<img src="https://user-images.githubusercontent.com/73567971/176613234-594885e5-dc9c-49a5-9ae5-4b3516552e01.png" width="700" height="400"></p>
+
 
 1. User ; instructor interact by using web inetrfaces
 2. Extract data from web; Assignment details
@@ -101,11 +106,12 @@ Below phases add functionalities for the system
 
 .....
 
+## Team
 
+---
 
 ### **Developers:**
 
----
 
 - E/18/036, BANDARA L.R.M.U., [email](mailto:e18036@eng.pdn.ac.lk)
 - E/18/156, JAYATHILAKE W.A.T.N., [email](mailto:e18156@eng.pdn.ac.lk)
@@ -113,13 +119,11 @@ Below phases add functionalities for the system
 
 ### **Project Owner:**
 
----
 
 - Dr. Mahanama Wickramasinghe
 
 ### **Scrum Master:**
 
----
 
 - Ms. Poornima Lankani
 
