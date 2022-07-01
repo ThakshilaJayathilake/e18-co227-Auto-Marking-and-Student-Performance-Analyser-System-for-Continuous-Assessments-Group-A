@@ -3,6 +3,8 @@
 const React = require("react");
 const ReactDOM = require("react-dom");
 const { BrowserRouter } = require("react-router-dom");
+//for create a file
+const ExcelJS = require('exceljs');
 
 
 const { VisionUIControllerProvider } = require("context");
@@ -928,6 +930,73 @@ app.get('/api/getMarks/:StudentName/:courseName/:assignmentName',(req,res)=>{
     })();
 
 });
+
+//Download file
+app.get('/api/Download/:Assignment/:NameList/:MarkList/:NumberOfStudents',(req,res)=>{
+    (async()=>{
+        
+        try {
+            var studentNo = req.params.NumberOfStudents;
+            var nameList=[];
+            nameList = req.params.NameList.split(',');
+            var markList = [];
+            markList= req.params.MarkList.split(',');
+
+            const workbook = new ExcelJS.Workbook();
+            workbook.creator = 'Group07';
+            workbook.lastModifiedBy = '';
+            //workbook.created = new Date(2018,6,19);
+            //workbook.modified = new Date();
+            //workbook.lastPrinted = new Date(2016,7,27);
+            
+            var sheet = workbook.addWorksheet('MarksSheet') ;
+            sheet.columns = [
+                {header : 'Name', key : 'name'},
+                {header : 'Marks' , key : 'mark'}
+                
+            ]
+            for (i=0;i<studentNo;i++){
+                sheet.addRow({name: nameList[i] , mark : markList[i]});
+
+            }
+           // sheet.addRow({name: "Sanduni" , mark : "100"});
+            var filename = req.params.Assignment + ".xlsx";
+            workbook.xlsx.writeFile(filename);
+            return res.status(200).send({status: 'Success',msg: "nice"});
+                
+            
+        } catch (error) {
+            console.log(error);
+            driver.quit();
+            return res.status(500).send({status: 'Failed',msg: error});
+
+            
+        }
+
+    })();
+
+});
+
+
+function CreateFile() {
+    
+    const workbook = new ExcelJS.Workbook();
+    workbook.creator = 'Group07';
+    workbook.lastModifiedBy = '';
+    //workbook.created = new Date(2018,6,19);
+    //workbook.modified = new Date();
+    //workbook.lastPrinted = new Date(2016,7,27);
+    
+    var sheet = workbook.addWorksheet('MarksSheet') ;
+    sheet.columns = [
+        {header : 'Name', key : 'name'},
+        {header : 'Marks' , key : 'mark'}
+        
+    ]
+    sheet.addRow({name: "Sanduni" , mark : "100"});
+    workbook.xlsx.writeFile("try.xlsx");
+    
+  }
 //exports the api to firebase cloud functions
 exports.app = functions.https.onRequest(app);
 
