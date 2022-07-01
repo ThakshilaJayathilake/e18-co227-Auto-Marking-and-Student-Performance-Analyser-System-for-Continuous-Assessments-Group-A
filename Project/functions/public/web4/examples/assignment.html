@@ -80,7 +80,7 @@
         var due = document.getElementById("due");
         // var el = document.getElementById("sel1");
         // var sel1 = el.options[el.selectedIndex].text;
-        var sel1 = document.getElementById("sel1");
+        var sel1 = document.getElementById("inputLanguages");
         var start = document.getElementById("start");
         var inputAssgn = document.getElementById("inputAssgn");
         var inputTopics = document.getElementById("inputTopics");
@@ -312,7 +312,7 @@
       var url = dataG['msg'];
       
       if(dataG['status']=="Success"){
-        const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createAssignment/'+course+"/"+assignName+"/"+aStartDateTime+"/"+aEndDateTime+"/"+assignLang+"/"+aCoveredTopics+"/"+encodeURIComponent(url)+"/"+encodeURIComponent(assignQTemplate)+"/"+encodeURIComponent(assignATemplate),{
+        const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createAssignment/'+course+"/"+assignName+"/"+aStartDateTime+"/"+aEndDateTime+"/"+aCoveredTopics+"/"+assignLang+"/"+encodeURIComponent(url)+"/"+encodeURIComponent(assignQTemplate)+"/"+encodeURIComponent(assignATemplate),{
           method:'POST',
       
         });
