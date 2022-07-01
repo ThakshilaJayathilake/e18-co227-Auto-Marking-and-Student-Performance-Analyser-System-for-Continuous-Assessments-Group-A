@@ -55,6 +55,11 @@
         assignment = data.Assignment;
         user = data.user;
         
+
+
+
+
+
         //Search for all assignments created under given given course
         var element= document.getElementById("course");
         element.innerHTML = course;
@@ -196,8 +201,16 @@
     	  
     };
     
+//-- -------------------------------------- Create Marks File function --------------------------------------------------------- -->
+function CreateFile() {
+  //var Excel = require('exceljs');
+  const ExcelJS = require('exceljs');
   
-
+  const workbook = new ExcelJS.Workbook();
+  
+  var sheet ;
+  
+}
 
 // -------------------------------------- addStudent functions --------------------------------------------------------- -->
 

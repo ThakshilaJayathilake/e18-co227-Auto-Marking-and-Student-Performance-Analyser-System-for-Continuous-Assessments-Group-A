@@ -146,6 +146,15 @@
                   </div>`;
           m=0;
           console.log(studentDetails);
+
+          //Download option
+          let nameList = [];
+          let markList = [];
+          var nameNo =0;
+          var markNo =0;
+
+
+
           for(ele in elementList){
             var Ele = elementList[m];
             m++;
@@ -182,10 +191,17 @@
                 console.log(id);
                 let varmarks=encodeURIComponent(marks1);
                 
-              const update_marks= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/updateMarks/'+id+'/'+varmarks,{
-                method:'PUT'
-              });
+                const update_marks= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/updateMarks/'+id+'/'+varmarks,{
+                  method:'PUT'
+                });
               }
+              nameList[nameNo]=name;
+              markList[markNo]=encodeURIComponent(marks);
+              nameNo++;
+              markNo++;
+
+              //Test
+              
               markslist.innerHTML += `
                    <div class="row">
                     <label for="tInput" class="col-sm-3 col-form-label">${name} &emsp;&emsp; ${marks}     </label>
@@ -200,6 +216,9 @@
               `;
             }
           }
+          const response_download = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/Download/'+Ass+'/'+[nameList]+'/'+[markList]+'/'+nameNo,{
+                method:'GET'
+              });
         }
         
         var numOfAss = document.getElementById("NoOfAssignments");
