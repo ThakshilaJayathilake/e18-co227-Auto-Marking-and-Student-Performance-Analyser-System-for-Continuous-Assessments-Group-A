@@ -101,8 +101,8 @@
                                   <td>
                                     <div class="dropdown">
                                       <button class="dropbtn">Details</button>
-                                      <div class="dropdown-content">
-                                        <a href="profile.html"><b>Profile</b></a>
+                                      <div class="dropdown-content">                                        
+                                        <a onclick="directToProfile('${name}')"><b>Profile</b></a>
                                         <a href="#"><b>Marks</b></a>
                                       </div>
                                     </div>
@@ -227,7 +227,10 @@
     	  
     };
 
-
+    function directToProfile(stdName){
+      console.log(stdName);
+      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/profile.html?cName="+course+"?user="+encodeURIComponent(user)+"?stdName="+ stdName;
+    }
 
     async function addStudent(){
      
