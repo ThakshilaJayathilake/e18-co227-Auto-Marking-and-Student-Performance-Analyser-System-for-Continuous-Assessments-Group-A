@@ -638,8 +638,9 @@ app.post('/api/createCourseGITHUB/:CourseName',(req,res)=>{
 
             //#############################################################################################
             //You should change this on your own
-            o.addArguments("--user-data-dir=C:/Users/ASUS/AppData/Local/Google/Chrome/User Data/");
-            o.addArguments("--profile-directory=Profile 5");
+
+            o.addArguments("--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data/");
+            o.addArguments("--profile-directory=Profile 2");
             //#############################################################################################
             
             o.addArguments("start-minimized");
@@ -650,8 +651,7 @@ app.post('/api/createCourseGITHUB/:CourseName',(req,res)=>{
 
     
             //Go the github classroom and create new assignment
-            await driver.get("https://classroom.github.com/classrooms");
-            
+            driver.get("https://classroom.github.com/classrooms");
             await driver.findElement(By.css("#js-filtering-form a")).click();
             await driver.findElement(By.name("organization[github_id]")).click();
         
@@ -755,8 +755,10 @@ app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:T
 
             //#############################################################################################
             //You should change this on your own
-            o.addArguments("--user-data-dir=C:/Users/ASUS/AppData/Local/Google/Chrome/User Data/");
-            o.addArguments("--profile-directory=Profile 5");
+
+            o.addArguments("--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data/");
+            o.addArguments("--profile-directory=Profile 2");
+
             //#############################################################################################
             
             o.addArguments("start-minimized");
@@ -889,20 +891,26 @@ app.get('/api/getMarks/:StudentName/:courseName/:assignmentName',(req,res)=>{
             var o = new chrome.Options();
             //#############################################################################################
             //You should change this on your own
-            o.addArguments("--user-data-dir=C:/Users/ASUS/AppData/Local/Google/Chrome/User Data/");
-            o.addArguments("--profile-directory=Profile 5");
+
+            o.addArguments("--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data/");
+            o.addArguments("--profile-directory=Profile 2");
+
             //#############################################################################################
             o.addArguments("start-minimized");
             o.excludeSwitches("enable-automation");
             driver = new Builder().withCapabilities(Capabilities.chrome()).setChromeOptions(o).build(); 
             driver.manage().window().minimize();
+            
 
-
-    
+            let path = "//h1[text()='"+course+"']";
             //Go to github classroom
             await driver.get("https://classroom.github.com/classrooms");
+           // await driver.get("https://facebook.com");
+          //  await driver.findElement(By.name("login")).click();
+           // sleep(5000);
             //select the classroom
-            let path = "//h1[text()='"+course+"']";
+            
+           // let path = "//h1[contains(.,'"+course+"')]";
             await driver.findElement(By.xpath(path)).click();
             
             //select the assignment
@@ -932,7 +940,7 @@ app.get('/api/getMarks/:StudentName/:courseName/:assignmentName',(req,res)=>{
 });
 
 //Download file
-app.get('/api/Download/:Assignment/:NameList/:MarkList/:NumberOfStudents',(req,res)=>{
+app.get('/api/CreateFile/:Assignment/:NameList/:MarkList/:NumberOfStudents',(req,res)=>{
     (async()=>{
         
         try {
@@ -961,7 +969,8 @@ app.get('/api/Download/:Assignment/:NameList/:MarkList/:NumberOfStudents',(req,r
             }
            // sheet.addRow({name: "Sanduni" , mark : "100"});
             var filename = req.params.Assignment + ".xlsx";
-            workbook.xlsx.writeFile(filename);
+            workbook.xlsx.writeFile("public/web4/examples/"+filename);
+            
             return res.status(200).send({status: 'Success',msg: "nice"});
                 
             
