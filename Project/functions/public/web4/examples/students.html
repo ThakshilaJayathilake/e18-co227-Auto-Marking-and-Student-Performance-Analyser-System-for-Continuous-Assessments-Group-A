@@ -35,7 +35,11 @@
 
   <script>
     var course;
-
+    var user;
+    
+    function directToStudent() {
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
+    }
     window.onload = async function() {
         var url = window.location.href,
         params = url.split('?'),
@@ -57,6 +61,7 @@
         console.log(data_);
         var list= document.getElementById("studentList");
         var markslist = document.getElementById("Bench-tab-pane");
+        markslist.innerHTML="";
         let assignmentList=[];
         let elementList=[];
         let studentDetails = {};
@@ -134,27 +139,36 @@
         //console.log(assignmentList);
         //assignmentList.sort();
         assignmentList = [...new Set(assignmentList)];
+        let usernameList =[];
+          let nameList = [];
+          let markList = [];
+          let idList = [];
+          var nameNo =0;
+          var markNo =0;
         for(ass in assignmentList){
           var Ass= assignmentList[n];
           console.log(Ass);
           n++;
+          var filename = Ass + ".xlsx";
           markslist.innerHTML += `<br><hr>   
-                 <form>
+                 <form id="form${Ass}">
+                  <div id="mark${Ass}">
                   <div class="row">
-                    <label for="tName" class="col-sm-3 col-form-label">Assignment: ${Ass}</label>
+                    <hr size="8" width="90%" color="red">
+                    <label style="margin-left: 1.5cm;" for="tName" class="col-sm-3 col-form-label">Assignment: <b> ${Ass} </b></label>
+                    <label style="margin-bottom: 1.5cm; color:blue;" onclick="Download_('${Ass}')">Click Here To Download</label>
+                    <hr>
                     
                   </div>`;
           m=0;
+          variable = 0;
           console.log(studentDetails);
 
           //Download option
-          let nameList = [];
-          let markList = [];
-          var nameNo =0;
-          var markNo =0;
+          
 
-
-
+         var setID = "mark"+Ass;
+          var markslist2 = document.getElementById(setID);
           for(ele in elementList){
             var Ele = elementList[m];
             m++;
@@ -166,7 +180,8 @@
               var username = studentDetails[name];
               console.log(username);
               let marks1="Not Completed";
-              if(marks=='Not Completed'){
+              variable++;
+              /*if(marks=='Not Completed'){
               const response_marks= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getMarks/'+username+'/'+course+'/'+Ass,{
                 method:'GET'
               });
@@ -194,31 +209,49 @@
                 const update_marks= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/updateMarks/'+id+'/'+varmarks,{
                   method:'PUT'
                 });
-              }
+              }*/
               nameList[nameNo]=name;
               markList[markNo]=encodeURIComponent(marks);
+              usernameList[nameNo]=username;
+              idList[nameNo]=id;
               nameNo++;
               markNo++;
 
               //Test
               
-              markslist.innerHTML += `
-                   <div class="row">
-                    <label for="tInput" class="col-sm-3 col-form-label">${name} &emsp;&emsp; ${marks}     </label>
+              markslist2.innerHTML += `
+                  <div class="row" style="margin-left: 1cm;">
+                    
+                    <label for="tInput" class="col-sm-3 col-form-label">${name} &emsp;&emsp; </label>
+                    <label for="tInput" class="col-sm-3 col-form-label">&emsp;&emsp; ${marks}     </label>
                    
-                   </div>
-                           
-                </form>
-                                  
-              </div>
+                  </div>
+                  
 
               
               `;
             }
           }
-          const response_download = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/Download/'+Ass+'/'+[nameList]+'/'+[markList]+'/'+nameNo,{
+          
+
+
+
+          const response_download = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/CreateFile/'+Ass+'/'+[nameList]+'/'+[markList]+'/'+nameNo,{
                 method:'GET'
               });
+             // const response_download2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/Download/'+Ass,{
+            //    method:'GET'
+      //});
+      markslist.innerHTML+=`<label style="margin-left: 1.5cm; color:green;" onclick="Refresh_('${usernameList}','${nameList}','${markList}','${idList}','${Ass}','${variable}')">Click Here To Refresh</label>
+                          </div>
+                           
+                          </form>`;
+          usernameList =[];
+          nameList = [];
+          markList = [];
+          idList = [];
+          nameNo =0;
+          markNo =0;
         }
         
         var numOfAss = document.getElementById("NoOfAssignments");
@@ -226,9 +259,117 @@
 
     	  
     };
+    
+    function Download_(assignment) {
+      //console.log(assignment);
+      // alert("Process Success! ");
+      var filename = assignment + ".xlsx";
+      var element = document.createElement('a');
+      element.style.display = 'none';
+      element.setAttribute('download',assignment);
+      element.href = filename;
 
+      // document.body.appendChild(element);
+      element.click();
+      console.log("1");
+    //  element.click();
+      console.log("2");
+      element.remove();
+      console.log("3");
+      directToStudent();
+    // window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
+     // console.log("4");
+    }
+    function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+    async function Refresh_(usernameList,nameList,markList,idList,assignment,num) {
 
+      console.log(usernameList);
+            
+      index=0;
+      var id_ = "mark"+assignment;
+      var id_2 = "form"+assignment;
+      var marksitem = document.getElementById(id_);
+      var formitem = document.getElementById(id_2);
+     var users = usernameList.split(',');
+      var nameList_ = nameList.split(',');
+      var markList_ = markList.split(',');
+      var idList_ = idList.split(',');
+      marksitem.innerHTML="";
+      
 
+      marksitem.innerHTML = `
+                  <div class="row">
+                    <hr size="8" width="90%" color="red">
+                    <label style="margin-left: 1.5cm;" for="tName" class="col-sm-3 col-form-label">Assignment: <b> ${assignment} </b></label>
+                    <label style="margin-bottom: 1.5cm; color:blue;" onclick="Download_('${assignment}')">Click Here To Download</label>
+                    <hr>
+                    
+                  </div>`;
+                  console.log(num);
+      for(i=0;i<num;i++){
+            
+              var user=users[index];
+        
+              var marks=markList_[index];
+              var name=nameList_[index];
+              var id = idList_[index];
+              console.log(user);
+              marks=decodeURIComponent(marks);
+             // console.log(usernameList);
+             // console.log(usernameList);
+              
+              let marks1="Not Completed";
+              if(marks=='Not Completed'){
+              const response_marks= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getMarks/'+user+'/'+course+'/'+assignment,{
+                method:'GET'
+              });
+              const data_marks = await response_marks.json();
+              console.log(data_marks);
+              sleep(10000);
+              if(data_marks['status']=="Success"){
+                marks1 = data_marks['msg'];
+                console.log(marks1);
+              }
+              else{
+                marks1 = 'Not Completed';
+                console.log(marks1);
+
+              }
+            }
+            
+              
+              //api/updateMarks/:StudentName/:marks/:Assignment
+              if(marks1!='Not Completed'){
+                marks=marks1;
+                console.log(id);
+                let varmarks=encodeURIComponent(marks1);
+                
+                const update_marks= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/updateMarks/'+id+'/'+varmarks,{
+                  method:'PUT'
+                });
+              }
+              
+
+              //Test
+              
+              marksitem.innerHTML += `
+                  <div class="row" style="margin-left: 1cm;">
+                    
+                    <label for="tInput" class="col-sm-3 col-form-label">${name} &emsp;&emsp; </label>
+                    <label for="tInput" class="col-sm-3 col-form-label">&emsp;&emsp; ${marks}     </label>
+                   
+                  </div>
+                  
+
+              
+              `;
+              
+            index++;
+          }
+  
+    }
     async function addStudent(){
      
         
