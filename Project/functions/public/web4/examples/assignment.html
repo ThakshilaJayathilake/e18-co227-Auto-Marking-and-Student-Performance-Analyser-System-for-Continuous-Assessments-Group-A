@@ -55,6 +55,11 @@
         assignment = data.Assignment;
         user = data.user;
         
+
+
+
+
+
         //Search for all assignments created under given given course
         var element= document.getElementById("course");
         element.innerHTML = course;
@@ -80,7 +85,7 @@
         var due = document.getElementById("due");
         // var el = document.getElementById("sel1");
         // var sel1 = el.options[el.selectedIndex].text;
-        var sel1 = document.getElementById("sel1");
+        var sel1 = document.getElementById("inputLanguages");
         var start = document.getElementById("start");
         var inputAssgn = document.getElementById("inputAssgn");
         var inputTopics = document.getElementById("inputTopics");
@@ -196,8 +201,16 @@
     	  
     };
     
+//-- -------------------------------------- Create Marks File function --------------------------------------------------------- -->
+function CreateFile() {
+  //var Excel = require('exceljs');
+  const ExcelJS = require('exceljs');
   
-
+  const workbook = new ExcelJS.Workbook();
+  
+  var sheet ;
+  
+}
 
 // -------------------------------------- addStudent functions --------------------------------------------------------- -->
 
@@ -312,7 +325,7 @@
       var url = dataG['msg'];
       
       if(dataG['status']=="Success"){
-        const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createAssignment/'+course+"/"+assignName+"/"+aStartDateTime+"/"+aEndDateTime+"/"+assignLang+"/"+aCoveredTopics+"/"+encodeURIComponent(url)+"/"+encodeURIComponent(assignQTemplate)+"/"+encodeURIComponent(assignATemplate),{
+        const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createAssignment/'+course+"/"+assignName+"/"+aStartDateTime+"/"+aEndDateTime+"/"+aCoveredTopics+"/"+assignLang+"/"+encodeURIComponent(url)+"/"+encodeURIComponent(assignQTemplate)+"/"+encodeURIComponent(assignATemplate),{
           method:'POST',
       
         });
@@ -789,7 +802,7 @@
 
 
     
-      <footer class="footer">
+      <!--footer class="footer">
         <div class="container-fluid">
           <nav class="float-left">
             <ul>
@@ -820,7 +833,7 @@
             <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
           </div>
         </div>
-      </footer>
+      </!--footer-->
       <script>
         const x = new Date().getFullYear();
         let date = document.getElementById('date');

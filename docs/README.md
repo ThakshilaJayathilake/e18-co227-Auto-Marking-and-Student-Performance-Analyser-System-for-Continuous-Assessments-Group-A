@@ -16,13 +16,13 @@ title:
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Problem Statement](#Problem-Statement)
-3. [Solution](#Solution)
+2. [Problem Statement](#problem-statement)
+3. [Solution](#solution)
 4. [Phase I](#phase-i---auto-marking-system-for-coding-assessments)
 5. [Phase II](#phase-ii---student-performance-analyser)
 6. [Solution Architecture](#solution-architecture)
 7. [Project Plan](#project-plan)
-8. [Team](#Team)
+8. [Team](#team)
 9. [Links](#links)
 
 
@@ -78,9 +78,39 @@ Below phases add functionalities for the system
 - User friendly Web Interface for instructors to mark the assignments
 - Auto marking processed with GitHub Classroom
 - User can create courses, assignments and add students according to their preference
-- Finally instructor can view the marks of the each student
+- Finally instructor can view the marks of the each student under each course
+
+#### Implementation of Design
+- Welcome Page
+<p align="left">
+<img src="https://user-images.githubusercontent.com/73390233/176609623-87d004f2-a2a4-49e3-aeda-acf6dd5a8ed9.png" width="600" height="300"></p>
+
+- Sign UP
+<p align="left">
+<img src="https://user-images.githubusercontent.com/73390233/176609668-f5caefb3-306b-41a9-86f9-2c291d7c8ca2.png" width="600" height="300"></p>
+
+- Sign IN
+<p align="left">
+<img src="https://user-images.githubusercontent.com/73390233/176611977-56af1630-3ddf-43fa-aefc-44d0f300002c.png" width="600" height="300"></p>
 
 
+- Courses
+<p align="left">
+<img src="https://user-images.githubusercontent.com/73390233/176611028-36b37d62-f634-4de2-8d04-e9f85bf575db.png" width="600" height="300"></p>
+
+
+- Add Student
+<p align="left">
+<img src="https://user-images.githubusercontent.com/73390233/176609851-8fb91495-e93c-4f79-a5f1-e682e4636b31.png" width="600" height="300"></p>
+
+- Add assignment
+<p align="left">
+<img src="https://user-images.githubusercontent.com/73390233/176609932-c3cbdbbc-d8ae-4871-8658-7d6f52d00ae2.png" width="600" height="300"></p>
+
+
+#### Use Case Diagram
+
+<img src="https://user-images.githubusercontent.com/73567971/176608106-d59f84a5-ef49-4906-82d9-c050d35c65d3.png" width="700" height="700">
 
 
 
@@ -94,10 +124,10 @@ Below phases add functionalities for the system
 
 
 ## Solution Architecture
-
-
+ 
 <p align="left">
-<img src="https://user-images.githubusercontent.com/73390233/172587593-d2fdc650-1eb5-4c4a-81d2-012d605345f5.jpg" width="600" height="300"></p>
+<img src="https://user-images.githubusercontent.com/73567971/176610119-d4e06168-5b06-43f3-84e7-d9538ff1eea7.png" width="700" height="400"></p>
+
 
 1. User ; instructor interact by using web inetrfaces
 2. Extract data from web; Assignment details
