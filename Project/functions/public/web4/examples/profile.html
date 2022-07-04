@@ -48,7 +48,7 @@
             
         }
         course = data.cName;
-        student = data.stdName;        
+        student = decodeURIComponent(data.stdName);        
         user = data.user;
 
         var list= document.getElementById("assignList");
@@ -117,11 +117,9 @@
                             </td>
 
                             <td>
-                              <span class="badge badge-success rounded-pill">Done !</span>
-                              <span class="badge badge-primary rounded-pill">Ongoing ..</span>
-                              <span class="badge badge-warning rounded-pill">Late Submitted?</span>
+                              <span id="statustd" class="badge badge-success rounded-pill">Done !</span>
                             </td>                        
-
+                              
                             <td>
                               <button type="button" class="btn btn-link btn-sm btn-rounded">
                                 Edit
@@ -129,30 +127,46 @@
                             </td>
 
                           </tr>`;
+                          // <span class="badge badge-success rounded-pill">Done !</span>
+                          //     <span class="badge badge-primary rounded-pill">Ongoing ..</span>
+                          //     <span class="badge badge-warning rounded-pill">Late Submitted?</span>
 
+                // function loadStatus(MX){
+                //   var status= document.getElementById("statustd");
+                //   if (MX == "Not Completed"){
+                //   status.innerHTML += `<span class="badge badge-primary rounded-pill">Ongoing ..</span>`;
+                  
+                //   } else{
+                //     status.innerHTML += `<span class="badge badge-success rounded-pill">Done !</span>`;
+                    
+                //   }
+                // }
+
+                var status= document.getElementById("statustd");
                 // get graph values
                 var Marks = 0;
                 xlabels.push(assignment);     
                 if (marks == "Not Completed"){
-
+                  status.value = "Ongoing ..";
+                  status.class = "badge badge-primary rounded-pill";
+                  // status.innerHTML += `<span class="badge badge-primary rounded-pill">Ongoing ..</span>`;
                   Marks = 0;
                 } else{
+                  // status.innerHTML += `<span class="badge badge-success rounded-pill">Done !</span>`;
                   marks = marks.split('/');
                   Marks = parseFloat(parseInt(marks[0], 10) / parseInt(marks[1], 10));
                 }
 
-                ytemps.push(Marks);          
-
-
-                // windows.onload = function(){
-                //   getData(assignment,marks);
-                // }
+                ytemps.push(Marks * 100);          
+               
               }
             }
           }
         }
-        // console.log(ytemps);
+        
+        chartIt();
     };
+    
 
   </script>
 </head>
@@ -426,20 +440,18 @@
 
   <script>
    
-    chartIt();
+    
     async function chartIt(){
 
-      const datax = await getData();
       const ctx = document.getElementById('chart').getContext('2d');      
       const myChart = new Chart(ctx, {
           type: 'bar',
           data: {
-              // labels: data xs,
+
               labels: xlabels,
               datasets: [{
                   label: 'Marks Achieved',
                   
-                  // data: data.ys,
                   data: ytemps,
                   
                   backgroundColor: [
@@ -471,36 +483,6 @@
       });
     }
 
-    async function getData(){
-
-      const xs = [];
-      const ys = [];
-
-      // get graph values
-      var i;
-      for(i=0;i<xlabels.length;i++) {
-        // xs[i] = xlabels[i];
-        console.log(xlabels[i]);
-      }
-      // xs = xlabels.slice();
-      // ys = ytemps.slice();
-      // var Marks = 0;
-      // xs.push(Assg);     
-      // if (Mrks == "Not Completed"){
-      //   // console.log(marks);
-      //   Marks = 0;
-      // } else{
-      //   Mrks = Mrks.split('/');
-      //   Marks = parseFloat(parseInt(Mrks[0], 10) / parseInt(Mrks[1], 10));
-      // }
-      
-      // console.log(Marks);
-      // ys.push(Marks); 
-      
-      console.log(xlabels);
-      console.log(xlabels.length);
-      return { xs, ys };
-    }
   </script>
 
 
