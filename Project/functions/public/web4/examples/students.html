@@ -42,7 +42,7 @@
     }
      function directToProfile(stdName){
       console.log(stdName);
-      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/profile.html?cName="+course+"?user="+encodeURIComponent(user)+"?stdName="+ stdName;
+      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/profile.html?cName="+course+"?user="+encodeURIComponent(user)+"?stdName="+ encodeURIComponent(stdName);
     }
     window.onload = async function() {
         var url = window.location.href,
