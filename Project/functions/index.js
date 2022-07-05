@@ -6,6 +6,10 @@ const { BrowserRouter } = require("react-router-dom");
 //for create a file
 const ExcelJS = require('exceljs');
 
+//for upload file
+const path =require('path');
+const fs =require('fs');
+
 
 const { VisionUIControllerProvider } = require("context");
 const functions = require("firebase-functions");
@@ -24,14 +28,37 @@ const cors = require("cors");
 var bodyParser = require("body-parser");
 
 
+const fileUpload = require("express-fileupload");
+/*
+###########################   For multer you can use this code   ##############################################
+const multer = require("multer");
+const storage = multer.diskStorage({
+    destination:(req,file,cb)=>{
+        cb(null,'./images');
+    },
+    filename:(req,file,cb)=>{
+        const{originalname}=file;
+        cb(null,originalname);
+    }
+});
+const upload = multer({storage:storage});
+*/
+//#############################################################################################################
+
+
 //Main app
 const app = express();
+//for upload files
+app.use(fileUpload({useTempFiles:true}));
 app.use(cors({origin:true}));
 app.use(bodyParser.json());
-app.use(express.static('public/web4/'))
+app.use(express.json());
+app.use(express.static('public/web4/'));
 app.use(bodyParser.urlencoded({
     extended:true
-}))
+}));
+
+
 
 //Main databse reference
 const db =admin.firestore();
@@ -986,6 +1013,27 @@ app.get('/api/CreateFile/:Assignment/:NameList/:MarkList/:NumberOfStudents',(req
 
 });
 
+//File uploader
+
+app.post('/api/upload',(req,res)=>{
+    
+    //console.log(req.body);
+    var file = req.body.buffer;
+    //console.log(file);
+   
+    var buffer = Buffer.from( new Uint8Array(file) );
+    //console.log(buffer);
+    
+    //save the file to the path
+    fs.writeFile("./public/web4/examples/uploadFiles/"+Date.now()+".xlsx",buffer, ()=>{
+
+        return res.status(200).send({status: 'Success',msg: "Saved"});
+    });
+   
+    console.log(req.headers['content-type']);
+    return res.status(200).send({status: 'Success',msg: "Data Saved"});
+   // return res.json({status:'OK'});
+});
 
 function CreateFile() {
     

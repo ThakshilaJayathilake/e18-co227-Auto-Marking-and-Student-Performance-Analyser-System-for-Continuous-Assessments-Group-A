@@ -265,28 +265,37 @@
     };
     
     function Download_(assignment) {
-      //console.log(assignment);
-      // alert("Process Success! ");
+    
       var filename = assignment + ".xlsx";
       var element = document.createElement('a');
+
       element.style.display = 'none';
       element.setAttribute('download',assignment);
       element.href = filename;
-
-      // document.body.appendChild(element);
       element.click();
-      console.log("1");
-    //  element.click();
-      console.log("2");
       element.remove();
-      console.log("3");
       directToStudent();
-    // window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
-     // console.log("4");
+    
     }
+
+    function Download_SampleStudentDetails() {
+    
+      var filename = "SampleStudent.xlsx";
+      var element = document.createElement('a');
+
+      element.style.display = 'none';
+      element.setAttribute('download',"SampleStudent");
+      element.href = filename;
+      element.click();
+      element.remove();
+      directToStudent();
+  
+  }
+
     function sleep(ms) {
-                return new Promise(resolve => setTimeout(resolve, ms));
-            }
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     async function Refresh_(usernameList,nameList,markList,idList,assignment,num) {
 
       console.log(usernameList);
@@ -713,6 +722,96 @@
                         </div>
                                 
                         <br><button type="submit" class="btn btn-primary" onclick="addStudent()">Save Changes</button>
+                      </form>
+                      <form  style="margin-top: 1cm;">
+                        
+                        <hr size="8" width="90%" color="red" >
+                        <div><label style="margin-top: 0.5cm; font-size: 25px;"><b>You can upload student details here</b></label></div>
+                        <label style="margin-top: 0.5cm; font-size: 16px;" for="">Please use this template to upload data to the system!</label>
+                        <label style="margin-top: 0.5cm;" type="submit" class="btn btn-primary"  onclick="Download_SampleStudentDetails()">Get Sample File</label>
+
+                        <div><label style="margin-top: 0.5cm; font-size: 16px;" for="">Upload Your File Here!</label>
+                        <script lang="javascript" type="text/javascript">
+                          
+                          
+                            const form = document.getElementById('uploadForm');
+                            async function send_() {
+                             
+                            
+                              const myFiles = document.getElementById('myFiles').files[0];
+                          
+                              //alert("Process Continue 1");
+                              const formData = new FormData();
+                              //formData.append("avatar",myFiles,myFiles.name);
+                              console.log(myFiles);
+                              
+               
+                              const response_upload= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/upload',{
+                                  method:'POST', 
+                                  //  headers:{'content-type': 'multipart/form-data;charset=utf-8; boundary=' + Math.random().toString().substr(2)+';'},                    
+                                  //Content-Type: 'multipart/form-data' 
+                                  body: myFiles  
+                              });
+                              const data_upload = await response_upload.json();
+                              console.log(data_upload);
+                              //alert("Process Failed! Try Again1");
+                          
+                            
+                          }
+                        
+                        </script>
+                        <form id="uploadForm" method="POST"  enctype="multipart/form-data">
+                            <input id="myFiles" type="file"   name="avatar2" accept=".xlsx"> 
+                            <input type="submit"  onclick="send_()" >
+                            
+                        </form>
+                        <script>
+                          
+                          
+                            /*
+                            const form = document.getElementById('uploadForm');
+                            form.addEventListener('submit', function(e){
+                              alert("correct");
+                              e.preventDefault();
+                            
+                            })
+                            async function sendFiles(){
+                                const myFiles = document.getElementById('myFiles').files[0];
+                                const form1 = document.querySelector("#uploadForm");
+                                const formData = new FormData();
+                               // Object.keys(myFiles).forEach(key =>{
+                               //   formData.append(myFiles.item(key).name,myFiles.item(key))
+                               // })
+                                formData.append("file", myFiles);
+                                console.log(myFiles);
+                                console.log(formData);
+                                alert("Process Failed! Try Again1");
+                                const response_u= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/upload',{
+                                    method:'POST',                     
+                                    //ContentType: 'multipart/form-data'
+                                    ContentType: 'multipart/form-data' ,
+                                    body: formData
+                                });
+                                const data = await response_u.json();
+                                console.log(data);
+                                alert("Process Failed! Try Again2");
+                                if(data['status']=="Success"){
+                                    window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
+                                }
+                                else{
+                                  alert("Process Failed! Try Again");
+                                  window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
+                                }
+
+                            }
+                            form.addEventListener('submit', function(e){
+                              alert("correct");
+                              e.preventDefault();
+                              sendFiles();
+                            });*/
+                        </script>              
+                        </div>            
+                                           
                       </form>
                     </div>              
                   </div>
