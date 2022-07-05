@@ -31,11 +31,12 @@
   <link href="../assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
-
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
 
   <script>
     var course;
-
+    const xlabels = [];
+    const ytemps = [];
     window.onload = async function() {
         var url = window.location.href,
         params = url.split('?'),
@@ -47,15 +48,9 @@
             
         }
         course = data.cName;
-        student = data.stdName;        
+        student = decodeURIComponent(data.stdName);        
         user = data.user;
-        // var element= document.getElementById("course");
-        // element.innerHTML = decodeURIComponent(decodeURIComponent(course));
-        // const response_ = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllStudents',{
-        //   method:'GET'
-        // });
-        // const data_ = await response_.json();
-        // console.log(data_);
+
         var list= document.getElementById("assignList");
 
         let assignmentList=[];
@@ -75,7 +70,6 @@
 
           // load things relevant to the course
           if(elementMarks['CourseName']==course){
-            // console.log(elementMarks['StudentName']);
             studentList[k]=elementMarks['StudentName'];
             elementList[k]=elementMarks;        // entire raw take into a list
             k++;
@@ -96,11 +90,12 @@
               var Ele = elementList[m];
               m++;
               if(Ele['StudentName']==Std){
-                // console.log(Ele['AssignmentName']);
+
                 var marks=Ele['Marks'];
                 var assignment=Ele['AssignmentName'];
                 var id = Ele['id'];
-                // console.log(marks);
+                                
+
                 let marks1="Not Completed";
 
                 list.innerHTML += `<tr>
@@ -122,11 +117,9 @@
                             </td>
 
                             <td>
-                              <span class="badge badge-success rounded-pill">Done !</span>
-                              <span class="badge badge-primary rounded-pill">Ongoing ..</span>
-                              <span class="badge badge-warning rounded-pill">Late Submitted?</span>
+                              <span id="statustd" class="badge badge-success rounded-pill">Done !</span>
                             </td>                        
-
+                              
                             <td>
                               <button type="button" class="btn btn-link btn-sm btn-rounded">
                                 Edit
@@ -134,18 +127,54 @@
                             </td>
 
                           </tr>`;
+                          // <span class="badge badge-success rounded-pill">Done !</span>
+                          //     <span class="badge badge-primary rounded-pill">Ongoing ..</span>
+                          //     <span class="badge badge-warning rounded-pill">Late Submitted?</span>
+
+                // function loadStatus(MX){
+                //   var status= document.getElementById("statustd");
+                //   if (MX == "Not Completed"){
+                //   status.innerHTML += `<span class="badge badge-primary rounded-pill">Ongoing ..</span>`;
+                  
+                //   } else{
+                //     status.innerHTML += `<span class="badge badge-success rounded-pill">Done !</span>`;
+                    
+                //   }
+                // }
+
+                var status= document.getElementById("statustd");
+                // get graph values
+                var Marks = 0;
+                xlabels.push(assignment);     
+                if (marks == "Not Completed"){
+                  status.value = "Ongoing ..";
+                  status.class = "badge badge-primary rounded-pill";
+                  // status.innerHTML += `<span class="badge badge-primary rounded-pill">Ongoing ..</span>`;
+                  Marks = 0;
+                } else{
+                  // status.innerHTML += `<span class="badge badge-success rounded-pill">Done !</span>`;
+                  marks = marks.split('/');
+                  Marks = parseFloat(parseInt(marks[0], 10) / parseInt(marks[1], 10));
+                }
+
+                ytemps.push(Marks * 100);          
                
               }
             }
           }
         }
-        	  
+        
+        chartIt();
     };
+    
 
   </script>
 </head>
 
 <body class="dark-edition">
+
+  
+
   <div class="wrapper ">
     <div class="sidebar" data-color="purple" data-background-color="black" data-image="../assets/img/sidebar-2.jpg">
       <!--
@@ -389,11 +418,12 @@
 
             <div class="col-lg-12">
               <div class="card shadow-sm">
+                
                 <div class="card-header text-white bg-transparent border-0">
                   <h3 class="mb-0"><i class="far fa-clone pr-1 text-white"></i>Graph</h3>
                 </div>
                 <div class="card-body pt-0">
-                    <p>/////</p>
+                  <canvas id="chart" width="400" height="400"></canvas>                    
                 </div>
               </div>
 
@@ -407,6 +437,56 @@
     </div>
   </div>
   
+
+  <script>
+   
+    
+    async function chartIt(){
+
+      const ctx = document.getElementById('chart').getContext('2d');      
+      const myChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+
+              labels: xlabels,
+              datasets: [{
+                  label: 'Marks Achieved',
+                  
+                  data: ytemps,
+                  
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+    }
+
+  </script>
+
+
+
 
   <!--   Core JS Files   -->
   <script src="../assets/js/core/jquery.min.js"></script>
