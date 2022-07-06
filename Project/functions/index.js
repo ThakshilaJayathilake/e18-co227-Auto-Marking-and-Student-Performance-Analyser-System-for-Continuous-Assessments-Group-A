@@ -29,6 +29,15 @@ var bodyParser = require("body-parser");
 
 
 const fileUpload = require("express-fileupload");
+const runtimeOpts = {
+
+    setTimeout :300,
+    
+   // timeoutSeconds: 300,
+
+}
+   
+
 /*
 ###########################   For multer you can use this code   ##############################################
 const multer = require("multer");
@@ -90,7 +99,7 @@ app.post("/api/create/:UserName/:Password",(req,res)=>{
                
             });
             return res.status(200).send({status: 'Success',msg: "Data Saved"});
-           // return res.redirect("http://localhost:9000/group07-co227/us-central1/app/index.html");
+        
             
         } catch (error) {
             console.log(error);
@@ -152,6 +161,7 @@ app.post("/api/createAssignment/:CourseName/:AssignmentName/:StartDate/:DueDate/
         })();
     }
 );
+
 //Create TestCases-> Post()
 app.post("/api/createTestCase/:AssignmentName/:TestCaseName/:Input/:Output/:Points",(req,res)=>{
     (async()=>{
@@ -178,7 +188,6 @@ app.post("/api/createTestCase/:AssignmentName/:TestCaseName/:Input/:Output/:Poin
 );
 
 //Add Student-> Post()
-//+course+'/'+name+'/'+Eno+'/'+username+'/'+email+'/'+phoneNo+'/'+birthday+'/'+gender
 app.post("/api/addStudent/:CourseName/:StudentName/:Eno/:username/:email/:phoneNo/:birthday/:gender",(req,res)=>{
     (async()=>{
         try {
@@ -211,7 +220,6 @@ app.post("/api/addStudent/:CourseName/:StudentName/:Eno/:username/:email/:phoneN
 );
 
 //Add Assignment for all Student-> Post()
-
 app.post("/api/createMarks/:CourseName/:StudentName/:Assignment",(req,res)=>{
     (async()=>{
         try {
@@ -240,10 +248,12 @@ app.post("/api/createMarks/:CourseName/:StudentName/:Assignment",(req,res)=>{
 
 
 //######################################################################################################################
-//##########################################Get One Element From A TABLE################################################
+//########################################## Get One Element From A TABLE ##############################################
 
-//get-> get()
+
 //Fetch - single data from firestore using specific id
+
+//get user by its id
 app.get('/api/get/:id',(req,res)=>{
     (async()=>{
         try {
@@ -266,6 +276,7 @@ app.get('/api/get/:id',(req,res)=>{
     })();
 
 });
+//get student by student name
 app.get('/api/getUsername/:StudentName',(req,res)=>{
     (async()=>{
         try {
@@ -288,7 +299,7 @@ app.get('/api/getUsername/:StudentName',(req,res)=>{
     })();
 
 });
-//Fetch - single data from firestore using specific userName
+//get user by userName
 app.get('/api/getName/:UserName',(req,res)=>{
     (async()=>{
         try {
@@ -313,8 +324,10 @@ app.get('/api/getName/:UserName',(req,res)=>{
 
 
 //######################################################################################################################
-//##########################################Get All Entries From A Table################################################
+//########################################## Get All Entries From A Table ##############################################
 //Fetch - all data from Login Table
+
+//get all users
 app.get('/api/getAll',(req,res)=>{
     (async()=>{
         try {
@@ -349,6 +362,7 @@ app.get('/api/getAll',(req,res)=>{
     })();
 
 });
+//get all courses
 app.get('/api/getAllCourses',(req,res)=>{
     (async()=>{
         try {
@@ -384,6 +398,7 @@ app.get('/api/getAllCourses',(req,res)=>{
     })();
 
 })
+//get all assignments
 app.get('/api/getAllAssignments',(req,res)=>{
     (async()=>{
         try {
@@ -426,6 +441,7 @@ app.get('/api/getAllAssignments',(req,res)=>{
     })();
 
 })
+//get all test cases
 app.get('/api/getAllTestCases',(req,res)=>{
     (async()=>{
         try {
@@ -462,6 +478,7 @@ app.get('/api/getAllTestCases',(req,res)=>{
     })();
 
 })
+//get all students
 app.get('/api/getAllStudents',(req,res)=>{
     (async()=>{
         try {
@@ -505,7 +522,7 @@ app.get('/api/getAllStudents',(req,res)=>{
     })();
 
 })
-
+//get all marks
 app.get('/api/getAllMarks',(req,res)=>{
     (async()=>{
         try {
@@ -549,6 +566,7 @@ app.get('/api/getAllMarks',(req,res)=>{
 //######################################################################################################################
 //###############################################Update Entry In A Table################################################
 //Update -> put()
+//update a user by id
 app.put("/api/update/:id",(req,res)=>{
     (async()=>{
         try {
@@ -595,7 +613,7 @@ app.put("/api/updateAssignment/:CourseName",(req,res)=>{
     })();
 
 });
-//Update Student Table-Marks -> put()
+//Update Marks Table-Marks -> put()
 app.put("/api/updateMarks/:id/:marks",(req,res)=>{
     (async()=>{
         try {
@@ -625,6 +643,7 @@ app.put("/api/updateMarks/:id/:marks",(req,res)=>{
 //######################################################################################################################
 //###############################################Delete Entry In A Table################################################
 //Delete -> delete()
+//delete a user
 app.delete("/api/delete/:id",(req,res)=>{
     (async()=>{
         try {
@@ -644,6 +663,8 @@ app.delete("/api/delete/:id",(req,res)=>{
     })();
 
 });
+
+//------------------------------------------------ GITHUB AUTOMATION --------------------------------------------------
 //######################################################################################################################
 //######################################################Create Course###################################################
 
@@ -706,43 +727,7 @@ app.post('/api/createCourseGITHUB/:CourseName',(req,res)=>{
             await driver.findElement(By.id("new-assignment-submit")).click();
             await driver.findElement(By.name("commit")).click();
             await driver.findElement(By.name("commit")).click();
-/*
-/*
-            //page I
-            await driver.findElement(By.id("assignment_title")).sendKeys("Assignment ForMe812225");
-            await driver.findElement(By.id("assignment_form_deadline")).sendKeys("7/7/2022");
-            await driver.findElement(By.id("assignment_form_assignment_type")).sendKeys("individual");
-            await driver.findElement(By.id("assignment_form_visibility_public")).sendKeys("public");
-            await driver.findElement(By.id("new-assignment-submit")).click();
 
-            //page II
-  
-            await driver.findElement(By.css("#starter-code-repo-name")).click();
-            await driver.findElement(By.name("assignment_form[starter_code_repo_full_name]")).sendKeys("test-for-coding/template-for-java");
-            await sleep(5000);
-            await driver.findElement(By.css(".autocomplete-suggestions-list ul li strong")).click();
-            await driver.findElement(By.name("commit")).click();
-            
-            //page III
-            await driver.findElement(By.xpath("//div[@class='SelectMenu-list']//span[text()='Input/Output test']")).click();
-            await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][name]")).sendKeys("Test1");
-            await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][setup]")).sendKeys("javac Main.java");
-            await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][run]")).sendKeys("java Main");
-            await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][input]")).sendKeys("Test1");
-            await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][output]")).sendKeys("Hello World!");
-            await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][points]")).sendKeys("10");
-            await sleep(5000);
-            await driver.findElement(By.css(".js-save-test")).click();
-
-
-            //Create assignment
-            await sleep(5000);
-            await driver.findElement(By.name("commit")).click();
-    
-            //Get the url
-            let BUTTON =await driver.findElement(By.css(".input-group-button button")).getAttribute("data-clipboard-target");
-            let target = await driver.findElement(By.css(BUTTON)).getAttribute("value");
-            */
             driver.quit();
     
             return res.status(200).send({status: 'Success',msg: "Successfully created"});
@@ -791,7 +776,10 @@ app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:T
             
             o.addArguments("start-minimized");
             o.excludeSwitches("enable-automation");
-            var driver = new Builder().withCapabilities(Capabilities.chrome()).setChromeOptions(o).build();
+            var service = new chrome.ServiceBuilder(); //.CreateDefaultService();
+            service.enableVerboseLogging = true;
+//service.EnableVerboseLogging = true;
+            var driver = new Builder().withCapabilities(Capabilities.chrome()).setChromeOptions(o).setChromeService(service).build();
             driver.manage().window().minimize();
 
 
@@ -836,45 +824,53 @@ app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:T
             outputs=req.params.TestOutputs.split(',');
             marks=req.params.TestMarks.split(',');
             j=0;
+            var addtestcase = await driver.findElement(By.id("view-options"));
+            var testcaseType= await driver.findElement(By.xpath("//div[@class='SelectMenu-list']//span[text()='Input/Output test']"));
             var ele1=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][name]"));
+            var setup=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][setup]"));
+            var run=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][run]"));
+
             var ele2=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][input]"));
             var ele3=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][output]"));
             var ele4=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][points]"));
-            var setup=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][setup]"));
-            var run=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][run]"))
-
+            var save =await driver.findElement(By.css(".js-save-test"));
+            
             var num=req.params.NoTests;
-            for (i=0;i<num;i++){
-                
-                await driver.findElement(By.id("view-options")).click();
-                await driver.findElement(By.xpath("//div[@class='SelectMenu-list']//span[text()='Input/Output test']")).click();
-                await sleep(2000);
+            num=num;
+            while (num){
+                console.log(num);
+                await addtestcase.click();
+                await testcaseType.click();
+                //await sleep(2000);
                 ///var ele1=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][name]"));
-                ele1.clear();
-                ele1.sendKeys(names[j]);
-                setup.sendKeys("javac Main.java");
-                run.sendKeys("java Main");
+                await ele1.clear();
+                await ele1.sendKeys(names[j]);
+                await setup.clear();
+                await setup.sendKeys("javac Main.java");
+                await run.clear();
+                await run.sendKeys("java Main");
                 //var ele2=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][input]"));
-                ele2.clear();
-                ele2.sendKeys(inputs[j]);
+                await ele2.clear();
+                await ele2.sendKeys(inputs[j]);
                 //var ele3=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][output]"));
-                ele3.clear();
-                ele3.sendKeys(outputs[j]);
+                await ele3.clear();
+                await ele3.sendKeys(outputs[j]);
               //  var ele4=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][points]"));
                 
-                ele4.clear();
-                ele4.sendKeys(marks[j]);
+                await ele4.clear();
+                await ele4.sendKeys(marks[j]);
                 //await sleep(5000);
-                await driver.findElement(By.css(".js-save-test")).click();
-                await sleep(5000);
-                j++;
+                await save.click();
+                //await sleep(1000);
+                j=j+1;
+                num--;
 
 
             }
             
 
             //Create assignment
-            await sleep(5000);
+            await sleep(1000);
             await driver.findElement(By.name("commit")).click();
     
             //Get the url
@@ -967,6 +963,8 @@ app.get('/api/getMarks/:StudentName/:courseName/:assignmentName',(req,res)=>{
 
 });
 
+//######################################################################################################################
+//############################################# DOWNLOAD FILES #########################################################
 //Download file
 app.get('/api/CreateFile/:Assignment/:NameList/:MarkList/:NumberOfStudents',(req,res)=>{
     (async()=>{
@@ -1014,8 +1012,9 @@ app.get('/api/CreateFile/:Assignment/:NameList/:MarkList/:NumberOfStudents',(req
 
 });
 
+//######################################################################################################################
+//############################################# UPLOAD FILES #########################################################
 //File uploader
-
 app.post('/api/upload',(req,res)=>{
     
     //console.log(req.body);
@@ -1036,27 +1035,9 @@ app.post('/api/upload',(req,res)=>{
    // return res.json({status:'OK'});
 });
 
-function CreateFile() {
-    
-    const workbook = new ExcelJS.Workbook();
-    workbook.creator = 'Group07';
-    workbook.lastModifiedBy = '';
-    //workbook.created = new Date(2018,6,19);
-    //workbook.modified = new Date();
-    //workbook.lastPrinted = new Date(2016,7,27);
-    
-    var sheet = workbook.addWorksheet('MarksSheet') ;
-    sheet.columns = [
-        {header : 'Name', key : 'name'},
-        {header : 'Marks' , key : 'mark'}
-        
-    ]
-    sheet.addRow({name: "Sanduni" , mark : "100"});
-    workbook.xlsx.writeFile("try.xlsx");
-    
-  }
+
 //exports the api to firebase cloud functions
-exports.app = functions.https.onRequest(app);
+exports.app = functions.runWith(runtimeOpts).https.onRequest(app);
 
 
 

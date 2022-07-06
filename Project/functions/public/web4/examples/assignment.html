@@ -38,7 +38,7 @@
     var assignment;
     var user;
 
-    //###########################################################################
+    //##################################################################################################################################
     //When loading this page
     window.onload = async function() {
         var url = window.location.href,
@@ -55,10 +55,6 @@
         assignment = data.Assignment;
         user = data.user;
         
-
-
-
-
 
         //Search for all assignments created under given given course
         var element= document.getElementById("course");
@@ -117,11 +113,7 @@
               ass.setAttribute("value",assignment);
               ass.setAttribute('disabled','disabled');
               //###########################################
-              //TODO
-        //document.getElementById("inputLanguages").setAttribute('disabled','disabled'); //TODO : Store in firebase
-        //document.getElementById("inputTopics").setAttribute('disabled','disabled'); //TODO : Store in firebase
-        //document.getElementById("picker1").setAttribute('disabled','disabled'); //TODO : Store in firebase     
-              //###########################################
+              
               due.innerHTML = dueDate;
               start.innerHTML = StartDate;
               inputAssgn.innerHTML = qTemplate;
@@ -200,137 +192,81 @@
         }
     	  
     };
+    //####################################################END OF WINDOW LOADING##########################################################
     
-//-- -------------------------------------- Create Marks File function --------------------------------------------------------- -->
-function CreateFile() {
-  //var Excel = require('exceljs');
-  const ExcelJS = require('exceljs');
-  
-  const workbook = new ExcelJS.Workbook();
-  
-  var sheet ;
-  
-}
 
-// -------------------------------------- addStudent functions --------------------------------------------------------- -->
-
-  async function addStudent(){
-   
-      
-    let aNoOfTestCases = document.getElementById("inputNo").value;
-    let aTestCaseName = document.getElementById("tName").value;
-    let aInputs = document.getElementById("tInput").value;
-    let aOutputs = document.getElementById("tOutput").value;
-    let aMarks = document.getElementById("tMarks").value;
-
-    let assignATemplate = document.getElementById("inputSol").value;
-
-    const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllTestCases',{
-    method:'GET'
-  });
-
-  const data = await response.json();
-  console.log(data);
-
-  for(i=0;i< data['data'].length;i++){
-    var element = data['data'][i];
-
-    if(element['TestCaseName']==aTestCaseName){
-      
-      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html";
-
-      return;
-      
-    }
-        
-  }
-  // see AssignmentName????
-  const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createTestCase/'+AssignmentName+"/"+aTestCaseName,+"/"+aInputs,+"/"+aOutputs,+"/"+aMarks,{
-    method:'POST',
-    
-  });
-  const data2 = await response2.json();
-
-  if(data2['status']=="Success"){
-    window.location.href="http://localhost:5001/group07-co227/us-central1/app";
-  }
-  else{
-    window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html";
-  }
-  }
-
-
-
-  //-- -------------------------------------- addAssignment functions --------------------------------------------------------- -->
+    //-- -------------------------------------- addAssignment functions --------------------------------------------------------- -->
   
     async function newAssignment(no){
      
-      let assignName = document.getElementById("inputName").value;
+        let assignName = document.getElementById("inputName").value;
 
-      let e = document.getElementById("sel1");
-      let assignLang = e.options[e.selectedIndex].text;
-      let aCoveredTopics = document.getElementById("inputTopics").value;
+        let e = document.getElementById("sel1");
+        let assignLang = e.options[e.selectedIndex].text;
+        let aCoveredTopics = document.getElementById("inputTopics").value;
 
-      let aStartDateTime = document.getElementById("picker1").value;
-      let aEndDateTime = document.getElementById("picker2").value;
+        let aStartDateTime = document.getElementById("picker1").value;
+        let aEndDateTime = document.getElementById("picker2").value;
 
-      let assignQTemplate = document.getElementById("inputAssgn").value;
-      let assignATemplate = document.getElementById("inputSol").value;
+        let assignQTemplate = document.getElementById("inputAssgn").value;
+        let assignATemplate = document.getElementById("inputSol").value;
 
-      let testNames=[];
-      let inputs=[];
-      let outputs=[];
-      let marks=[];
+        let testNames=[];
+        let inputs=[];
+        let outputs=[];
+        let marks=[];
 
-      for(i=0;i<no;i++){
-          testNames[i]=document.getElementById(`tName${i}`).value;
-          inputs[i]=document.getElementById(`tInput${i}`).value;
-          outputs[i]=document.getElementById(`tOutput${i}`).value;
-          marks[i]=document.getElementById(`tMarks${i}`).value;
+        for(i=0;i<no;i++){
+            testNames[i]=document.getElementById(`tName${i}`).value;
+            inputs[i]=document.getElementById(`tInput${i}`).value;
+            outputs[i]=document.getElementById(`tOutput${i}`).value;
+            marks[i]=document.getElementById(`tMarks${i}`).value;
 
 
 
-      }
-      const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllAssignments',{
-      method:'GET'
-    });
-
-    const data = await response.json();
-    console.log(data);
-
-    for(i=0;i< data['data'].length;i++){
-      var element = data['data'][i];
-
-      if(element['CourseName']==course){
-        if(element['AssignmentName']==assignName){
-        
-          alert("Assignment Already Exists!");
-          window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
-    
-
-          return;
         }
+        const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllAssignments',{
+            method:'GET'
+        });
+
+        const data = await response.json();
+        console.log(data);
+
+        for(i=0;i< data['data'].length;i++){
+          var element = data['data'][i];
+
+          if(element['CourseName']==course){
+            if(element['AssignmentName']==assignName){
+            
+              alert("Assignment Already Exists!");
+              window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
         
-      }
-          
-    }
+
+              return;
+            }
+            
+          }
+              
+        }
      
         const responseG = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getUrl/'+course+"/"+assignName+"/"+aEndDateTime+"/"+no+    // ....................
       "/"+[testNames]+"/"+[inputs]+"/"+[outputs]+"/"+[marks]+"/"+encodeURIComponent(assignQTemplate),{
-          method:'GET',
+            
+            method:'GET',
 
-      });
-      const dataG = await responseG.json();
-      console.log(dataG);
-      var url = dataG['msg'];
-      
-      if(dataG['status']=="Success"){
-        const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createAssignment/'+course+"/"+assignName+"/"+aStartDateTime+"/"+aEndDateTime+"/"+aCoveredTopics+"/"+assignLang+"/"+encodeURIComponent(url)+"/"+encodeURIComponent(assignQTemplate)+"/"+encodeURIComponent(assignATemplate),{
-          method:'POST',
-      
         });
+        const dataG = await responseG.json();
+        console.log(dataG);
+        var url = dataG['msg'];
+        
+        if(dataG['status']=="Success"){
+          const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createAssignment/'+course+"/"+assignName+"/"+aStartDateTime+"/"+aEndDateTime+"/"+aCoveredTopics+"/"+assignLang+"/"+encodeURIComponent(url)+"/"+encodeURIComponent(assignQTemplate)+"/"+encodeURIComponent(assignATemplate),{
+              method:'POST',
+        
+          });
         const data2 = await response2.json();
-//Add entry to Marks table create assignment for all students in the course
+        
+        //Add entry to Marks table create assignment for all students in the course
         const responseAllStudents = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllStudents',{
           method:'GET'
         });
@@ -339,18 +275,18 @@ function CreateFile() {
         for(i=0;i< dataAllStudents['data'].length;i++){
           var element1 = dataAllStudents['data'][i];
           if(element1['CourseName']==course){
-            var student = element1['StudentName'];
-            //createMarks/:CourseName/:StudentName/:Assignment
-            const responseStudent = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createMarks/'+course+"/"+student+"/"+assignName,{
-              method:'POST',
-      
-            });
+              var student = element1['StudentName'];
+              //createMarks/:CourseName/:StudentName/:Assignment
+              const responseStudent = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createMarks/'+course+"/"+student+"/"+assignName,{
+                method:'POST',
+        
+              });
           }
           
         }
         for(i=0;i<no;i++){
           const response3 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createTestCase/'+assignName+"/"+testNames[i]+"/"+inputs[i]+"/"+outputs[i]+"/"+marks[i],{
-            method:'POST',
+              method:'POST',
     
           });
           const data3 = await response3.json();
@@ -373,19 +309,21 @@ function CreateFile() {
         document.getElementById("picker2").setAttribute('disabled','disabled');
         document.getElementById("inputAssgn").setAttribute('disabled','disabled');
         document.getElementById("inputSol").setAttribute('disabled','disabled');
+
         for(i=0;i<no;i++){
-          document.getElementById(`tName${i}`).setAttribute('disabled','disabled');
-          document.getElementById(`tInput${i}`).setAttribute('disabled','disabled');
-          document.getElementById(`tOutput${i}`).setAttribute('disabled','disabled');
-          document.getElementById(`tMarks${i}`).setAttribute('disabled','disabled');
+
+            document.getElementById(`tName${i}`).setAttribute('disabled','disabled');
+            document.getElementById(`tInput${i}`).setAttribute('disabled','disabled');
+            document.getElementById(`tOutput${i}`).setAttribute('disabled','disabled');
+            document.getElementById(`tMarks${i}`).setAttribute('disabled','disabled');
 
 
 
-      }
+        }
        // window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignmentDetails.html?url="+encodeURIComponent(dataG['msg'])+"?cName="+encodeURIComponent(course)+"?assignment="+encodeURIComponent(assignName);
       }
       else{
-        window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+          window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
       }
       
    
@@ -393,6 +331,7 @@ function CreateFile() {
 
     
     }
+    //-----------------------------------------------------------------------------------------------------------------------------
   </script>
 
 </head>
@@ -402,6 +341,7 @@ function CreateFile() {
 
 <body class="dark-edition">
   <div class="wrapper ">
+  <!-- Sidebar -->
     <div class="sidebar" data-color="purple" data-background-color="black" data-image="../assets/img/sidebar-2.jpg">
       <!--
         Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
@@ -490,7 +430,7 @@ function CreateFile() {
     </div>
 
     <div class="main-panel">
-      <!-- Navbar -->
+  <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
         <div class="container-fluid">
           <div class="navbar-wrapper">
@@ -549,41 +489,31 @@ function CreateFile() {
           </div>
         </div>
       </nav>
-      <!-- End Navbar -->
+  <!-- End Navbar -->
 
-      <!-- <div class="content"> -->
-      <!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" role="button" data-bs-target="#offcanvasRight" aria-controls="sidebar">
-        Filter Assignments</button>
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebar-label">
-          <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="sidebar-label">Filter Assignments</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-          </div>
-          <div class="offcanvas-body">
-            <p><h2>Hi</h2></p>
-          </div>
-        </div> -->
-      <!-- </div> -->
+      
 
       <div class="content">
-
+  <!-- Search option for assignments -->
         <script>
-        function myFunction() {
-            var input, filter, ul, li, a, i, txtValue;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            ul = document.getElementById("myUL");
-            li = ul.getElementsByTagName("li");
-            for (i = 0; i < li.length; i++) {
-                a = li[i].getElementsByTagName("a")[0];
-                txtValue = a.textContent || a.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    li[i].style.display = "";
-                } else {
-                    li[i].style.display = "none";
+          //Search option for assignments
+            function myFunction() {
+                var input, filter, ul, li, a, i, txtValue;
+                input = document.getElementById("myInput");
+                filter = input.value.toUpperCase();
+                ul = document.getElementById("myUL");
+                li = ul.getElementsByTagName("li");
+
+                for (i = 0; i < li.length; i++) {
+                    a = li[i].getElementsByTagName("a")[0];
+                    txtValue = a.textContent || a.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        li[i].style.display = "";
+                    } else {
+                        li[i].style.display = "none";
+                    }
                 }
             }
-        }
         </script>
 
         <h3 class="mdb-color white-text" id="assignment"><b>Create New Assignment</b></h3><br>
@@ -723,67 +653,56 @@ function CreateFile() {
                    <input type="number" class="form-control" id="inputNo">
                  </div>
                </div>
-               <br><button type="submit" class="btn btn-primary" onclick="myfun()">Save Changes</button>
+               <br><button type="submit" class="btn btn-primary" onclick="addTestCases()">Save Changes</button>
              
                <script>
-                 function myfun(){
+                 function addTestCases(){
                    const no = document.getElementById('inputNo').value;
                    var container = document.getElementById('Bench-tab-pane');
                    container.innerHTML="";
                    alert("No :" +no);
                    for (i=0;i<no;i++){
                         container.innerHTML += `<br><hr>   
-                 <form>
-                  <div class="row">
-                    <label for="tName" class="col-sm-3 col-form-label">TestCase Name:</label>
-                    <div class="col-sm-5">
-                      <input type="text" class="form-control" id="tName${i}"><br> 
-                    </div>
-                  </div>
+                            <form>
+                              <div class="row">
+                                <label for="tName" class="col-sm-3 col-form-label">TestCase Name:</label>
+                                <div class="col-sm-5">
+                                  <input type="text" class="form-control" id="tName${i}"><br> 
+                                </div>
+                              </div>
+                              
+                              <div class="row">
+                                <label for="tInput" class="col-sm-3 col-form-label">Inputs:</label>
+                              <div class="col-sm-5">
+                                <textarea class="form-control" rows="5" id="tInput${i}"></textarea><br>               
+                              </div>
+                              </div>
+                              
+                              <div class="row">
+                                <label for="tOutput" class="col-sm-3 col-form-label">Expected Output:</label>
+                                <div class="col-sm-5">
+                                  <textarea class="form-control" rows="5" id="tOutput${i}"></textarea><br> 
+                                </div>
+                              </div>
                    
-                   <div class="row">
-                    <label for="tInput" class="col-sm-3 col-form-label">Inputs:</label>
-                   <div class="col-sm-5">
-                     <textarea class="form-control" rows="5" id="tInput${i}"></textarea><br>               
-                   </div>
-                   </div>
-                   
-                   <div class="row">
-                    <label for="tOutput" class="col-sm-3 col-form-label">Expected Output:</label>
-                    <div class="col-sm-5">
-                      <textarea class="form-control" rows="5" id="tOutput${i}"></textarea><br> 
-                    </div>
-                   </div>
-                   
-                   <div class="row">
-                    <label for="tMarks" class="col-sm-3 col-form-label">Marks Allocated:</label>
-                    <div class="col-sm-5">
-                      <input type="number" class="form-control" id="tMarks${i}"><br>    
-                    </div>
-                   </div>
-                   
-                </form>
-                                  
-              </div>
-              <br><button type="submit" class="btn btn-primary" onclick="myfun2()"></button>
-              `;
+                              <div class="row">
+                                <label for="tMarks" class="col-sm-3 col-form-label">Marks Allocated:</label>
+                                <div class="col-sm-5">
+                                  <input type="number" class="form-control" id="tMarks${i}"><br>    
+                                </div>
+                              </div>
+                              
+                            </form>
+                                              
+                          </div>
+                          <br><button type="submit" class="btn btn-primary" ></button>
+                          `;
 
                    }
                    container.innerHTML += `<br> <hr>
-              <button type="submit" class="btn btn-outline-success btn-lg" role="button" onclick="newAssignment('${no}')">Create the Assignment</button>`;
+                          <button type="submit" class="btn btn-outline-success btn-lg" role="button" onclick="newAssignment('${no}')">Create the Assignment</button>`;
                  }                           
-                 // var outputHTML = "";
-                 // outputHTML +=  "<div>";
-                 // for (var i = 0; i < no; i++){
-                 //   <div class="row mb-3">
-                 //     <label for="inputLanguages" class="col-sm-2 col-form-label">output:</label>
-                 //     <div class="col-sm-10">
-                 //       <input type="text" class="form-control" id="inputLanguages"></input>
-                 //     </div>
-                 //   </div>
-                 //   outputHTML += "<div>";
-                 // }
-                 // outputHTML += "</div>";
+                 
            
                </script>
               </div>
@@ -834,11 +753,7 @@ function CreateFile() {
           </div>
         </div>
       </!--footer-->
-      <script>
-        const x = new Date().getFullYear();
-        let date = document.getElementById('date');
-        date.innerHTML = '&copy; ' + x + date.innerHTML;
-      </script>
+      
     </div>
   </div>
   <div class="fixed-plugin">
