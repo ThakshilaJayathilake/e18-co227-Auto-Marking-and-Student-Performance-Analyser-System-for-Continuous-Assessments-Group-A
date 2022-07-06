@@ -39,14 +39,14 @@
     var user;
     var data_;
     
-    function directToStudent() {
-                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
-    }
-     function directToProfile(stdName){
-      console.log(stdName);
-      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/profile.html?cName="+course+"?user="+encodeURIComponent(user)+"?stdName="+ encodeURIComponent(stdName);
-    }
+    
+
+    //##############  When loading the page  ##########################################################################
+
     window.onload = async function() {
+
+        //-------------------------------------------------------------------
+        //retireve course name and logged user
         var url = window.location.href,
         params = url.split('?'),
         data = {}, tmp;
@@ -60,11 +60,15 @@
         user = data.user;
         var element= document.getElementById("course");
         element.innerHTML = decodeURIComponent(decodeURIComponent(course));
+        //--------------------------------------------------------------------
+
+        //Display all the students on the table in web interface
+
         const response_ = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllStudents',{
           method:'GET'
         });
         data_ = await response_.json();
-        console.log(data_);
+        //console.log(data_);
         var list= document.getElementById("studentList");
         var markslist = document.getElementById("Bench-tab-pane");
         markslist.innerHTML="";
@@ -73,8 +77,6 @@
         let studentDetails = {};
         k=0;
         
-        
-
 
         for(i=0;i< data_['data'].length;i++){
           var element1 = data_['data'][i];
@@ -93,12 +95,10 @@
             var marks=element1['Marks'];
            // assignmentList[k]=element1['AssignmentName'];
            // elementList[k]=element1;
-           studentDetails[name]=Username;
+            studentDetails[name]=Username;
             k++;
             
            
-
-            var direct="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+course+"?Assignment="+encodeURIComponent(name)+"?user="+encodeURIComponent(user);
             list.innerHTML += `<tr>
                                   <td >${Eno}
                                   
@@ -123,18 +123,22 @@
           }
               
         }
+
+        //----------------------------------------------------------------------------------------------------------
+
+        //Display all marks of each assignment
         const response_marks = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllMarks',{
           method:'GET'
         });
         const data_marks = await response_marks.json();
-        console.log(data_marks);
+        //console.log(data_marks);
         k=0;
         var elementMarks;
         for(i=0;i< data_marks['data'].length;i++){
           elementMarks = data_marks['data'][i];
 
           if(elementMarks['CourseName']==course){
-            console.log(elementMarks['AssignmentName']);
+            //console.log(elementMarks['AssignmentName']);
             assignmentList[k]=elementMarks['AssignmentName'];
             elementList[k]=elementMarks;
             k++;
@@ -146,11 +150,13 @@
         //assignmentList.sort();
         assignmentList = [...new Set(assignmentList)];
         let usernameList =[];
-          let nameList = [];
-          let markList = [];
-          let idList = [];
-          var nameNo =0;
-          var markNo =0;
+        let nameList = [];
+        let markList = [];
+        let idList = [];
+        var nameNo =0;
+        var markNo =0;
+
+        //Display  each assignment separately
         for(ass in assignmentList){
           var Ass= assignmentList[n];
           console.log(Ass);
@@ -173,7 +179,7 @@
           //Download option
           
 
-         var setID = "mark"+Ass;
+          var setID = "mark"+Ass;
           var markslist2 = document.getElementById(setID);
           for(ele in elementList){
             var Ele = elementList[m];
@@ -187,35 +193,7 @@
               console.log(username);
               let marks1="Not Completed";
               variable++;
-              /*if(marks=='Not Completed'){
-              const response_marks= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getMarks/'+username+'/'+course+'/'+Ass,{
-                method:'GET'
-              });
-              const data_marks = await response_marks.json();
-              console.log(data_marks);
               
-              if(data_marks['status']=="Success"){
-                marks1 = data_marks['msg'];
-                console.log(marks1);
-              }
-              else{
-                marks1 = 'Not Completed';
-                console.log(marks1);
-
-              }
-            }
-            
-              
-              //api/updateMarks/:StudentName/:marks/:Assignment
-              if(marks1!='Not Completed'){
-                marks=marks1;
-                console.log(id);
-                let varmarks=encodeURIComponent(marks1);
-                
-                const update_marks= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/updateMarks/'+id+'/'+varmarks,{
-                  method:'PUT'
-                });
-              }*/
               nameList[nameNo]=name;
               markList[markNo]=encodeURIComponent(marks);
               usernameList[nameNo]=username;
@@ -240,18 +218,16 @@
           }
           
 
-
+          //Create file to download option
 
           const response_download = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/CreateFile/'+Ass+'/'+[nameList]+'/'+[markList]+'/'+nameNo,{
                 method:'GET'
-              });
-             // const response_download2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/Download/'+Ass,{
-            //    method:'GET'
-      //});
-      markslist.innerHTML+=`<label style="margin-left: 1.5cm; color:green;" onclick="Refresh_('${usernameList}','${nameList}','${markList}','${idList}','${Ass}','${variable}')">Click Here To Refresh</label>
-                          </div>
+          });
+             
+          markslist.innerHTML+=`<label style="margin-left: 1.5cm; color:green;" onclick="Refresh_('${usernameList}','${nameList}','${markList}','${idList}','${Ass}','${variable}')">Click Here To Refresh</label>
+                                </div>
                            
-                          </form>`;
+                                </form>`;
           usernameList =[];
           nameList = [];
           markList = [];
@@ -265,7 +241,22 @@
 
     	  
     };
+    //#####################  END OF WINDOW LOADING  #################################################################
+    //###############################################################################################################
+
+
+    //All the functions needed---------------------------------------------------------------------------------------
     
+    //Functions to direct
+    function directToStudent() {
+      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
+    }
+    function directToProfile(stdName){
+      //console.log(stdName);
+      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/profile.html?cName="+course+"?user="+encodeURIComponent(user)+"?stdName="+ encodeURIComponent(stdName);
+    }
+
+    //To download the file => marks
     function Download_(assignment) {
     
       var filename = assignment + ".xlsx";
@@ -279,7 +270,9 @@
       directToStudent();
     
     }
+    //--------------------------------------------------------------------------------------------------------------------
 
+    //To download the sample file for student details
     function Download_SampleStudentDetails() {
     
       var filename = "SampleStudent.xlsx";
@@ -292,25 +285,32 @@
       element.remove();
       directToStudent();
   
-  }
-    async function isStudentExist(name) {
+    }
+    //-------------------------------------------------------------------------------------------------------------------
+
+    //Check the student already exists
+    async function isStudentExist(Eno) {
       
      
       for(i=0;i< data_['data'].length;i++){
           var element1 = data_['data'][i];
-          console.log("#############"+name);
-          if(element1['StudentName']==name){
-            console.log("#############"+name);
+          //console.log("#############"+name);
+          if(element1['Eno']==Eno){
+            //console.log("#############"+name);
             return 1;
           }
       }
       return 0;
     }
+    //--------------------------------------------------------------------------------------------------------------------
 
+    //function to sleep the process
     function sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
     }
+    //-------------------------------------------------------------------------------------------------------------------
 
+    //Function to refresh the marks
     async function Refresh_(usernameList,nameList,markList,idList,assignment,num) {
 
       console.log(usernameList);
@@ -320,7 +320,7 @@
       var id_2 = "form"+assignment;
       var marksitem = document.getElementById(id_);
       var formitem = document.getElementById(id_2);
-     var users = usernameList.split(',');
+      var users = usernameList.split(',');
       var nameList_ = nameList.split(',');
       var markList_ = markList.split(',');
       var idList_ = idList.split(',');
@@ -335,7 +335,7 @@
                     <hr>
                     
                   </div>`;
-                  console.log(num);
+      //console.log(num);
       for(i=0;i<num;i++){
             
               var user=users[index];
@@ -350,33 +350,34 @@
               
               let marks1="Not Completed";
               if(marks=='Not Completed'){
-              const response_marks= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getMarks/'+user+'/'+course+'/'+assignment,{
-                method:'GET'
-              });
-              const data_marks = await response_marks.json();
-              console.log(data_marks);
-              sleep(10000);
-              if(data_marks['status']=="Success"){
-                marks1 = data_marks['msg'];
-                console.log(marks1);
-              }
-              else{
-                marks1 = 'Not Completed';
-                console.log(marks1);
+                  const response_marks= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getMarks/'+user+'/'+course+'/'+assignment,{
+                    method:'GET'
+                  });
+                  const data_marks = await response_marks.json();
+                  console.log(data_marks);
+                  sleep(10000);
 
+                  if(data_marks['status']=="Success"){
+                    marks1 = data_marks['msg'];
+                    console.log(marks1);
+                  }
+                  else{
+                    marks1 = 'Not Completed';
+                    console.log(marks1);
+
+                  }
               }
-            }
             
               
               //api/updateMarks/:StudentName/:marks/:Assignment
               if(marks1!='Not Completed'){
-                marks=marks1;
-                console.log(id);
-                let varmarks=encodeURIComponent(marks1);
-                
-                const update_marks= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/updateMarks/'+id+'/'+varmarks,{
-                  method:'PUT'
-                });
+                  marks=marks1;
+                  console.log(id);
+                  let varmarks=encodeURIComponent(marks1);
+                  
+                  const update_marks= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/updateMarks/'+id+'/'+varmarks,{
+                    method:'PUT'
+                  });
               }
               
 
@@ -388,114 +389,86 @@
                     <label for="tInput" class="col-sm-3 col-form-label">${name} &emsp;&emsp; </label>
                     <label for="tInput" class="col-sm-3 col-form-label">&emsp;&emsp; ${marks}     </label>
                    
-                  </div>
-                  
-
-
+                  </div>                
               
               `;
               
-            index++;
-          }
+              index++;
+        }
   
     }
+    //------------------------------------------------------------------------------------------------------------------------
+
+    //function to addStudets to the database ->one by one
     async function addStudent(){
      
         
-      let Eno = document.getElementById("inputSID").value;
-      let name = document.getElementById("inputName").value;
-      let username = document.getElementById("userName").value;
-      let email = document.getElementById("inputEmail").value;
-      let phoneNo = document.getElementById("inputPhoneNo").value;
-      let birthday = document.getElementById("picker1").value;
-      let gender = document.getElementById("sel1").value;
-  
-    
-  
-      const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/addStudent/'+course+'/'+name+'/'+encodeURIComponent(Eno)+'/'+username+'/'+email+'/'+phoneNo+'/'+birthday+'/'+gender,{
-        method:'POST'
-    
-      });
-  
-      const data = await response.json();
-      console.log(data);
-    
-      if(data['status']=="Success"){
-        window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
-      }
-      else{
-        alert("Process Failed! Try Again");
-        window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
-      }
-    }
-    async function addStudent_(Eno,name,username,email,phoneNo,birthday,gender){
-     
-        
-     
- 
-   
- 
-     const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/addStudent/'+course+'/'+name+'/'+encodeURIComponent(Eno)+'/'+username+'/'+email+'/'+phoneNo+'/'+birthday+'/'+gender,{
-       method:'POST'
-   
-     });
- 
-     const data = await response.json();
-     console.log(data);
-   
-     if(data['status']=="Success"){
-       window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
-     }
-     else{
-       alert("Process Failed! Try Again");
-       window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
-     }
-   }
-   // import { Excel } from "../../../node_modules/exceljs";
-   // const Excel = require('exceljs');
-    function addStudents_ByFile(){
-      
-      console.log('trying....');
-      var t = new FileReader
-      var workbook = new Excel.Workbook(); 
-      workbook.xlsx.readFile('Assignment1.xlsx');
-      console.log('trying....');
-      var worksheet = workbook.getWorksheet('my');
-      worksheet.eachRow({ includeEmpty: true }, function(row, rowNumber) {
-        console.log("Row " + rowNumber + " = " + JSON.stringify(row.values));
-      });
-    }
-      /*  
-     let Eno = document.getElementById("inputSID").value;
-     let name = document.getElementById("inputName").value;
-     let username = document.getElementById("userName").value;
-     let email = document.getElementById("inputEmail").value;
-     let phoneNo = document.getElementById("inputPhoneNo").value;
-     let birthday = document.getElementById("picker1").value;
-     let gender = document.getElementById("sel1").value;
- 
-   
- 
-     const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/addStudent/'+course+'/'+name+'/'+encodeURIComponent(Eno)+'/'+username+'/'+email+'/'+phoneNo+'/'+birthday+'/'+gender,{
-       method:'POST'
-   
-     });
- 
-     const data = await response.json();
-     console.log(data);
-   
-     if(data['status']=="Success"){
-       window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
-     }
-     else{
-       alert("Process Failed! Try Again");
-       window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
-     }*/
+        let Eno = document.getElementById("inputSID").value;
+        let name = document.getElementById("inputName").value;
+        let username = document.getElementById("userName").value;
+        let email = document.getElementById("inputEmail").value;
+        let phoneNo = document.getElementById("inputPhoneNo").value;
+        let birthday = document.getElementById("picker1").value;
+        let gender = document.getElementById("sel1").value;
 
-     async function UploadProcess() {
+        const var2=await isStudentExist(Eno);
+            
+        if(var2==1){
+            alert("Sorry! Student Already Exists. Try again!");
+            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
+        }
+
+        const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/addStudent/'+course+'/'+name+'/'+encodeURIComponent(Eno)+'/'+username+'/'+email+'/'+phoneNo+'/'+birthday+'/'+gender,{
+          method:'POST'
+      
+        });
+
+        const data = await response.json();
+        //console.log(data);
+      
+        if(data['status']=="Success"){
+          window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
+        }
+        else{
+          alert("Process Failed! Try Again");
+          window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
+        }
+
+    }
+    //--------------------------------------------------------------------------------------------------------------------------
+
+    //Add Students to the database -> from file
+    async function addStudent_file(Eno,name,username,email,phoneNo,birthday,gender){
+   
+ 
+        const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/addStudent/'+course+'/'+name+'/'+encodeURIComponent(Eno)+'/'+username+'/'+email+'/'+phoneNo+'/'+birthday+'/'+gender,{
+          method:'POST'
+      
+        });
+    
+        const data = await response.json();
+        //console.log(data);
+      
+        if(data['status']=="Success"){
+          window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
+        }
+        else{
+          alert("Process Failed! Try Again");
+          window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
+        }
+
+
+   }
+   
+    //------------------------------------------------------------------------------------------------------------------------
+
+    //Function to process the uploaded file data and store them in database 
+    //(Store uploaded file, read that file, get data and store in database as students)
+      
+    async function UploadProcess() {
           //Reference the FileUpload element.
           var fileUploaded = document.getElementById("myFiles");
-   
+
           //Validate whether File is valid Excel file.
           var regex = /(.xls|.xlsx)$/;
         
@@ -509,7 +482,8 @@
                           GetTableFromExcel(e.target.result);
                       };
                       reader.readAsBinaryString(fileUploaded.files[0]);
-                  } else {
+                  }
+                  else {
                       //For IE Browser.
                       reader.onload = function (e) {
                           var data = "";
@@ -521,14 +495,17 @@
                       };
                       reader.readAsArrayBuffer(fileUploaded.files[0]);
                   }
-              } else {
+              }
+              else {
                   alert("This browser does not support HTML5.");
               }
-          } else {
+          }
+          else {
               alert("Please upload a valid Excel file.");
           }
       }
-      async function GetTableFromExcel(data) {
+
+    async function GetTableFromExcel(data) {
           //Read the Excel File data in binary
           var workbook = XLSX.read(data, {
               type: 'binary'
@@ -540,67 +517,46 @@
           //Read all rows from First Sheet into an JSON array.
           var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[Sheet]);
    
-          
-      
    
           //Add the data rows from Excel file.
           for (var i = 0; i < excelRows.length; i++) {
-              console.log(excelRows[i].Name);
-              console.log(excelRows[i].RegNo);
-
+              
               let Eno = excelRows[i].RegNo ;
               if(!Eno) {Eno="none";}
-              console.log(Eno);
-              let name = excelRows[i].Name;
-              const var1=await isStudentExist(name);
-              console.log("y"+var1);
+              const var1=await isStudentExist(Eno);
+            
               if(var1==1){
                 continue;
               }
+              
+              let name = excelRows[i].Name;
+              
               let username = excelRows[i].GitHubUsername;
               if((!name) | (!username)) {
                 alert("Process Failed!(Student name or GitHub username can not be null) Try Again");
                 window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
                 
               }
-          //    console.log(name);
-          //    console.log(username);
+         
               let email = excelRows[i].Email;
               if(!email) {email="none"};
-          //    console.log(email);
+         
               let phoneNo = excelRows[i].ContactNo;
               if(!phoneNo) {phoneNo="none"};
-           //   console.log(phoneNo);
+         
               let birthday = excelRows[i].Birthday;
               if(!birthday) {birthday="none"};
-           //   console.log(birthday);
+          
               let gender = excelRows[i].Gender;
               if(!gender) {gender="none"};
 
-           //   console.log(gender);
-             /* const response_addAll1 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/addStudent/'+'course'+'/'+'name'+'/'+'Eno'+'/'+'username'+'/'+'email'+'/'+'phoneNo'+'/'+'birthday'+'/'+'gender',{
-                method:'POST'
-    
-              });
-              console.log("yes");
-              const data_all = await response_addAll1.json();
-              console.log(data_all);
-              
-    
-              if(data_all['status']!="Success"){
-                alert("Process Failed! Try Again");
-                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
-              }
-              else{
-                alert("Process Failed! Try Again");
-                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
-              }*/
-              addStudent_(Eno,name,username,email,phoneNo,birthday,gender);
+          
+              addStudent_file(Eno,name,username,email,phoneNo,birthday,gender); //Add student to databse
               
   
               
           }
-          send_();
+          send_(); //Save the file to the system
           
           window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
 
@@ -608,17 +564,17 @@
    
    
       }
-   
+  //################################################################################################################################## 
     
   </script>
   
-  <script type="text/javascript">
-      
-  </script>
+  
 </head>
 
 <body class="dark-edition">
   <div class="wrapper ">
+
+    <!-- Sidebar -->
     <div class="sidebar" data-color="purple" data-background-color="black" data-image="../assets/img/sidebar-2.jpg">
       <!--
         Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
@@ -687,7 +643,9 @@
       </div>
     </div>
     <div class="main-panel">
-      <!-- Navbar -->
+
+
+    <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
         <div class="container-fluid">
           <div class="navbar-wrapper">
@@ -748,7 +706,9 @@
           </div>
         </div>
       </nav>
-      <!-- End Navbar -->
+    <!-- End Navbar -->
+
+    <!--   CONTENT  -->
       <div class="content">
         <div class="container-fluid">
           <div class="container-fluid">
@@ -789,7 +749,7 @@
       
                 <!-- tab-contents -->
                 <div class="tab-content" id="myTabContent">
-                  <!-- Information -->
+                  <!-- Student Information -->
                   <div class="tab-pane fade show active" id="Info-tab-pane" role="tabpanel" aria-labelledby="Info-tab" tabindex="0">
                     <div class="container">
                       <br><hr>
@@ -814,43 +774,7 @@
                               </thead>
                               <!-- loop through each student -->
                               <tbody id="studentList">
-                                <!--tr>
-                                  <td class="pizzaname">1
-                                    <div class="popup" style=" height: 50px;"></div>
-                                  </td>
-                                  <td>Dakota Rice</td>
-                                  <td>$36,738</td>
-                                  <td>Niger</td>
-                                  <td>
-                                    <div class="dropdown">
-                                      <button class="dropbtn">Details</button>
-                                      <div class="dropdown-content">
-                                        <a href="profile.html"><b>Profile</b></a>
-                                        <a href="#"><b>Marks</b></a>
-                                      </div>
-                                    </div>
-                                  </td>
-                                </!--tr>
-
                                 
-                                <tr>
-                                  <td>2</td>
-                                  <td>Minerva Hooper</td>
-                                  <td>$23,789</td>
-                                  <td>Curaçao</td>
-                                </tr>
-                                <tr>
-                                  <td>3</td>
-                                  <td>Sage Rodriguez</td>
-                                  <td>$56,142</td>
-                                  <td>Netherlands</td>
-                                </tr>
-                                <tr>
-                                  <td>4</td>
-                                  <td>Philip Chaney</td>
-                                  <td>$38,735</td>
-                                  <td>Korea, South</td>
-                                </tr>-->
                               </tbody>
                             </table>
                           </div>
@@ -966,58 +890,14 @@
                             <input type="submit"  onclick="UploadProcess()" >
                             
                         </form>
-                        <script>
-                          
-                          
-                            /*
-                            const form = document.getElementById('uploadForm');
-                            form.addEventListener('submit', function(e){
-                              alert("correct");
-                              e.preventDefault();
-                            
-                            })
-                            async function sendFiles(){
-                                const myFiles = document.getElementById('myFiles').files[0];
-                                const form1 = document.querySelector("#uploadForm");
-                                const formData = new FormData();
-                               // Object.keys(myFiles).forEach(key =>{
-                               //   formData.append(myFiles.item(key).name,myFiles.item(key))
-                               // })
-                                formData.append("file", myFiles);
-                                console.log(myFiles);
-                                console.log(formData);
-                                alert("Process Failed! Try Again1");
-                                const response_u= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/upload',{
-                                    method:'POST',                     
-                                    //ContentType: 'multipart/form-data'
-                                    ContentType: 'multipart/form-data' ,
-                                    body: formData
-                                });
-                                const data = await response_u.json();
-                                console.log(data);
-                                alert("Process Failed! Try Again2");
-                                if(data['status']=="Success"){
-                                    window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
-                                }
-                                else{
-                                  alert("Process Failed! Try Again");
-                                  window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
-                                }
-
-                            }
-                            form.addEventListener('submit', function(e){
-                              alert("correct");
-                              e.preventDefault();
-                              sendFiles();
-                            });*/
-                        </script>              
+                               
                         </div>            
                                            
                       </form>
                     </div>              
                   </div>
       
-                  <!-- mmm -->
+                  <!-- sample -->
                   <div class="tab-pane fade" id="Bench-tab-pane" role="tabpanel" aria-labelledby="AddNew-tab" tabindex="0">
                     <div class="container">
                       <br><hr>
@@ -1087,7 +967,7 @@
 
         </div>
       </div>
-      <!--footer class="footer">
+    <!--footer class="footer">
         <div class="container-fluid">
           <nav class="float-left">
             <ul>
@@ -1119,13 +999,10 @@
           </div>
         </div>
       </!--footer-->
-      <script>
-        const x = new Date().getFullYear();
-        let date = document.getElementById('date');
-        date.innerHTML = '&copy; ' + x + date.innerHTML;
-      </script>
+      
     </div>
   </div>
+  <!--   Settings for theme   -->
   <div class="fixed-plugin">
     <div class="dropdown show-dropdown">
       <a href="#" data-toggle="dropdown">
