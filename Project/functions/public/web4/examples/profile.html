@@ -52,6 +52,9 @@
         user = data.user;
 
         var list= document.getElementById("assignList");
+        var listStrengths = document.getElementById("strengths");
+        const listWeeknesses = document.getElementById("weeknesses")
+
 
         let assignmentList=[];
         let elementList=[];
@@ -63,6 +66,13 @@
         const data_marks = await response_marks.json();
         console.log(data_marks);
 
+        const response_assig = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllAssignments',{
+          method:'GET'
+        });
+        const data_assig = await response_assig.json();
+        console.log(data_assig);
+
+
         k=0;
         var elementMarks;
         for(i=0;i< data_marks['data'].length;i++){
@@ -71,11 +81,13 @@
           // load things relevant to the course
           if(elementMarks['CourseName']==course){
             studentList[k]=elementMarks['StudentName'];
-            elementList[k]=elementMarks;        // entire raw take into a list
+            elementList[k]=elementMarks;            // entire raw take into a list
             k++;
 
           }
         }
+
+        var highestM = 0, highestAssg = [], highTop = [], lowestM = 100, lowestAssg = [], lowTop = [];
 
         n=0;
         studentList = [...new Set(studentList)];    // remove duplicates
@@ -95,10 +107,16 @@
                 var assignment=Ele['AssignmentName'];
                 var id = Ele['id'];
                                 
+                // ----------------------------
+                var elementAssig;
+                for(i=0;i< data_assig['data'].length;i++){
+                  elementAssig = data_assig['data'][i];
 
-                let marks1="Not Completed";
+                  if((elementAssig['CourseName']==course) && (elementAssig['AssignmentName']==assignment)){        
+                    var topics = elementAssig['CoveredTopics'];
 
-                list.innerHTML += `<tr>
+                    // List down assign details
+                    list.innerHTML += `<tr>
                             <td>
                               <div class="d-flex align-items-center">
                               
@@ -113,7 +131,7 @@
                             </td>
 
                             <td>
-                              <p class="font-monospace mb-0"> Basics </p>
+                              <p class="font-monospace mb-0">${topics}</p>
                             </td>
 
                             <td>
@@ -130,7 +148,13 @@
                           // <span class="badge badge-success rounded-pill">Done !</span>
                           //     <span class="badge badge-primary rounded-pill">Ongoing ..</span>
                           //     <span class="badge badge-warning rounded-pill">Late Submitted?</span>
+                        
+                  }
 
+                  
+
+                }
+                
                 // function loadStatus(MX){
                 //   var status= document.getElementById("statustd");
                 //   if (MX == "Not Completed"){
@@ -158,13 +182,70 @@
                 }
 
                 ytemps.push(Marks * 100);          
-               
+                
+                
+            
               }
             }
           }
         }
+
+        // taking LOWEST & HIGHEST marks got topics
+        highestM = Math.max(...ytemps)
+        for (let i=0; i < ytemps.length; i++){
+          if (highestM == ytemps[i]){           
+            highestAssg.push(xlabels[i])
+          }
+        }
         
+        lowestM = Math.min(...ytemps)
+        for (let i=0; i < ytemps.length; i++){
+          if (lowestM == ytemps[i]){           
+            lowestAssg.push(xlabels[i])
+          }
+        }
+
+        // listStrengths
+        var elementAssigForS;
+        for (let j=0; j < highestAssg.length; j++){
+          for(let i=0;i< data_assig['data'].length;i++){
+            elementAssigForS = data_assig['data'][i];
+
+              if((elementAssigForS['CourseName']==course) && (elementAssigForS['AssignmentName']==highestAssg[j])){
+                highTop.push(elementAssigForS ['CoveredTopics']) 
+              }
+          }
+          
+        }
+
+        for (let item of highTop){
+          let newTopicItemW = document.createElement('li');
+          newTopicItemW.textContent = item;
+          listStrengths.appendChild(newTopicItemW);
+        }
+     
+        // listWeeknesses
+        var elementAssigForW;
+        for (let j=0; j < lowestAssg.length; j++){
+          for(let i=0;i< data_assig['data'].length;i++){
+            elementAssigForW = data_assig['data'][i];
+
+              if((elementAssigForW['CourseName']==course) && (elementAssigForW['AssignmentName']==lowestAssg[j])){
+                lowTop.push(elementAssigForW['CoveredTopics']) 
+              }
+          }
+          
+        }
+
+        for (let item of lowTop){
+          let newTopicItemW = document.createElement('li');
+          newTopicItemW.textContent = item;
+          listWeeknesses.appendChild(newTopicItemW);
+        }
+
         chartIt();
+
+
     };
     
 
@@ -424,6 +505,78 @@
                 </div>
                 <div class="card-body pt-0">
                   <canvas id="chart" width="400" height="400"></canvas>                    
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-lg-12">
+              <div class="card shadow-sm">
+                
+                <div class="card-header text-white bg-transparent border-0">
+                  <h3 class="mb-0"><i class="far fa-clone pr-1 text-white"></i>Evaluation Report</h3>
+                </div>
+                <div class="card-body pt-0">
+                  
+                  <div class="col-lg-12 col-md-12">
+                    <div class="card">
+                      <div class="card-header card-header-primary">
+                        <h4 class="card-title text-white"><b>Students Performances evaluated based on covered Assignments</b></h4>
+                        <p class="card-category"></p>
+                      </div>
+                      <div class="card-body table-responsive">
+                        
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                      <div class="card card-stats">
+                        <div class="card-header card-header-success card-header-icon">
+                          <div class="card-icon">
+                            <i class="material-icons">store</i>
+                          </div>
+                          <h3 class="card-category"><b><strong>STRENGTHS</strong></b></h3>
+                        </div>
+                        <div class="card-footer">
+                          <div class="font-monospace mb-0 text-white">
+                            <h4>Sections: </h4>
+                            <p>
+                              <!-- load high mark gained covered topics -->
+                              <ul id="strengths">
+                                
+                              </ul>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                      <div class="card card-stats">
+                        <div class="card-header card-header-warning card-header-icon">
+                          <div class="card-icon">
+                            <i class="material-icons">store</i>
+                          </div>
+                          <h3 class="card-category"><b><strong>WEEKNESSES</strong></b></h3>
+                        </div>
+                        <div class="card-footer">
+                          <div class="font-monospace mb-0 text-white">
+                            <h4>Sections: </h4>
+                            <p>
+                              <!-- load less mark gained covered topics -->
+                              <ul id="weeknesses">
+                                
+                              </ul>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
                 </div>
               </div>
 
