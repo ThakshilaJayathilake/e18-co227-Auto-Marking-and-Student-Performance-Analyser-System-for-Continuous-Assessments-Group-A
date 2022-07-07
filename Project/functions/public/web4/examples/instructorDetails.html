@@ -36,13 +36,15 @@
   <!-- -------------------------------------- displayCourse functions --------------------------------------------------------- -->
   <script >
     var user;
+    
     function courseDetails() {
       window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-up.html"
     }
-    function directToCoursePage(cname){
-      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html?cName="+cname+"?user="+encodeURIComponent(user);
+    function directToAssPage(Assname){
+      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?Assignment="+encodeURIComponent(Assname)+"?user="+encodeURIComponent(user);
       
     }
+    
     async function createCourse() {
       let name =document.getElementById("course-title").value;
       let code =document.getElementById("course-code").value;
@@ -67,7 +69,7 @@
         }
       }
       else{
-       // window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-up.html";
+        window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-up.html";
       }
 
 
@@ -76,45 +78,113 @@
       
     }
     
-    window.onload = function() {
+    async function addInstructor() {
+        let name =document.getElementById("instructor-username").value;
+        let code;
+        //let code =document.getElementById("course-code").value;
+        const response_3 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllCourses',{
+          method:'GET'
+        });
+        const data_3 = await response_3.json();
+        for(i=0;i< data_3['data'].length;i++){
+          var element1 = data_3['data'][i];
+
+          if(element1['CourseName']==course){
+            code = element1['CourseCode'];
+          }
+              
+        }
+      
+      
+        const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createCourse/'+name+"/"+code+"/"+course,{
+          method:'POST',
+      
+        });
+        const data2 = await response2.json();
+        if(data2['status']=="Success"){
+          window.location.reload();
+        }
+      }
+     
+
+
+      
+    
+ 
+    
+    var course;
+    var user;
+    window.onload = async function() {
         var url = window.location.href,
-        params = url.split('?')[1].split('&'),
+        params = url.split('?'),
         data = {}, tmp;
+        
         for (var i = 0, l = params.length; i < l; i++) {
             tmp = params[i].split('=');
             data[tmp[0]] = tmp[1];
+            
         }
-        user = data.name;
-    	  course(user);
-    };
-    //var user="Ni";
-    async function course(user) {
+        user = data.user;
+        course = data.cName;
+        var title1 = document.getElementById("course");
+        title1.innerHTML=course;
+      
+        instructors(course);
 
-        let courses=[];
-        let courseCodes=[];
-
-        const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllCourses',{
+        const response_ = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllAssignments',{
           method:'GET'
         });
-                
-                const data = await response.json();
-                console.log(data);
-          j=0;
-                for(i=0;i< data['data'].length;i++){
-                    var element = data['data'][i];
+        const data_ = await response_.json();
+        console.log(data_);
+        var list= document.getElementById("myUL");
+        k=0;
+        for(i=0;i< data_['data'].length;i++){
+          var element1 = data_['data'][i];
 
-                    if(element['UserName']==user){
-                        courses[j]=element['CourseName'] ;
-                        courseCodes[j]=element['CourseCode'];
-                        j++;                   
-                    }                                   
-                }
+          if(element1['CourseName']==course){
+            k++;
+            var name=element1['AssignmentName'];
+            var direct="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?Assignment="+encodeURIComponent(name)+"?user="+encodeURIComponent(user);
+            list.innerHTML += `<li><a href="${direct}">${name}</a></li>`;
+            
+          }
+              
+        }
+        
+
+    	  
+    };
+    function directToNewAssignment(){
+      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignment.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
       
-     // window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-up.html"
-     
-      var num = document.getElementById("numberOfCourses");
-      num.innerHTML = j;
+    }
+    //var user="Ni";
+    async function instructors(course) {
+      const instructor_=[];
+      console.log("this"+instructor_);
+      j=0;
+      const response_3 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllCourses',{
+          method:'GET'
+        });
+        const data_3 = await response_3.json();
+        for(i=0;i< data_3['data'].length;i++){
+          var element1 = data_3['data'][i];
 
+          if(element1['CourseName']==course){
+            instructor_[j] = element1['UserName'];
+            console.log(instructor_[j]);
+            j++;
+          }
+              
+        }
+       
+        console.log(instructor_);
+      var ele = document.getElementById("numberOfAss");
+      ele.innerHTML = j;
+                
+      
+    
+      
       var htmlElements = "";
       var container = document.getElementById("test");
       let name;
@@ -122,15 +192,16 @@
       let ids = ["dailySalesChart","websiteViewsChart","completedTasksChart"];
       let m=0;
       for (var i = 0; i < j; i++) {
-        name=courses[i];
-        code=courseCodes[i];
-        container.innerHTML += `<div class="col-xl-4 col-lg-12" onclick="directToCoursePage('${courses[i]}')">
+        name=instructor_[i];
+        console.log(name);
+        
+        container.innerHTML += `<div class="col-xl-4 col-lg-12" onclick="">
               <div class="card card-chart">
                 <div class="${headers[m]}">
                   <div class="ct-chart" id="${ids[m]}"></div>
                 </div>
                 <div class="card-body">
-                  <h4 class="card-title"><a  class="link-btn" disabled>${code}</a></h4>
+                  <h4 class="card-title"><a href="Course.html" class="link-btn"></a></h4>
                   <p class="card-category">${name}</p>
                 </div>
                 <div class="card-footer">
@@ -193,7 +264,7 @@
        window.location.href="http://localhost:5001/group07-co227/us-central1/app";
     }
     else{
-      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html";
+      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html?name="+encodeURIComponent(user);
     }
     }
   </script>
@@ -217,6 +288,12 @@
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="nav-item active  ">
+            <script>
+              function dashboard(){
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html?name="+encodeURIComponent(user);
+              }
+              
+            </script>
             <a class="nav-link" onclick="dashboard()">
               <i class="material-icons">dashboard</i>
               <p>Dashboard</p>
@@ -228,14 +305,46 @@
               <p>User Profile</p>
             </a>
           </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./tables.html">
+        
+          <li class="nav-item">
+            <script>
+              function courses_(){
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+              }
+              
+            </script>
+            <a class="nav-link" onclick="courses_()">
               <i class="material-icons">content_paste</i>
+              <p>Course</p>
+            </a>
+          </li>
+
+          <li class="nav-item ">
+            <a class="nav-link">
+              <i class="material-icons">library_books</i>
+              <p>Filter Assignments</p><br>              
+              <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Assignments.." title="Type in a assignment name">
+              
+              <ul id="myUL">
+                <!--li><a href="#">Assignment 1</a></!--li>
+                <li><a href="#">Assignment 2</a></li>
+              
+                <li><a href="#">Assignment 3</a></li>
+                <li><a href="#">Assignment 4</a></li>
+              
+                <li><a href="#">Assignment 5</a></li>
+                <li><a href="#">Assignment 6</a></li>
+                <li><a href="#">Assignment 7</a></li>-->
+              </ul>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="./map.html">
+              <i class="material-icons">location_ons</i>
               <p>TODO List</p>
             </a>
           </li>
-          
-         
           <li class="nav-item ">
             <a class="nav-link" href="./notifications.html">
               <i class="material-icons">notifications</i>
@@ -257,7 +366,7 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:void(0)">Dashboard</a>
+            <a class="navbar-brand" href="javascript:void(0)" id="course"></a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation" data-target="#navigation-example">
             <span class="sr-only">Toggle navigation</span>
@@ -277,12 +386,6 @@
             </form>
             <ul class="navbar-nav">
               <li class="nav-item">
-                <script>
-                  function dashboard(){
-                    window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html?name="+encodeURIComponent(user);
-                  }
-                  
-                </script>
                 <a class="nav-link" onclick="dashboard()">
                   <i class="material-icons">dashboard</i>
                   <p class="d-lg-none d-md-block">
@@ -322,25 +425,24 @@
 
       <div class="content">
         <div class="container-fluid">
-          <h3 class="mdb-color white-text"><b>Existing courses</b> <kbd id="numberOfCourses">0</kbd></h3>
-          <div class="row" id="test" >
-                           
-          </div>
-
+          <h3 class="mdb-color white-text"><b>Existing Instructors</b> <kbd id="numberOfAss">0</kbd></h3>
+          <div class="row" id="test" ></div>
                       
           <div class="row">
             <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
 
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
-              Add New Course
+            
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop_addInstructor">
+              Add Instructor
             </button>
 
-            
-
-          </div>
+            </div>
           </div>
           <br>
+          
+          
+        
           
           
         </div>
@@ -384,6 +486,43 @@
         </div>
       </div>
 
+      <!--Pop up Modal for Add Instructor to the Course-->
+    <div class="modal fade" id="staticBackdrop_addInstructor" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title" id="staticBackdropLabel"><b>Add Instructor</b></h3>
+              <button type="button" class="close" data-dismiss="modal" area-label="Close">
+                <span area-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="course-code" class="col-form-label" >Instructor Username:</label>
+                <div><input class="" id="instructor-username" style="border-color: transparent;" ></input><hr></div>
+              </div>
+              <!--div class="mb-3">
+                <label for="course-title" class="col-form-label">Title:</label>
+                <div><input type="text" class="" id="course-title" style="border-color: transparent;"></input><hr></div>
+                
+              </div>
+              <div-- class="mb-3">
+                <label for="code-language-def" class="col-form-label" >Default code language:</label>
+                <div><input class="" id="code-language-def" style="border-color: transparent;"></input><hr></div>
+              </div-->
+            </form>
+       
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="addInstructor()">ADD</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
       
 
 
@@ -418,8 +557,12 @@
             <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
           </div>
         </div>
-      </!--footer>-->
-      
+      </!--footer-->
+      <script>
+        const x = new Date().getFullYear();
+        let date = document.getElementById('date');
+        date.innerHTML = '&copy; ' + x + date.innerHTML;
+      </script>
     </div>
   </div>
   <div class="fixed-plugin">
