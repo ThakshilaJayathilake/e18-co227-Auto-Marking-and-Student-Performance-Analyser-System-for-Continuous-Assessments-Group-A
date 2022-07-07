@@ -688,8 +688,8 @@ app.post('/api/createCourseGITHUB/:CourseName',(req,res)=>{
             //#############################################################################################
             //You should change this on your own
 
-            o.addArguments("--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data/");
-            o.addArguments("--profile-directory=Profile 2");
+            o.addArguments("--user-data-dir=C:/Users/ASUS/AppData/Local/Google/Chrome/User Data/");
+            o.addArguments("--profile-directory=Profile 5");
             //#############################################################################################
             
             o.addArguments("start-minimized");
@@ -769,8 +769,8 @@ app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:T
             //#############################################################################################
             //You should change this on your own
 
-            o.addArguments("--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data/");
-            o.addArguments("--profile-directory=Profile 2");
+            o.addArguments("--user-data-dir=C:/Users/AUSU/AppData/Local/Google/Chrome/User Data/");
+            o.addArguments("--profile-directory=Profile 5");
 
             //#############################################################################################
             
@@ -916,8 +916,8 @@ app.get('/api/getMarks/:StudentName/:courseName/:assignmentName',(req,res)=>{
             //#############################################################################################
             //You should change this on your own
 
-            o.addArguments("--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data/");
-            o.addArguments("--profile-directory=Profile 2");
+            o.addArguments("--user-data-dir=C:/Users/ASUS/AppData/Local/Google/Chrome/User Data/");
+            o.addArguments("--profile-directory=Profile 5");
 
             //#############################################################################################
             o.addArguments("start-minimized");
