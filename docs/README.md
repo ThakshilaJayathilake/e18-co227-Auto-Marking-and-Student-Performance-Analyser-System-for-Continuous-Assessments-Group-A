@@ -141,32 +141,34 @@ Below phases add functionalities for the system
 8. Generate results and Visualization through web application
 
 ## REST API
-Web interface can be connected with the backend firebase database directly. But it is better to use an API to connect them together. So, we implemented a REST API to connect with database, not only for backend but also it gives many advantages to the system. It is more efficient to use an API. So, our implemeted API can connect with Firebase, communicate with GitHub classroom and have many more features.
+> Web interface can be connected with the backend firebase database directly. But it is better to use an API to connect them together. So, we implemented a REST API to connect with database, not only for backend but also it gives many advantages to the system. It is more efficient to use an API. So, our implemeted API can connect with Firebase, communicate with GitHub classroom and have many more features.
 
-### Functions Implemented
+- ### Functions Implemented
 
-    -> CRUD operations for the backend
+   - __CRUD operations for the backend__
     
-    -> Communicate with GitHub classroom
-          1. Function to create a new course
-          2. Function to create a new assignment
-          3. Function to get marks of a student
+   - __Communicate with GitHub classroom__
+    
+      > - Function to create a new course
+      > - Function to create a new assignment
+      > - Function to get marks of a student
     
     
 
 ## Additional Features
-- Download Marks Feature
 
-       Inside the Students tag under Courses, there is are mark lists according to the assignments. 
-       So, there the system displayed the marks of each student belongs to that course for each assignment separately. 
-       Also, instructor can download each and every assignment marks of the class. 
-       There is a special feature also, user can refresh the assignment marks of the student. So, instructor can view marks upto date.
-      
-- Add Students By Uploading File To The System
+- #### Download Marks Feature
+
+   > Inside the Students tag under Courses, there is are mark lists according to the assignments. So, there the system displayed the marks of each student belongs to that course for each assignment separately. 
+   > Also, instructor can download each and every assignment marks of the class. 
+   > here is a special feature also, user can refresh the assignment marks of the student. So, instructor can view marks upto date.
+
+
+- #### Add Students By Uploading File To The System
        
-       There is an upload feature to upload all student details. So, instructor no needs to add students to the course one by one.
-       Other than that user can use the given sample file. 
-       Then insert the student details to the file and then upload it to the system.
+   > There is an upload feature to upload all student details. So, instructor no needs to add students to the course one by one.
+   > Other than that user can use the given sample file. 
+   > Then insert the student details to the file and then upload it to the system.
 
 ## Project Plan
 
