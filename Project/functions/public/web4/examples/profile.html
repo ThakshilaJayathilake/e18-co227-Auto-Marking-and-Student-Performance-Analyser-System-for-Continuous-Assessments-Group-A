@@ -51,6 +51,7 @@
         student = decodeURIComponent(data.stdName);        
         user = data.user;
 
+        var table = document.getElementById("tableAssigInfo"), row = 0;
         var list= document.getElementById("assignList");
         var listStrengths = document.getElementById("strengths");
         const listWeeknesses = document.getElementById("weeknesses")
@@ -88,7 +89,7 @@
         }
 
         var highestM = 0, highestAssg = [], highTop = [], lowestM = 100, lowestAssg = [], lowTop = [];
-
+        
         n=0;
         studentList = [...new Set(studentList)];    // remove duplicates
 
@@ -114,7 +115,7 @@
 
                   if((elementAssig['CourseName']==course) && (elementAssig['AssignmentName']==assignment)){        
                     var topics = elementAssig['CoveredTopics'];
-
+                    
                     // List down assign details
                     list.innerHTML += `<tr>
                             <td>
@@ -135,7 +136,7 @@
                             </td>
 
                             <td>
-                              <span id="statustd" class="badge badge-success rounded-pill">Done !</span>
+                              
                             </td>                        
                               
                             <td>
@@ -145,46 +146,30 @@
                             </td>
 
                           </tr>`;
-                          // <span class="badge badge-success rounded-pill">Done !</span>
-                          //     <span class="badge badge-primary rounded-pill">Ongoing ..</span>
+
                           //     <span class="badge badge-warning rounded-pill">Late Submitted?</span>
-                        
+                                         
+                    row++;      
                   }
-
-                  
-
+                
                 }
                 
-                // function loadStatus(MX){
-                //   var status= document.getElementById("statustd");
-                //   if (MX == "Not Completed"){
-                //   status.innerHTML += `<span class="badge badge-primary rounded-pill">Ongoing ..</span>`;
-                  
-                //   } else{
-                //     status.innerHTML += `<span class="badge badge-success rounded-pill">Done !</span>`;
-                    
-                //   }
-                // }
-
                 var status= document.getElementById("statustd");
                 // get graph values
                 var Marks = 0;
                 xlabels.push(assignment);     
-                if (marks == "Not Completed"){
-                  status.value = "Ongoing ..";
-                  status.class = "badge badge-primary rounded-pill";
-                  // status.innerHTML += `<span class="badge badge-primary rounded-pill">Ongoing ..</span>`;
+                if (marks == "Not Completed"){              
+                  table.rows[row].cells[3].innerHTML += `<span class="badge badge-primary rounded-pill">Ongoing ..</span>`;
+                  
                   Marks = 0;
                 } else{
-                  // status.innerHTML += `<span class="badge badge-success rounded-pill">Done !</span>`;
+                  table.rows[row].cells[3].innerHTML += `<span class="badge badge-success rounded-pill">Done !</span>`;
+
                   marks = marks.split('/');
                   Marks = parseFloat(parseInt(marks[0], 10) / parseInt(marks[1], 10));
                 }
-
-                ytemps.push(Marks * 100);          
-                
-                
-            
+                ytemps.push(Marks * 100);                          
+                          
               }
             }
           }
@@ -437,7 +422,7 @@
 
                   <div class="container my-5">
                     <div class="shadow-4 rounded-5 overflow-hidden">
-                      <table class="table align-middle mb-0 bg-transparent table-bordered">
+                      <table id="tableAssigInfo" class="table align-middle mb-0 bg-transparent table-bordered">
                         <thead class="bg-transparent ">
                           <tr>
                             <th>Assignment Name</th>
