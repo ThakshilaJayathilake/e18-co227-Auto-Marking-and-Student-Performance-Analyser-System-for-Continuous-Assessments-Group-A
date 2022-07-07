@@ -156,7 +156,17 @@ Web interface can be connected with the backend firebase database directly. But 
 
 ## Additional Features
 - Download Marks Feature
-- Add Students By Uploading File TO The System
+
+       Inside the Students tag under Courses, there is are mark lists according to the assignments. 
+       So, there the system displayed the marks of each student belongs to that course for each assignment separately. 
+       Also, instructor can download each and every assignment marks of the class. 
+       There is a special feature also, user can refresh the assignment marks of the student. So, instructor can view marks upto date.
+      
+- Add Students By Uploading File To The System
+       
+       There is an upload feature to upload all student details. So, instructor no needs to add students to the course one by one.
+       Other than that user can use the given sample file. 
+       Then insert the student details to the file and then upload it to the system.
 
 ## Project Plan
 
