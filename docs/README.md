@@ -21,9 +21,11 @@ title:
 4. [Phase I](#phase-i---auto-marking-system-for-coding-assessments)
 5. [Phase II](#phase-ii---student-performance-analyser)
 6. [Solution Architecture](#solution-architecture)
-7. [Project Plan](#project-plan)
-8. [Team](#team)
-9. [Links](#links)
+7. [REST API](#rest-api)
+8. [Additional Features](#additional-features)
+9. [Project Plan](#project-plan)
+10. [Team](#team)
+11. [Links](#links)
 
 
 
@@ -138,6 +140,23 @@ Below phases add functionalities for the system
 7. Used the automated process by Selenium for that
 8. Generate results and Visualization through web application
 
+## REST API
+Web interface can be connected with the backend firebase database directly. But it is better to use an API to connect them together. So, we implemented a REST API to connect with database, not only for backend but also it gives many advantages to the system. It is more efficient to use an API. So, our implemeted API can connect with Firebase, communicate with GitHub classroom and have many more features.
+
+### Functions Implemented
+
+    -> CRUD operations for the backend
+    
+    -> Communicate with GitHub classroom
+          1. Function to create a new course
+          2. Function to create a new assignment
+          3. Function to get marks of a student
+    
+    
+
+## Additional Features
+- Download Marks Feature
+- Add Students By Uploading File TO The System
 
 ## Project Plan
 
