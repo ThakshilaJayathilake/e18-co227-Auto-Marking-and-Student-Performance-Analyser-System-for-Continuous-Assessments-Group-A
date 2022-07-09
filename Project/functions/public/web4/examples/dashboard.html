@@ -44,9 +44,10 @@
       
     }
     async function createCourse() {
-      let name =document.getElementById("course-title").value;
+      let name_given =document.getElementById("course-title").value;
       let code =document.getElementById("course-code").value;
-    
+      let batch =document.getElementById("batch").value;
+      var name = batch + name_given;
       
       const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createCourseGITHUB/'+name,{
         method:'POST',
@@ -360,6 +361,10 @@
             </div>
             <div class="modal-body">
               <form>
+                <div class="mb-3">
+                  <label for="course-batch" class="col-form-label" >Batch:</label>
+                  <div><input class="" id="batch" style="border-color: transparent;" ></input><hr></div>
+                </div>
                 <div class="mb-3">
                   <label for="course-code" class="col-form-label" >Course Code:</label>
                   <div><input class="" id="course-code" style="border-color: transparent;" ></input><hr></div>

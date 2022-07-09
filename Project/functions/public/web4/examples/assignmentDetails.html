@@ -92,7 +92,7 @@
         user = data.user;
         course = data.cName;
         var title1 = document.getElementById("course");
-        title1.innerHTML=course;
+        title1.innerHTML=decodeURIComponent(course);
       
         courses(course);
 
