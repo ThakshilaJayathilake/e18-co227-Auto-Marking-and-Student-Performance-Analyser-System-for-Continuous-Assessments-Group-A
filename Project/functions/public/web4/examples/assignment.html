@@ -248,8 +248,30 @@
           }
               
         }
-     
-        const responseG = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getUrl/'+course+"/"+assignName+"/"+aEndDateTime+"/"+no+    // ....................
+        //setup and run commands
+        var setup;
+        var run;
+        console.log(assignLang);
+        if(assignLang.toUpperCase()=='JAVA'){
+          setup = "javac Main.java";
+          run = "java Main";
+        }
+        else if(assignLang.toUpperCase()=='C'){
+          setup = "null";
+          run = "make test";
+
+        }
+        
+        else if(assignLang.toUpperCase()=='PYTHON'){
+          setup = "null";
+          run = "python3 main.py";
+        }
+        
+        else if(assignLang.toUpperCase()=='C++'){
+          setup = "null";
+          run = "make test";
+        }
+        const responseG = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getUrl/'+course+"/"+assignName+"/"+aEndDateTime+"/"+encodeURIComponent(setup)+"/"+encodeURIComponent(run)+"/"+no+    // ....................
       "/"+[testNames]+"/"+[inputs]+"/"+[outputs]+"/"+[marks]+"/"+encodeURIComponent(assignQTemplate),{
             
             method:'GET',

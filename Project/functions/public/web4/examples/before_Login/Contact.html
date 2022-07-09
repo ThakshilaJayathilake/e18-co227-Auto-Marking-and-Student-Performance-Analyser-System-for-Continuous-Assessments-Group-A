@@ -169,22 +169,36 @@
                 
             <div class="tim-typo">
               <div style="text-align: center; ">
-                <form action="" style="color:aliceblue; ;"></form>
+                <form action="/send_email" method="post" style="color:aliceblue; ;"></form>
                   
                   <label class="form-group" style="color:aliceblue; ;">
                     
                     <span >Your Name</span>
                     <input type="text" class="form-control"  required >
                     <br>
-                    <span for="">Your Mail</span><input type="text" class="form-control"  required>
+                    <span for="">Your Mail</span><input type="text" class="form-control" id="send_email" required>
                     <br>
                     
                     <span for="">Your Message</span>
-                    <textarea name="" id="" class="form-control" required></textarea>
+                    <textarea name=""  class="form-control" id="message" required></textarea>
                     <br>
                     <div class="text-center">
-                      <button type="button" class="btn bg-gradient-primary w-100 my-4 mb-2" >Send Message</button>
+                      <button type="submit" onclick="send()" class="btn bg-gradient-primary w-100 my-4 mb-2" >Send Message</button>
                     </div>
+                    <script>
+                      async function send() {
+                        var sender_email = document.getElementById('send_email').value;
+                        var receiver_email = 'co227project@gmail.com';
+                        var msg = document.getElementById('message').value;
+                        const response_a = await fetch('http://localhost:5001/group07-co227/us-central1/app/send_email/'+sender_email+'/'+receiver_email+'/'+msg,{
+                            method:'POST'
+                        });
+                        const data_a = await response_a.json();
+                        console.log(data_a);
+
+                        
+                      }
+                    </script>
                     
                   </label>
                   

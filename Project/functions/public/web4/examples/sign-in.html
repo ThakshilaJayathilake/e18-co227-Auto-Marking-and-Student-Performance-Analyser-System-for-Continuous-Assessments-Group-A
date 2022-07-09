@@ -34,6 +34,11 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/material-dashboard2.css?v=3.0.3" rel="stylesheet" />
+  <!-- Google API Authentication-->
+  
+  <meta name="google-signin-client_id" content="204066930237-uhrrkatls0cuibis2d8bh9tdlpd4q5pg.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  
 
 
 
@@ -43,11 +48,30 @@
     function disableBack() { window.history.forward(); }
     setTimeout("disableBack()", 0);
     window.onunload = function () { null };
+
+    
 </script>
 	<script >
+    // Google API Authentication-->
+      
+    function onSignIn(googleUser) {
+        console.log('hi');
+        var profile = googleUser.getBasicProfile();
+        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    }
+    function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }
 		async function login(){
                 let user =document.getElementById("UserName1").value;
                 let userPass =document.getElementById("Password1").value;
+                
                // let userRePass =document.getElementById("RePassword1").value;
               
                // if(userPass!=userRePass){
@@ -209,6 +233,8 @@
                     Don't have an account?
                     <a href="sign-up.html" class="text-primary text-gradient font-weight-bold">Sign up</a>
                   </p>
+                  <!-- Google API Authentication-->
+                  <div class="g-signin2" data-onsuccess="onSignIn"></div>
                 </form>
               </div>
             </div>

@@ -10,6 +10,8 @@ const ExcelJS = require('exceljs');
 const path =require('path');
 const fs =require('fs');
 
+//sending mails
+var nodemailer = require('nodemailer');
 
 const { VisionUIControllerProvider } = require("context");
 const functions = require("firebase-functions");
@@ -688,8 +690,8 @@ app.post('/api/createCourseGITHUB/:CourseName',(req,res)=>{
             //#############################################################################################
             //You should change this on your own
 
-            o.addArguments("--user-data-dir=C:/Users/ASUS/AppData/Local/Google/Chrome/User Data/");
-            o.addArguments("--profile-directory=Profile 5");
+            o.addArguments("--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data/");
+            o.addArguments("--profile-directory=Profile 2");
             //#############################################################################################
             
             o.addArguments("start-minimized");
@@ -752,7 +754,7 @@ app.post('/api/createCourseGITHUB/:CourseName',(req,res)=>{
 
 //Create New Assignment in GitHub Classroom and generate the url and return it.
 // app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:TestInputs/:TestOutputs/:TestMarks',(req,res)=>{
-app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:TestInputs/:TestOutputs/:TestMarks/:assignmentTemplate',(req,res)=>{  // ....................
+app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:setup/:run/:NoTests/:TestNames/:TestInputs/:TestOutputs/:TestMarks/:assignmentTemplate',(req,res)=>{  // ....................
     (async()=>{
         try {
             // console.log(decodeURIComponent(assignmentTemplate));
@@ -769,8 +771,8 @@ app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:T
             //#############################################################################################
             //You should change this on your own
 
-            o.addArguments("--user-data-dir=C:/Users/AUSU/AppData/Local/Google/Chrome/User Data/");
-            o.addArguments("--profile-directory=Profile 5");
+            o.addArguments("--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data/");
+            o.addArguments("--profile-directory=Profile 2");
 
             //#############################################################################################
             
@@ -803,8 +805,10 @@ app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:T
             await driver.findElement(By.id("new-assignment-submit")).click();
 
             //page II
+                      
             var assTemp=req.params.assignmentTemplate;            // ....................
-            var assTemplate = decodeURIComponent(assTemp);        
+            var assTemplate = decodeURIComponent(assTemp); 
+                 
             
             await driver.findElement(By.css("#starter-code-repo-name")).click();
             // await driver.findElement(By.name("assignment_form[starter_code_repo_full_name]")).sendKeys("test-for-coding/template-for-java");
@@ -818,7 +822,10 @@ app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:T
             let inputs=[];
             let outputs=[];
             let marks=[];
-            
+            var setup_given =req.params.setup;        
+            var run_given =req.params.run;
+            setup_given = decodeURIComponent(setup_given); 
+            run_given = decodeURIComponent(run_given); 
             names=req.params.TestNames.split(',');
             inputs=req.params.TestInputs.split(',');
             outputs=req.params.TestOutputs.split(',');
@@ -827,6 +834,7 @@ app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:T
             var addtestcase = await driver.findElement(By.id("view-options"));
             var testcaseType= await driver.findElement(By.xpath("//div[@class='SelectMenu-list']//span[text()='Input/Output test']"));
             var ele1=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][name]"));
+
             var setup=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][setup]"));
             var run=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][run]"));
 
@@ -845,10 +853,23 @@ app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:NoTests/:TestNames/:T
                 ///var ele1=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][name]"));
                 await ele1.clear();
                 await ele1.sendKeys(names[j]);
-                await setup.clear();
-                await setup.sendKeys("javac Main.java");
+                //await setup.clear();
+                console.log(setup_given);
+                if(setup_given.toString()=="null"){
+                    console.log(setup_given+"oo");
+                    //await setup.sendKeys(setup_given);
+                }
+                else{
+                    console.log(setup_given);
+                    await setup.sendKeys(setup_given);
+                  //  await setup.sendKeys(" ");
+                    
+
+                }
+                
                 await run.clear();
-                await run.sendKeys("java Main");
+                console.log(run_given);
+                await run.sendKeys(run_given);
                 //var ele2=await driver.findElement(By.name("assignment_form[assignment_tests_attributes][][input]"));
                 await ele2.clear();
                 await ele2.sendKeys(inputs[j]);
@@ -916,8 +937,8 @@ app.get('/api/getMarks/:StudentName/:courseName/:assignmentName',(req,res)=>{
             //#############################################################################################
             //You should change this on your own
 
-            o.addArguments("--user-data-dir=C:/Users/ASUS/AppData/Local/Google/Chrome/User Data/");
-            o.addArguments("--profile-directory=Profile 5");
+            o.addArguments("--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data/");
+            o.addArguments("--profile-directory=Profile 2");
 
             //#############################################################################################
             o.addArguments("start-minimized");
@@ -1035,7 +1056,41 @@ app.post('/api/upload',(req,res)=>{
    // return res.json({status:'OK'});
 });
 
+app.post('/send_email/:sender/:receiver/:msg',(req,res)=>{
+    console.log("yes");
+    var transport = nodemailer.createTransport({
+        service: 'gmail',
+        auth:{
+            user: 'co227project@gmail.com',
+            pass: 'ilaotfffnfsieuvu'
+        }
 
+    });
+    var sender = req.params.sender;
+    var receiver = req.params.receiver;
+    var msg = req.params.msg;
+    var subject = 'message for u';
+    var mail={
+        from: receiver,
+        to: sender,
+        subject: subject,
+        text: msg
+    }
+    console.log(sender);
+    console.log(receiver);
+    console.log(msg);
+    console.log(subject);
+    
+    transport.sendMail(mail,function(err,info){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log('success');
+        }
+
+    })
+});
 //exports the api to firebase cloud functions
 exports.app = functions.runWith(runtimeOpts).https.onRequest(app);
 
