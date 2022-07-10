@@ -74,7 +74,7 @@
             </a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="../icons.html">
+            <a class="nav-link" href="./Contact.html">
               <i class="material-icons">bubble_chart</i>
               <p>Contact US</p>
             </a>
@@ -174,7 +174,7 @@
                   <label class="form-group" style="color:aliceblue; ;">
                     
                     <span >Your Name</span>
-                    <input type="text" class="form-control"  required >
+                    <input type="text" class="form-control" id="SenderName" required >
                     <br>
                     <span for="">Your Mail</span><input type="text" class="form-control" id="send_email" required>
                     <br>
@@ -187,14 +187,24 @@
                     </div>
                     <script>
                       async function send() {
-                        var sender_email = document.getElementById('send_email').value;
+                        
+                        var senderName = document.getElementById('SenderName').value;
+                         var sender_email = document.getElementById('send_email').value;
                         var receiver_email = 'co227project@gmail.com';
                         var msg = document.getElementById('message').value;
-                        const response_a = await fetch('http://localhost:5001/group07-co227/us-central1/app/send_email/'+sender_email+'/'+receiver_email+'/'+msg,{
+                        const response_a = await fetch('http://localhost:5001/group07-co227/us-central1/app/send_email/'+senderName+'/'+sender_email+'/'+receiver_email+'/'+msg,{
                             method:'POST'
                         });
                         const data_a = await response_a.json();
                         console.log(data_a);
+                        if(data_a['status']=='Success'){
+                            alert('Message Sent Successfully!');
+                            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/before_Login/Contact.html";
+                        }
+                        else{
+                            alert('Process Failed!');
+                            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/before_Login/Contact.html";
+                        }
 
                         
                       }
