@@ -1056,23 +1056,27 @@ app.post('/api/upload',(req,res)=>{
    // return res.json({status:'OK'});
 });
 
-app.post('/send_email/:sender/:receiver/:msg',(req,res)=>{
-    console.log("yes");
-    var transport = nodemailer.createTransport({
-        service: 'gmail',
-        auth:{
-            user: 'co227project@gmail.com',
-            pass: 'ilaotfffnfsieuvu'
-        }
+var transport = nodemailer.createTransport({
+    service: 'gmail',
+    auth:{
+        user: 'co227project@gmail.com',
+        pass: 'aqgnmovabjpugysv'
+    },
+    tls:{
+        rejectUnauthorized: false,
+    }
 
-    });
-    var sender = req.params.sender;
-    var receiver = req.params.receiver;
+});
+app.post('/send_email/:senderName/:senderMail/:receiverMail/:msg',(req,res)=>{
+    console.log("yes");
+    var name = req.params.senderName;
+    var sender = req.params.senderMail;
+    var receiver = req.params.receiverMail;
     var msg = req.params.msg;
-    var subject = 'message for u';
+    var subject = 'message from :'+name+' : '+ sender;
     var mail={
-        from: receiver,
-        to: sender,
+        from: sender,
+        to: receiver,
         subject: subject,
         text: msg
     }
@@ -1084,9 +1088,11 @@ app.post('/send_email/:sender/:receiver/:msg',(req,res)=>{
     transport.sendMail(mail,function(err,info){
         if(err){
             console.log(err);
+            return res.status(200).send({status: 'Failed',msg: err});
         }
         else{
             console.log('success');
+            return res.status(200).send({status: 'Success',msg: "Msg sent"});
         }
 
     })
