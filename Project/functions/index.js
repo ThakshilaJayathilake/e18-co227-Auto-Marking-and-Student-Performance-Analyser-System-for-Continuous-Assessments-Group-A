@@ -826,10 +826,10 @@ app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:setup/:run/:NoTests/:
             var run_given =req.params.run;
             setup_given = decodeURIComponent(setup_given); 
             run_given = decodeURIComponent(run_given); 
-            names=req.params.TestNames.split(',');
-            inputs=req.params.TestInputs.split(',');
-            outputs=req.params.TestOutputs.split(',');
-            marks=req.params.TestMarks.split(',');
+            names=decodeURIComponent(req.params.TestNames).split(',');
+            inputs=decodeURIComponent(req.params.TestInputs).split(',');
+            outputs=decodeURIComponent(req.params.TestOutputs).split(',');
+            marks=decodeURIComponent(req.params.TestMarks).split(',');
             j=0;
             var addtestcase = await driver.findElement(By.id("view-options"));
             var testcaseType= await driver.findElement(By.xpath("//div[@class='SelectMenu-list']//span[text()='Input/Output test']"));

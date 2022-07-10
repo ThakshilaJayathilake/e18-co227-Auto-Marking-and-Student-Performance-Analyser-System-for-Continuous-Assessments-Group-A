@@ -223,7 +223,7 @@
             marks[i]=document.getElementById(`tMarks${i}`).value;
 
 
-
+            
         }
         const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllAssignments',{
             method:'GET'
@@ -272,11 +272,11 @@
           run = "make test";
         }
         const responseG = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getUrl/'+course+"/"+assignName+"/"+aEndDateTime+"/"+encodeURIComponent(setup)+"/"+encodeURIComponent(run)+"/"+no+    // ....................
-      "/"+[testNames]+"/"+[inputs]+"/"+[outputs]+"/"+[marks]+"/"+encodeURIComponent(assignQTemplate),{
+      "/"+[testNames]+"/"+encodeURIComponent([inputs])+"/"+encodeURIComponent([outputs])+"/"+[marks]+"/"+encodeURIComponent(assignQTemplate),{
             
             method:'GET',
 
-        });
+        });       
         const dataG = await responseG.json();
         console.log(dataG);
         var url = dataG['msg'];
