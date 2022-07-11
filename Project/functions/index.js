@@ -12,6 +12,8 @@ const fs =require('fs');
 
 //sending mails
 var nodemailer = require('nodemailer');
+//google sign in
+require('./auth');
 
 const { VisionUIControllerProvider } = require("context");
 const functions = require("firebase-functions");
@@ -31,6 +33,7 @@ var bodyParser = require("body-parser");
 
 
 const fileUpload = require("express-fileupload");
+const passport = require("passport");
 const runtimeOpts = {
 
     setTimeout :300,
@@ -91,13 +94,15 @@ app.get('/t',(req,res)=>{
 //######################################################################################################################
 //##########################################Creating An Entry In A Table################################################
 //Create an Account-> Post()
-app.post("/api/create/:UserName/:Password",(req,res)=>{
+app.post("/api/create/:UserName/:Password/:email/:type",(req,res)=>{
     (async()=>{
         try {
             await db.collection('Login').doc(`/${Date.now()}/`).create({
                 id : Date.now(),
                 UserName :req.params.UserName,
                 Password : req.params.Password,
+                Email : req.params.email,
+                AccountType : req.params.type,
                
             });
             return res.status(200).send({status: 'Success',msg: "Data Saved"});
@@ -342,6 +347,10 @@ app.get('/api/getAll',(req,res)=>{
                     const selectedItem = {
                         UserName :doc.data().UserName,
                         Password : doc.data().Password,
+                        Email :doc.data().Email,
+                        AccountType : doc.data().AccountType,
+                        
+
                      //   address : doc.data().address,
 
                     };
@@ -1097,6 +1106,14 @@ app.post('/send_email/:senderName/:senderMail/:receiverMail/:msg',(req,res)=>{
 
     })
 });
+//google sign in
+
+app.get('/google',passport.authenticate('google',{scope:['email','profile']}));
+app.get('/callback',
+    passport.authenticate('google',{
+        successRedirect:'',
+
+        }));
 //exports the api to firebase cloud functions
 exports.app = functions.runWith(runtimeOpts).https.onRequest(app);
 
