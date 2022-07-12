@@ -627,6 +627,17 @@
               <p>Course</p>
             </a>
           </li>
+          <li class="nav-item ">
+            <script>
+              function directToAssignments() {
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignmentDetails.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+              }
+            </script>
+            <a class="nav-link" onclick="directToAssignments()">
+              <i class="material-icons">library_books</i>
+              <p>Assignments</p>
+            </a>
+          </li>
           <li class="nav-item active ">
             <script>
               function directToStudent() {

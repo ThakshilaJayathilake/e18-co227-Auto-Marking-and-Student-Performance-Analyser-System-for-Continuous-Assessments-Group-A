@@ -790,7 +790,7 @@ app.post('/api/createCourseGITHUB/:CourseName',(req,res)=>{
 app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:setup/:run/:NoTests/:TestNames/:TestInputs/:TestOutputs/:TestMarks/:assignmentTemplate',(req,res)=>{  // ....................
     (async()=>{
         try {
-            // console.log(decodeURIComponent(assignmentTemplate));
+            
             //sleep function to sleep the process
             function sleep(ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
@@ -829,8 +829,14 @@ app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:setup/:run/:NoTests/:
 
             //page I
             var assName= req.params.assignmentName;
-            var duedate=req.params.DueDate;
+            var duedate=decodeURIComponent(req.params.DueDate);
+            //2022-07-25 00:00 -> 07/25/2022 00:00 +0530
+            // duedate = duedate.split('-')
+            // var duedateBySpace = duedate[2].split(' ')
 
+            // console.log("**", duedate);
+            // var duedate1 = duedate.concat(duedate[1],'/',duedateBySpace[0],'/',duedate[0],duedateBySpace[1],' +0530')
+            // console.log("**", duedate1);
             await driver.findElement(By.id("assignment_title")).sendKeys(assName);
             await driver.findElement(By.id("assignment_form_deadline")).sendKeys(duedate);
             await driver.findElement(By.id("assignment_form_assignment_type")).sendKeys("individual");
