@@ -227,12 +227,13 @@ app.post("/api/addStudent/:CourseName/:StudentName/:Eno/:username/:email/:phoneN
 );
 
 //Add Assignment for all Student-> Post()
-app.post("/api/createMarks/:CourseName/:StudentName/:Assignment",(req,res)=>{
+app.post("/api/createMarks/:CourseName/:StudentName/:Eno/:Assignment",(req,res)=>{
     (async()=>{
         try {
             await db.collection('Marks').doc(`/${Date.now()}/`).create({
                 CourseName : req.params.CourseName,
                 StudentName : req.params.StudentName,
+                Eno : req.params.Eno,
                 Marks : 'Not Completed',
                 AssignmentName : req.params.Assignment,
                 id : Date.now(),
@@ -546,6 +547,7 @@ app.get('/api/getAllMarks',(req,res)=>{
                     const selectedItem = {
                         AssignmentName : doc.data().AssignmentName,
                         CourseName : doc.data().CourseName,
+                        Eno : doc.data().Eno,
                         Marks : doc.data().Marks,
                         StudentName : doc.data().StudentName,
                         id : doc.data().id,
@@ -675,6 +677,28 @@ app.delete("/api/delete/:id",(req,res)=>{
 
 });
 
+
+//delete a student
+app.delete("/api/deleteStd/:Eno",(req,res)=>{
+    (async()=>{
+        try {
+            const reqDoc = db.collection('Student').doc(req.params.Eno);
+            await reqDoc.delete();
+            
+            return res.status(200).send({status: 'Success',msg: "Data Removed"});
+
+            
+            
+        } catch (error) {
+            console.log(error)
+            return res.status(500).send({status: 'Failed',msg: error});
+
+            
+        }
+    })();
+
+});
+
 //------------------------------------------------ GITHUB AUTOMATION --------------------------------------------------
 //######################################################################################################################
 //######################################################Create Course###################################################
@@ -699,8 +723,8 @@ app.post('/api/createCourseGITHUB/:CourseName',(req,res)=>{
             //#############################################################################################
             //You should change this on your own
 
-            o.addArguments("--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data/");
-            o.addArguments("--profile-directory=Profile 2");
+            o.addArguments("--user-data-dir=C:/Users/ASUS/AppData/Local/Google/Chrome/User Data/");
+            o.addArguments("--profile-directory=Profile 5");
             //#############################################################################################
             
             o.addArguments("start-minimized");
@@ -767,7 +791,7 @@ app.post('/api/createCourseGITHUB/:CourseName',(req,res)=>{
 app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:setup/:run/:NoTests/:TestNames/:TestInputs/:TestOutputs/:TestMarks/:assignmentTemplate',(req,res)=>{  // ....................
     (async()=>{
         try {
-            // console.log(decodeURIComponent(assignmentTemplate));
+            
             //sleep function to sleep the process
             function sleep(ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
@@ -781,8 +805,8 @@ app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:setup/:run/:NoTests/:
             //#############################################################################################
             //You should change this on your own
 
-            o.addArguments("--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data/");
-            o.addArguments("--profile-directory=Profile 2");
+            o.addArguments("--user-data-dir=C:/Users/ASUS/AppData/Local/Google/Chrome/User Data/");
+            o.addArguments("--profile-directory=Profile 5");           
 
             //#############################################################################################
             
@@ -806,8 +830,14 @@ app.get('/api/getUrl/:courseName/:assignmentName/:DueDate/:setup/:run/:NoTests/:
 
             //page I
             var assName= req.params.assignmentName;
-            var duedate=req.params.DueDate;
+            var duedate=decodeURIComponent(req.params.DueDate);
+            //2022-07-25 00:00 -> 07/25/2022 00:00 +0530
+            // duedate = duedate.split('-')
+            // var duedateBySpace = duedate[2].split(' ')
 
+            // console.log("**", duedate);
+            // var duedate1 = duedate.concat(duedate[1],'/',duedateBySpace[0],'/',duedate[0],duedateBySpace[1],' +0530')
+            // console.log("**", duedate1);
             await driver.findElement(By.id("assignment_title")).sendKeys(assName);
             await driver.findElement(By.id("assignment_form_deadline")).sendKeys(duedate);
             await driver.findElement(By.id("assignment_form_assignment_type")).sendKeys("individual");
@@ -947,8 +977,8 @@ app.get('/api/getMarks/:StudentName/:courseName/:assignmentName',(req,res)=>{
             //#############################################################################################
             //You should change this on your own
 
-            o.addArguments("--user-data-dir=C:/Users/HP/AppData/Local/Google/Chrome/User Data/");
-            o.addArguments("--profile-directory=Profile 2");
+            o.addArguments("--user-data-dir=C:/Users/ASUS/AppData/Local/Google/Chrome/User Data/");
+            o.addArguments("--profile-directory=Profile 5");
 
             //#############################################################################################
             o.addArguments("start-minimized");

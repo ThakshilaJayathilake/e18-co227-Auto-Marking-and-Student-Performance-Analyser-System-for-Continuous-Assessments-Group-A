@@ -63,14 +63,14 @@
           method:'GET'
         });
         const data_a = await response_a.json();
-        console.log(data_a);
+
 
         //Search for all testcases under given assignment
         const response_b = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllTestCases',{
           method:'GET'
         });
         const data_b = await response_b.json();
-        console.log(data_b);
+
 
         //Get elements by ID 
         var list= document.getElementById("myUL");
@@ -105,7 +105,7 @@
               var language=element1['Language'];
               var coveredTopics=element1['CoveredTopics'];
               var url=element1['URL'];
-              console.log(assignment);
+
               
               ele_assignment.innerHTML = assignment;
               element2.innerHTML = "URL";
@@ -230,7 +230,7 @@
         });
 
         const data = await response.json();
-        console.log(data);
+
 
         for(i=0;i< data['data'].length;i++){
           var element = data['data'][i];
@@ -251,7 +251,7 @@
         //setup and run commands
         var setup;
         var run;
-        console.log(assignLang);
+
         if(assignLang.toUpperCase()=='JAVA'){
           setup = "javac Main.java";
           run = "java Main";
@@ -271,14 +271,27 @@
           setup = "null";
           run = "make test";
         }
-        const responseG = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getUrl/'+course+"/"+assignName+"/"+aEndDateTime+"/"+encodeURIComponent(setup)+"/"+encodeURIComponent(run)+"/"+no+    // ....................
+
+        // convert the format of duedateTime
+        var duedate = aEndDateTime;
+        console.log("**", duedate);
+        //2022-07-25 00:00 -> 07/25/2022 00:00 +0530
+        duedate = duedate.split('-')
+        var duedateBySpace = duedate[2].split(' ')
+
+        console.log("**", duedate);
+        var duedate1 = duedate[1] + '/' + duedateBySpace[0] + '/' + duedate[0] + ' ' + duedateBySpace[1] + ' +0530'
+        console.log("**", duedate1);
+
+
+        const responseG = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getUrl/'+course+"/"+assignName+"/"+encodeURIComponent(duedate1)+"/"+encodeURIComponent(setup)+"/"+encodeURIComponent(run)+"/"+no+    // ....................
       "/"+[testNames]+"/"+encodeURIComponent([inputs])+"/"+encodeURIComponent([outputs])+"/"+[marks]+"/"+encodeURIComponent(assignQTemplate),{
             
             method:'GET',
 
         });       
         const dataG = await responseG.json();
-        console.log(dataG);
+
         var url = dataG['msg'];
         
         if(dataG['status']=="Success"){
@@ -298,11 +311,14 @@
           var element1 = dataAllStudents['data'][i];
           if(element1['CourseName']==course){
               var student = element1['StudentName'];
+              var eno = element1['Eno'];
               //createMarks/:CourseName/:StudentName/:Assignment
-              const responseStudent = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createMarks/'+course+"/"+student+"/"+assignName,{
+
+              const responseStudent = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/createMarks/'+course+"/"+student+"/"+encodeURIComponent(eno)+"/"+assignName,{
                 method:'POST',
         
               });
+
           }
           
         }
