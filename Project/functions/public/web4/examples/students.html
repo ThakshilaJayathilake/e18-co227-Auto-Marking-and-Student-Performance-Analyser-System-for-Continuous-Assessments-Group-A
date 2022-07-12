@@ -113,8 +113,8 @@
                                     <div class="dropdown">
                                       <button class="dropbtn">Details</button>
                                       <div class="dropdown-content">                                        
-                                        <a onclick="directToProfile('${name}')"><b>Profile</b></a>
-                                        <a href="#"><b>Marks</b></a>
+                                        <a onclick="directToProfile('${Eno}')"><b>Profile</b></a>
+                                        <a onclick="deleteStudent('${Eno}')"><b>Remove</b></a>
                                       </div>
                                     </div>
                                   </td>
@@ -251,9 +251,16 @@
     function directToStudent() {
       window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
     }
-    function directToProfile(stdName){
+    function directToProfile(studentEno){
       //console.log(stdName);
-      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/profile.html?cName="+course+"?user="+encodeURIComponent(user)+"?stdName="+ encodeURIComponent(stdName);
+      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/profile.html?cName="+course+"?user="+encodeURIComponent(user)+"?stdEno="+ encodeURIComponent(studentEno);
+    }
+    async function deleteStudent(stdEno){
+      //console.log(stdName);
+      const response_delStd= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/deleteStd/'+stdEno,{
+        method:'DELETE'
+      })
+      console.log("Deleted!")
     }
 
     //To download the file => marks
