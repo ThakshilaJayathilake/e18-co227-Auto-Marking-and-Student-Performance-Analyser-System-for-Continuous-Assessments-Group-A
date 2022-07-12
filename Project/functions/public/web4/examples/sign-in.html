@@ -36,8 +36,6 @@
   <link id="pagestyle" href="../assets/css/material-dashboard2.css?v=3.0.3" rel="stylesheet" />
   <!-- Google API Authentication-->
   
-  <meta name="google-signin-client_id" content="204066930237-uhrrkatls0cuibis2d8bh9tdlpd4q5pg.apps.googleusercontent.com">
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
   
 
 
@@ -45,6 +43,7 @@
 
   <!-------------------------------------- Login functions --------------------------------------------------------->
   <script type="text/javascript">
+  
     function disableBack() { window.history.forward(); }
     setTimeout("disableBack()", 0);
     window.onunload = function () { null };
@@ -53,21 +52,21 @@
 </script>
 	<script >
     // Google API Authentication-->
-      
-    function onSignIn(googleUser) {
-        console.log('hi');
-        var profile = googleUser.getBasicProfile();
-        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-        console.log('Name: ' + profile.getName());
-        console.log('Image URL: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-    }
-    function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-      console.log('User signed out.');
-    });
-  }
+    
+  //   function onSignIn(googleUser) {
+  //       console.log('hi');
+  //       var profile = googleUser.getBasicProfile();
+  //       console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  //       console.log('Name: ' + profile.getName());
+  //       console.log('Image URL: ' + profile.getImageUrl());
+  //       console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  //   }
+  //   function signOut() {
+  //   var auth2 = gapi.auth2.getAuthInstance();
+  //   auth2.signOut().then(function () {
+  //     console.log('User signed out.');
+  //   });
+  // }
 		async function login(){
                 let user =document.getElementById("UserName1").value;
                 let userPass =document.getElementById("Password1").value;
@@ -202,7 +201,7 @@
                         <i class="fa fa-github text-white text-lg"></i>
                       </a>
                     </div>
-                    <div class="col-2 text-center me-auto">
+                    <div class="col-2 text-center me-auto" id="loginb">
                       <a class="btn btn-link px-3" href="javascript:;">
                         <i class="fa fa-google text-white text-lg"></i>
                       </a>
@@ -242,7 +241,93 @@
                     <a href="sign-up.html" class="text-primary text-gradient font-weight-bold">Sign up</a>
                   </p>
                   <!-- Google API Authentication-->
-                  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                  
+                  
+                  
+                  <!--script src="https://accounts.google.com/gsi/client" async defer></!--script>
+                  <div id="g_id_onload"
+                      data-client_id="204066930237-dpdjddherbm03cgagq5ofobndem7ambv.apps.googleusercontent.com"
+                      >
+                  </div>
+                  <div-- class="g_id_signin" data-type="standard"></div-->
+
+                  
+                    
+                    <script type="module">
+                      // Import the functions you need from the SDKs you need
+                      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
+                      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-analytics.js";
+                      import { getAuth, GoogleAuthProvider , signInWithRedirect ,signInWithPopup} from "https://www.gstatic.com/firebasejs/9.9.0/firebase-auth.js";
+                      // TODO: Add SDKs for Firebase products that you want to use
+                      // https://firebase.google.com/docs/web/setup#available-libraries
+
+                      // Your web app's Firebase configuration
+                      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+                      const firebaseConfig = {
+                        apiKey: "AIzaSyAi-Drg6JT4Zwyllx9apBV_fC9iyzuPICA",
+                        authDomain: "group07-co227.firebaseapp.com",
+                        databaseURL: "https://group07-co227-default-rtdb.firebaseio.com",
+                        projectId: "group07-co227",
+                        storageBucket: "group07-co227.appspot.com",
+                        messagingSenderId: "231707133617",
+                        appId: "1:231707133617:web:76dbd604cac1070c0a4490",
+                        measurementId: "G-PBLFWGEYRP"
+                      };
+
+                      // Initialize Firebase
+                      const app = initializeApp(firebaseConfig);
+                      const analytics = getAnalytics(app);
+                      const auth = getAuth(app);
+                      const provider = new GoogleAuthProvider(app);
+                      loginb.addEventListener('click',(e)=>{
+                        //signInWithRedirect(auth,provider);
+                        // getRedirectResult(auth)
+                        //   .then((result) => {
+                        //     // This gives you a Google Access Token. You can use it to access Google APIs.
+                        //     const credential = GoogleAuthProvider.credentialFromResult(result);
+                        //     const token = credential.accessToken;
+
+                        //     // The signed-in user info.
+                        //     const user = result.user;
+                        //   }).catch((error) => {
+                        //     // Handle Errors here.
+                        //     const errorCode = error.code;
+                        //     const errorMessage = error.message;
+                        //     // The email of the user's account used.
+                        //     const email = error.customData.email;
+                        //     // The AuthCredential type that was used.
+                        //     const credential = GoogleAuthProvider.credentialFromError(error);
+                        //     // ...
+                        //   });
+                        signInWithPopup(auth, provider)
+                          .then((result) => {
+                            // This gives you a Google Access Token. You can use it to access the Google API.
+                            const credential = GoogleAuthProvider.credentialFromResult(result);
+                            const token = credential.accessToken;
+                            // The signed-in user info.
+                            const user = result.user;
+                            alert(user.displayName);
+                            //alert(user.email);
+                            // ...
+                          }).catch((error) => {
+                            // Handle Errors here.
+                            const errorCode = error.code;
+                            const errorMessage = error.message;
+                            // The email of the user's account used.
+                            const email = error.customData.email;
+                            // The AuthCredential type that was used.
+                            const credential = GoogleAuthProvider.credentialFromError(error);
+                            // ...
+                          });
+                      });
+
+</script>
+                
+                
+                  
+                  
+
+                
                   <script>
                     async function google() {
                       console.log("gooo");
@@ -253,7 +338,7 @@
                     }
                     
                   </script>
-                  <a href="/group07-co227/us-central1/app/google"> click</a>
+                  
                 </form>
               </div>
             </div>

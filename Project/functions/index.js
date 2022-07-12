@@ -744,7 +744,8 @@ app.post('/api/createCourseGITHUB/:CourseName',(req,res)=>{
             field.sendKeys(Cname);
             await driver.findElement(By.name("commit")).click();
 
-            driver.quit();
+            await driver.quit();
+            await sleep(5000);
             var driver = new Builder().withCapabilities(Capabilities.chrome()).setChromeOptions(o).build();
             driver.manage().window().minimize();
 
