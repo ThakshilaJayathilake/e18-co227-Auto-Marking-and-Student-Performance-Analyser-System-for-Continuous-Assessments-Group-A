@@ -124,7 +124,7 @@
 
                   if((elementAssig['CourseName']==course) && (elementAssig['AssignmentName']==assignment)){        
                     var topics = elementAssig['CoveredTopics'];
-                    
+                         
                     // List down assign details
                     list.innerHTML += `<tr>
                             <td>
@@ -158,7 +158,22 @@
 
                           //     <span class="badge badge-warning rounded-pill">Late Submitted?</span>
                                          
-                    row++;      
+                    row++;   
+                    
+                    // process with expired
+
+                    var expdate = elementAssig['DueDate']
+                    d  = new Date();        // Jul 12 2022
+                    e = new Date(expdate);
+
+                    if ((marks == "Not Completed") && (d-e) > 0 ) {
+                        table.rows[row].cells[3].innerHTML +=  `<span class="badge badge-danger rounded-pill">Deadline Passed?</span><br>`;
+                    }
+                    else if ((marks != "Not Completed") && (d-e) > 0 ){
+                        console.log(expdate)
+                        table.rows[row].cells[3].innerHTML +=  `<span class="badge badge-warning rounded-pill">Late Submitted?</span><br>`;
+                    }
+
                   }
                 
                 }
@@ -190,7 +205,7 @@
         student1 = student1.split('/')
         batch.textContent = student1[1];
         Course.textContent = course;
-        
+
         var elementStd;
         for(i=0;i< data_std['data'].length;i++){
           elementStd = data_std['data'][i];
@@ -266,8 +281,6 @@
 
 <body class="dark-edition">
 
-  
-
   <div class="wrapper ">
     <div class="sidebar" data-color="purple" data-background-color="black" data-image="../assets/img/sidebar-2.jpg">
       <!--
@@ -281,36 +294,56 @@
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="nav-item  ">
-            <a class="nav-link" href="./dashboard.html">
+            <script>
+              function dashboard(){
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html?name="+encodeURIComponent(user);
+              }
+              
+            </script>
+            <a class="nav-link" onclick="dashboard()">
               <i class="material-icons">dashboard</i>
               <p>Dashboard</p>
+            </a>
+          </li>         
+          <li class="nav-item ">
+            <script>
+              function courses(){
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html?cName="+course+"?user="+encodeURIComponent(user);
+              }            
+            </script>
+            <a class="nav-link" onclick="courses()">
+              <i class="material-icons">content_paste</i>
+              <p>Course</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <script>
+              function directToAssignments() {
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignmentDetails.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+              }
+            </script>
+            <a class="nav-link" onclick="directToAssignments()">
+              <i class="material-icons">library_books</i>
+              <p>Assignments</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <script>
+              function directToStudent() {
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+              }
+            </script>
+            <a class="nav-link" onclick="directToStudent()">
+              <i class="material-icons">bubble_chart</i>
+              <p>Students</p>
             </a>
           </li>
           <li class="nav-item active">
             <a class="nav-link" href="http://localhost:5001/group07-co227/us-central1/app/examples/profile.html">
               <i class="material-icons">person</i>
-              <p>User Profile</p>
+              <p>Student Profile</p>
             </a>
           </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./tables.html">
-              <i class="material-icons">content_paste</i>
-              <p>Table List</p>
-            </a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./typography.html">
-              <i class="material-icons">library_books</i>
-              <p>Typography</p>
-            </a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./icons.html">
-              <i class="material-icons">bubble_chart</i>
-              <p>Icons</p>
-            </a>
-          </li>
-          
           <li class="nav-item ">
             <a class="nav-link" href="./notifications.html">
               <i class="material-icons">notifications</i>
@@ -446,6 +479,11 @@
                 </div>
               </div>
                 <div style="height: 26px"></div>
+             
+            </div>
+
+
+            <div class="col-lg-12">
               <div class="card shadow-sm">
                 <div class="card-header text-white bg-transparent border-0">
                   <h3 class="mb-0"><i class="far fa-clone pr-1 text-white"></i>Assignment Information</h3>
@@ -471,39 +509,7 @@
                                      class="rounded-circle"
                                      /> -->
                         <tbody id="assignList">
-                          <!-- <tr>
-                            <td>
-                              <div class="d-flex align-items-center">
-                              
-                                <div class="ms-3">                                 
-                                  <p class="font-monospace mb-0">Assignment1</p>
-                                </div>
-                              </div>
-                            </td>
-
-                            <td>                              
-                              <p class="font-monospace mb-0">x/30</p>
-                            </td>
-
-                            <td>
-                              <p class="font-monospace mb-0"> Basics </p>
-                            </td>
-
-                            <td>
-                              <span class="badge badge-success rounded-pill">Done !</span>
-                              <span class="badge badge-primary rounded-pill">Ongoing ..</span>
-                              <span class="badge badge-warning rounded-pill">Late Submitted?</span>
-                            </td>                        
-
-                            <td>
-                              <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                Edit
-                              </button>
-                            </td>
-
-                          </tr> -->
-                          <!-- ----------------------------------- -->
-                         
+                             
                         </tbody>
                       </table>
                     </div>
@@ -512,7 +518,9 @@
 
                 </div>
               </div>
+
             </div>
+
 
             <div class="col-lg-12">
               <div class="card shadow-sm">

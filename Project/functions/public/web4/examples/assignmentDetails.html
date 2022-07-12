@@ -253,7 +253,7 @@
         </a></div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li class="nav-item active  ">
+          <li class="nav-item ">
             <script>
               function dashboard(){
                 window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html?name="+encodeURIComponent(user);
@@ -285,7 +285,7 @@
             </a>
           </li>
 
-          <li class="nav-item ">
+          <li class="nav-item active">
             <a class="nav-link">
               <i class="material-icons">library_books</i>
               <p>Filter Assignments</p><br>              
@@ -303,6 +303,17 @@
                 <li><a href="#">Assignment 7</a></li>-->
               </ul>
               </p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <script>
+              function directToStudent() {
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+              }
+            </script>
+            <a class="nav-link" onclick="directToStudent()">
+              <i class="material-icons">bubble_chart</i>
+              <p>Students</p>
             </a>
           </li>
           <li class="nav-item ">

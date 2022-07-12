@@ -368,7 +368,12 @@
 
           
           <li class="nav-item ">
-            <a class="nav-link">
+            <script>
+              function directToAssignments() {
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignmentDetails.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+              }
+            </script>
+            <a class="nav-link" onclick="directToAssignments()">
               <i class="material-icons">library_books</i>
               <p>Filter Assignments</p><br>              
               <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Assignments.." title="Type in a assignment name">
