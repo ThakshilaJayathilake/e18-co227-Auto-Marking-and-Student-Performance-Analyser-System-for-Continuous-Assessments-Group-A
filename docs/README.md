@@ -169,6 +169,13 @@ Below phases add functionalities for the system
    > There is an upload feature to upload all student details. So, instructor no needs to add students to the course one by one.
    > Other than that user can use the given sample file. 
    > Then insert the student details to the file and then upload it to the system.
+   
+   
+- #### Seperated profile for each enrolled students
+       
+   > Instructor can easily view wanted details of student easily ; batch, specified course's lectures & instructor panel.
+   > Student's performance through out the course are viewed graphically.
+   > Each student's specific talented area & weakly performances are listed.
 
 ## Project Plan
 

@@ -213,19 +213,27 @@
               <div class="card-body">
                 <form role="form" class="text-start">
                   <div class="input-group input-group-outline my-3">
-                    User name &nbsp;
+                    User name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <label class="form-label"></label>
-                    <input id = "UserName1" type="email" class="form-control">
-                  </div>
+                    <input id = "UserName1" type="email" class="form-control" required>
+                  </div>              
                   <div class="input-group input-group-outline mb-3">
-                    Password &nbsp&nbsp;
+                    Password &nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <label class="form-label"></label>
-                    <input id="Password1" type="password" class="form-control">
+                    <input id="Password1" type="password" class="form-control" required>
                   </div>
-                  <div class="form-check form-switch d-flex align-items-center mb-3">
+                  <!--div class="input-group input-group-outline mb-3">
                     <input class="form-check-input" type="checkbox" id="rememberMe">
-                    <label class="form-check-label mb-0 ms-2" for="rememberMe">Remember me</label>
-                  </div>
+                    Account Type &nbsp;
+                    <div class="form-group" id="inputLanguages">
+                      <select class="form-control text-gray bg-transparent" id="sel1">
+                        <option>Lecturer</option>
+                        <option>Instructor</option>
+                        
+                    
+                      </select>
+                    </div>
+                  </div -->
                   <div class="text-center">
                     <button type="button" class="btn bg-gradient-primary w-100 my-4 mb-2" onclick="login()">Sign in</button>
                   </div>
@@ -235,6 +243,17 @@
                   </p>
                   <!-- Google API Authentication-->
                   <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                  <script>
+                    async function google() {
+                      console.log("gooo");
+                      const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/google',{
+                      method:'GET'
+                    });
+                      
+                    }
+                    
+                  </script>
+                  <a href="/group07-co227/us-central1/app/google"> click</a>
                 </form>
               </div>
             </div>

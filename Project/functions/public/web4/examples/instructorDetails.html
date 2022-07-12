@@ -216,6 +216,24 @@
               m=0;
             }
       }
+      const response_user = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAll',{
+          method:'GET'
+      });
+                
+      const data_user = await response_user.json();
+      console.log(data_user);
+      for(i=0;i< data_user['data'].length;i++){
+            var element = data_user['data'][i];
+
+            if(element['UserName']==user){
+              console.log(user);
+              if(element['AccountType']=='Instructor'){
+                console.log(user);
+                document.getElementById('newInstructor').style.visibility = 'hidden';
+              }
+                                
+            }                                   
+      }
       
      // container.insertAdjacentHTML("beforeend", htmlElements);
       //container.innerHTML = htmlElements;
@@ -433,7 +451,7 @@
 
             <!-- Button trigger modal -->
             
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop_addInstructor">
+            <button id="newInstructor" type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop_addInstructor">
               Add Instructor
             </button>
 
