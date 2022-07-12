@@ -43,8 +43,20 @@
   async function signUp(){
     let user =document.getElementById("UserName").value;
     let userPass =document.getElementById("Password").value;
-    
-    const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAll',{
+    let email =document.getElementById("Email").value;
+    let type =document.getElementById("type").value;
+    console.log(email,type);
+    try{
+      const emailDomain =email.split('@');
+      console.log(emailDomain[1]);
+      if(emailDomain[1]!='eng.pdn.ac.lk'){
+        alert('Please Enter Your Official Email!');
+        
+        window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-up.html";
+
+      }
+      else{
+        const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAll',{
       method:'GET'
     });
     
@@ -55,6 +67,7 @@
       var element = data['data'][i];
 
       if(element['UserName']==user){
+        alert('UserName Already Exist!');
         //document.getElementById("demo").innerHTML ="UserName Already Exists!";
         //document.location.href="http://localhost:9000/group07-co227/us-central1/app/index.html";
         window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-up.html";
@@ -65,43 +78,31 @@
     
        
     }
-    const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/create/'+user+"/"+userPass,{
+    const response2 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/create/'+user+"/"+userPass+'/'+email+'/'+type,{
       method:'POST',
       
     });
     const data2 = await response2.json();
 
-    //By using this , url of the assignmnet can be generate
-    /*const response3 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getUrl',{
-      method:'GET',
-      
-    });
-    const data3 = await response3.json();
-    console.log(data3);*/
-
-    //By using this, marks of given student can be generate
-    /*let student = "NirashaSewwandi";
-    const response4 = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getMarks/'+student,{
-      method:'GET',
-      
-    });
-    const data4 = await response4.json();
-    console.log(data4);*/
-
-    //Used for testing
-    /*document.getElementById("my").innerHTML =data3['msg'];
-    document.getElementById("my2").innerHTML =data4['msg'];*/
-
+    
 
     if(data2['status']=="Success"){
 
       window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html?name="+encodeURIComponent(user);
     }
     else{
+      alert('Something Went Wrong!');
       window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-up.html";
     }
-    
 
+      }
+    }
+    catch(err){
+      alert('Please Enter Valid Email');
+      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-up.html";
+
+    }
+    
      
   }
 
@@ -200,15 +201,32 @@
                 <div class="card-body">
                   <form role="form">
                     <div class="input-group input-group-outline mb-3">
-                      User name&nbsp;
+                      User name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       <label class="form-label"></label>
                       <input id="UserName" type="text" class="form-control">
                     </div>
+
+                    <div class="input-group input-group-outline mb-3">
+                      Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <label class="form-label"></label>
+                      <input id="Email" type="text" class="form-control" required>
+                    </div>
                     
                     <div class="input-group input-group-outline mb-3">
-                      Password&nbsp&nbsp;
+                      Password&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       <label  class="form-label"></label>
                       <input id="Password" type="password" class="form-control">
+                    </div>
+                    <div class="input-group input-group-outline mb-3">
+                      Account Type&nbsp;&nbsp;
+                      <div class="form-group" id="">
+                        <select class="form-control text-gray bg-transparent" id="type">
+                          <option>Lecturer</option>
+                          <option>Instructor</option>
+                          
+                      
+                        </select>
+                      </div>
                     </div>
                     <div class="form-check form-check-info text-start ps-0">
                       <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
