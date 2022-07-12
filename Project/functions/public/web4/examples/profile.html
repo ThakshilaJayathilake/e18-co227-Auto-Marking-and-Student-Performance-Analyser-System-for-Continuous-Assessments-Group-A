@@ -34,7 +34,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
 
   <script>
-    var course;
+    var course, stdName;
     const xlabels = [];
     const ytemps = [];
     window.onload = async function() {
@@ -48,14 +48,18 @@
             
         }
         course = data.cName;
-        student = decodeURIComponent(data.stdName);        
+        student = decodeURIComponent(data.stdEno);        
         user = data.user;
 
         var table = document.getElementById("tableAssigInfo"), row = 0;
         var list= document.getElementById("assignList");
         var listStrengths = document.getElementById("strengths");
         const listWeeknesses = document.getElementById("weeknesses")
-
+        var StdEnumber = document.getElementById("EXXXXX");
+        var StdName = document.getElementById("STDNAME");
+        var batch = document.getElementById("batch");
+        var gender = document.getElementById("gender");
+        var Course = document.getElementById("course");
 
         let assignmentList=[];
         let elementList=[];
@@ -73,6 +77,11 @@
         const data_assig = await response_assig.json();
         console.log(data_assig);
 
+        const response_std = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllStudents',{
+          method:'GET'
+        });
+        const data_std = await response_std.json();
+        console.log(data_std);
 
         k=0;
         var elementMarks;
@@ -81,13 +90,13 @@
 
           // load things relevant to the course
           if(elementMarks['CourseName']==course){
-            studentList[k]=elementMarks['StudentName'];
+            studentList[k]=elementMarks['Eno'];
             elementList[k]=elementMarks;            // entire raw take into a list
             k++;
 
           }
         }
-
+        
         var highestM = 0, highestAssg = [], highTop = [], lowestM = 100, lowestAssg = [], lowTop = [];
         
         n=0;
@@ -102,8 +111,8 @@
             for(ele in elementList){
               var Ele = elementList[m];
               m++;
-              if(Ele['StudentName']==Std){
-
+              if(Ele['Eno']==Std){
+                stdName=Ele['StudentName'];
                 var marks=Ele['Marks'];
                 var assignment=Ele['AssignmentName'];
                 var id = Ele['id'];
@@ -175,6 +184,24 @@
           }
         }
 
+        StdEnumber.textContent = student;
+        StdName.textContent = stdName;
+        var student1 = student
+        student1 = student1.split('/')
+        batch.textContent = student1[1];
+        Course.textContent = course;
+        
+        var elementStd;
+        for(i=0;i< data_std['data'].length;i++){
+          elementStd = data_std['data'][i];
+
+          if((elementStd['CourseName']==course) && (elementStd['Eno']==student)){        
+            // var Gender = elementAssig['CoveredTopics'];
+            gender.textContent = elementStd['Gender']
+          }
+        }
+
+       
         // taking LOWEST & HIGHEST marks got topics
         highestM = Math.max(...ytemps)
         for (let i=0; i < ytemps.length; i++){
@@ -372,10 +399,10 @@
                   <img class="profile_img" src="../assets/img/profile.png" alt="student dp">
 
                   <!-- update ??-->
-                  <h3>Student Full Name</h3>                                            
+                  <h3 id="STDNAME" class="text-white">Student Name</h3>                                            
                 </div>
                 <div class="card-body">
-                  <p class="mb-0 pr-1">E/XX/XXX</p>
+                  <p id="EXXXXX" class="mb-0 pr-1">E/XX/XXX</p>
                   <!-- <p class="mb-0 pr-1">Class       :??</p>
                   <p class="mb-0 pr-1">Section     :??</p> -->
                 </div>
@@ -393,20 +420,25 @@
                     <tr>
                       <th width="30%">Batch</th>
                       <td width="2%">:</td>
-                      <td>??</td>
-                    </tr>
-                    <tr>
-                      <th width="30%">Academic Year	</th>
-                      <td width="2%">:</td>
-                      <td>??</td>
+                      <td id="batch"></td>
                     </tr>
                     <tr>
                       <th width="30%">Gender</th>
                       <td width="2%">:</td>
+                      <td id="gender"></td>
+                    </tr>
+                    <tr>
+                      <th width="30%">Course Name</th>
+                      <td width="2%">:</td>
+                      <td id="course"></td>
+                    </tr>
+                    <tr>
+                      <th width="30%">Lecturer Panel</th>
+                      <td width="2%">:</td>
                       <td>??</td>
                     </tr>
                     <tr>
-                      <th width="30%">Address</th>
+                      <th width="30%">Instructor Panel</th>
                       <td width="2%">:</td>
                       <td>??</td>
                     </tr>
