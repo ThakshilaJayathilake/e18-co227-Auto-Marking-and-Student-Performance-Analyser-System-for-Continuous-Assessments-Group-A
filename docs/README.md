@@ -123,7 +123,33 @@ Below phases add functionalities for the system
 - Using this web interface user can easily identify the progress of each student with the assignments
 - Student can identify their strengths and weeknesses
 
+#### Implementation of Design
 
+##### Student Profile Page
+
+For each students profiles were created.
+
+- Student Information
+<p align="left">
+<img src="https://user-images.githubusercontent.com/73567971/182282053-4be50d82-db89-4f85-9f50-538802354c27.png" width="600" height="300"></p>
+
+
+- Assignment Information
+<p align="left">
+<img src="https://user-images.githubusercontent.com/73567971/182309194-b8e205ae-2693-461c-8fe8-a0bcf246d6b0.png" width="600" height="300"></p>
++ Specially, whether assignments were late submitted / Deadline Passed displayed
++ Whether assignments were done / onGoing displayed
+
+
+- Progress Graphically
+<p align="left">
+<img src="https://user-images.githubusercontent.com/73567971/182314517-a6347b7a-893d-4856-924e-104595faf530.png" width="600" height="300"></p>
++ Can see easily students' assignments progress setbacks, rise ups
+
+- Evaluation Report
+<p align="left">
+<img src="https://user-images.githubusercontent.com/73567971/182314872-f1bdba6f-23b7-4d07-a2fe-30e782ad82a0.png" width="600" height="300"></p>
++ 
 
 ## Solution Architecture
  
