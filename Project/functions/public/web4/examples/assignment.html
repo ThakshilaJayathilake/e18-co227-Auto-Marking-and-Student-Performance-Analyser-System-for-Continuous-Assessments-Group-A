@@ -54,7 +54,10 @@
         course = data.cName;
         assignment = data.Assignment;
         user = data.user;
-        
+        if(user=="undefined"){
+          
+          window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-in.html"
+        }
 
         //Search for all assignments created under given given course
         var element= document.getElementById("course");

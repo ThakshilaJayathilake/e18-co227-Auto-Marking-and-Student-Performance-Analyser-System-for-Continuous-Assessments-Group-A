@@ -42,14 +42,10 @@
 
 
   <!-------------------------------------- Login functions --------------------------------------------------------->
-  <script type="text/javascript">
   
-    function disableBack() { window.history.forward(); }
-    setTimeout("disableBack()", 0);
-    window.onunload = function () { null };
 
-    
-</script>
+   
+
 	<script >
     // Google API Authentication-->
     
@@ -99,6 +95,37 @@
 							window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html?name="+encodeURIComponent(user);
                             return;
                         }                      
+                    }                                   
+                }
+                           
+               // document.location.href="http://localhost:9000/group07-co227/us-central1/app/index2.html";
+			   window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-in.html";
+               
+            }
+
+
+            async function loginGoogle(email){
+               
+               
+            
+                const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAll',{
+                    method:'GET'
+                });
+                
+                const data = await response.json();
+                
+          
+                for(i=0;i< data['data'].length;i++){
+                    var element = data['data'][i];
+                    var user = element["UserName"];
+                    if(element['Email']==email){
+                       
+                        
+                         //   document.getElementById("demo").innerHTML ="Successfuly Logged into Account!";
+                          //  document.location.href="http://localhost:9000/group07-co227/us-central1/app/logged.html";                     
+							window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html?name="+encodeURIComponent(user);
+                            return;
+                                             
                     }                                   
                 }
                            
@@ -306,7 +333,12 @@
                             const token = credential.accessToken;
                             // The signed-in user info.
                             const user = result.user;
-                            alert(user.displayName);
+                            alert(user.email);
+                            loginGoogle(user.email);
+
+
+
+                           // window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html?name="+encodeURIComponent(user);
                             //alert(user.email);
                             // ...
                           }).catch((error) => {

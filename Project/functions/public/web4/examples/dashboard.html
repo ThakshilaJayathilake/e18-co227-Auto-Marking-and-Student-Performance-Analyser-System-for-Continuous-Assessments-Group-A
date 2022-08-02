@@ -86,6 +86,19 @@
             data[tmp[0]] = tmp[1];
         }
         user = data.name;
+        if(user=="undefined"){
+          
+          window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-in.html"
+        }
+
+        //Super User
+        //Show details of lecturers
+        //Email,username
+        //Verify , Delete buttons
+        //
+        if(user=="Group07"){
+          window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/superUser.html"
+        }
     	  course(user);
     };
     //var user="Ni";
