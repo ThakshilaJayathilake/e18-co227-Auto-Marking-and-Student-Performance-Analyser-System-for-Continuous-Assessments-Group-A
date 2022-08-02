@@ -156,23 +156,45 @@ For each students profiles were created. <br />
 ### <ins> Authorization </ins>
 
 Authorization handled using many parts. <br />
+| SuperUser  - Can handle lecturers  <br />
+| Lecturer   - Can create a course & assignments
+             - Can add instructors to his course <br />
+| Instructor - Can see only enrolled courses 
+             - Can create assignments <br />
+
+
+- Can signup as a lecturer / instructor
+<p align="left">
+<img src="https://user-images.githubusercontent.com/73567971/182440634-60013fbe-2aa1-4030-aa27-42e596c2e0fc.png" width="600" height="400"></p>
+~ If sign up as a lecturer, verification of them can done anytime by the super user. <br />
+~ Superuser can disallow the access of lecturers to the system , also can give access. <br /><br />
+
+
+- Can use google signing also or username, password.. any method
+<p align="left">
+<img src="https://user-images.githubusercontent.com/73567971/182441198-28cf03a5-5506-4440-8553-14fd672377fa.png" width="600" height="400"></p>
+~ Used google , firebase authobicatiosm <br />
+~ User can also use Google sign in if like; should obey for a given mail only. <br /><br />
 
 - Manage access of lecturers by superadmin
 
 - Add Instructors to each course
 <p align="left">
 <img src="https://user-images.githubusercontent.com/73567971/182439524-e17586c6-b832-461f-8acc-865091ba978a.png" width="600" height="400"></p>
-~ By using this feature, relevant course access was granted to that instructor also. <br />
+~ By using this feature, relevant course access was granted to that instructor also. <br /><br />
 
-- Can signup as a lecturer / instructor
+
+### <ins> Uploader </ins>
 <p align="left">
-<img src="https://user-images.githubusercontent.com/73567971/182440634-60013fbe-2aa1-4030-aa27-42e596c2e0fc.png" width="600" height="400"></p>
+<img src="https://user-images.githubusercontent.com/73567971/182453817-a87ba568-4064-4ed0-9f41-c26f872b0ed1.png" width="600" height="400"></p>
+<img src="https://user-images.githubusercontent.com/73567971/182454563-a3e752f0-33ec-4231-b3b4-8722272e9e4a.png" width="600" height="150"></p>
+~ Can add bunch of students rather than adding one by one, at one time by using the given template. <br /><br />
 
-
-- Can use google signing also or username, password.. any method
+### <ins> Downloader & Refresher </ins>
 <p align="left">
-<img src="https://user-images.githubusercontent.com/73567971/182441198-28cf03a5-5506-4440-8553-14fd672377fa.png" width="600" height="400"></p>
-
+<img src="https://user-images.githubusercontent.com/73567971/182453591-9b383229-cc47-4236-9654-86ad240a019b.png" width="600" height="400"></p>
+~ User (Instructor / lecturer) can download a file for each assignment's whole details. <br />
+~ User can do refresher option only for updating marks by new ones', otherwise it will print previous stored marks in database. <br /><br />
 
 ## Solution Architecture
  
