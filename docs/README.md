@@ -76,13 +76,13 @@ Below phases add functionalities for the system
 
 ## Phase I - Auto Marking System for Coding Assessments
 
-#### Appication Content
+### Appication Content
 - User friendly Web Interface for instructors to mark the assignments
 - Auto marking processed with GitHub Classroom
 - User can create courses, assignments and add students according to their preference
 - Finally instructor can view the marks of the each student under each course
 
-#### Implementation of Design
+### Implementation of Design
 - Welcome Page
 <p align="left">
 <img src="https://user-images.githubusercontent.com/73390233/176609623-87d004f2-a2a4-49e3-aeda-acf6dd5a8ed9.png" width="600" height="300"></p>
@@ -110,7 +110,7 @@ Below phases add functionalities for the system
 <img src="https://user-images.githubusercontent.com/73390233/176609932-c3cbdbbc-d8ae-4871-8658-7d6f52d00ae2.png" width="600" height="300"></p>
 
 
-#### Use Case Diagram
+### Use Case Diagram
 
 <img src="https://user-images.githubusercontent.com/73567971/176608106-d59f84a5-ef49-4906-82d9-c050d35c65d3.png" width="700" height="700">
 
@@ -118,43 +118,66 @@ Below phases add functionalities for the system
 
 ## Phase II - Student Performance Analyser
 
-#### Appication Content
+### Appication Content
 - User friendly Web Interface for instructors to analyse student performance
 - Using this web interface user can easily identify the progress of each student with the assignments
 - Student can identify their strengths and weeknesses
 
-#### Implementation of Design
+### Implementation of Design
 
-##### Student Profile Page
+### <ins> Student Profile Page </ins>
 
-For each students profiles were created.
+For each students profiles were created. <br />
 
 - Student Information
 <p align="left">
-<img src="https://user-images.githubusercontent.com/73567971/182282053-4be50d82-db89-4f85-9f50-538802354c27.png" width="600" height="300"></p>
+<img src="https://user-images.githubusercontent.com/73567971/182282053-4be50d82-db89-4f85-9f50-538802354c27.png" width="600" height="200"></p>
 
 
 - Assignment Information
 <p align="left">
-<img src="https://user-images.githubusercontent.com/73567971/182309194-b8e205ae-2693-461c-8fe8-a0bcf246d6b0.png" width="600" height="300"></p>
-+ Specially, whether assignments were late submitted / Deadline Passed displayed
-+ Whether assignments were done / onGoing displayed
+<img src="https://user-images.githubusercontent.com/73567971/182382586-d61d91cd-85c0-4936-b298-2cdda4bee360.png" width="600" height="300"></p>
+~ Specially, whether assignments were late submitted / Deadline Passed displayed <br />
+~ Whether assignments were done / onGoing displayed <br /> <br />
 
 
 - Progress Graphically
 <p align="left">
-<img src="https://user-images.githubusercontent.com/73567971/182314517-a6347b7a-893d-4856-924e-104595faf530.png" width="600" height="300"></p>
-+ Can see easily students' assignments progress setbacks, rise ups
+<img src="https://user-images.githubusercontent.com/73567971/182382816-9df45037-407d-4458-96e1-96a0e873da6b.png" width="600" height="300"></p>
+~ Can see easily student's progress through assignments: setbacks, rise ups <br /> <br />
+
 
 - Evaluation Report
 <p align="left">
-<img src="https://user-images.githubusercontent.com/73567971/182314872-f1bdba6f-23b7-4d07-a2fe-30e782ad82a0.png" width="600" height="300"></p>
-+ 
+<img src="https://user-images.githubusercontent.com/73567971/182382907-4aabc929-40b8-44d6-935e-eedde062db2b.png" width="600" height="300"></p>
+~ Student's strengths & weeknesses listed according to gained marks for a relevant topics. <br />
+
+
+### <ins> Authorization </ins>
+
+Authorization handled using many parts. <br />
+
+- Manage access of lecturers by superadmin
+
+- Add Instructors to each course
+<p align="left">
+<img src="https://user-images.githubusercontent.com/73567971/182439524-e17586c6-b832-461f-8acc-865091ba978a.png" width="600" height="400"></p>
+~ By using this feature, relevant course access was granted to that instructor also. <br />
+
+- Can signup as a lecturer / instructor
+<p align="left">
+<img src="https://user-images.githubusercontent.com/73567971/182440634-60013fbe-2aa1-4030-aa27-42e596c2e0fc.png" width="600" height="400"></p>
+
+
+- Can use google signing also or username, password.. any method
+<p align="left">
+<img src="https://user-images.githubusercontent.com/73567971/182441198-28cf03a5-5506-4440-8553-14fd672377fa.png" width="600" height="400"></p>
+
 
 ## Solution Architecture
  
 <p align="left">
-<img src="https://user-images.githubusercontent.com/73567971/176610119-d4e06168-5b06-43f3-84e7-d9538ff1eea7.png" width="700" height="400"></p>
+<img src="https://user-images.githubusercontent.com/73567971/176610119-d4e06168-5b06-43f3-84e7-d9538ff1eea7.png" width="600" height="400"></p>
 
 
 1. User ; instructor interact by using web inetrfaces
@@ -205,7 +228,7 @@ For each students profiles were created.
 
 ## Project Plan
 
-<img width="700" height="500" alt="Timeline" src="https://user-images.githubusercontent.com/73390233/172594754-d36740dd-5c5d-47ec-89ad-e64c636a69a8.png">
+<img width="600" height="500" alt="Timeline" src="https://user-images.githubusercontent.com/73390233/172594754-d36740dd-5c5d-47ec-89ad-e64c636a69a8.png">
 
 
 ## Team
