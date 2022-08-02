@@ -1,0 +1,1308 @@
+<!--
+=========================================================
+* Material Dashboard Dark Edition - v2.1.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/material-dashboard-dark
+* Copyright 2019 Creative Tim (http://www.creative-tim.com)
+
+* Coded by www.creative-tim.com
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Auto Marking and Student Performance Analyser System for Continuous Assessments
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <!-- CSS Files -->
+  <link href="../assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
+  
+  <!-- CSS Just for demo purpose, don't include it in your project -->
+  <link href="../assets/demo/demo.css" rel="stylesheet" />
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
+  <script type="text/javascript">
+    function disableBack() { window.history.forward(); }
+    setTimeout("disableBack()", 0);
+
+    window.onunload = function () { null };
+    var course;
+    var user;
+    var data_;
+    var emailList=[];
+    
+    
+
+    //##############  When loading the page  ##########################################################################
+
+    window.onload = async function() {
+
+        //-------------------------------------------------------------------
+        //retireve course name and logged user
+        var url = window.location.href,
+        params = url.split('?'),
+        data = {}, tmp;
+        
+        for (var i = 0, l = params.length; i < l; i++) {
+            tmp = params[i].split('=');
+            data[tmp[0]] = tmp[1];
+            
+        }
+        course = data.cName;
+        user = data.user;
+        var element= document.getElementById("course");
+        //element.innerHTML = decodeURIComponent(decodeURIComponent(course));
+        //--------------------------------------------------------------------
+
+        //Display all the students on the table in web interface
+
+        const response_ = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAll',{
+          method:'GET'
+        });
+        data_ = await response_.json();
+        //console.log(data_);
+        var list= document.getElementById("studentList");
+        // var markslist = document.getElementById("Bench-tab-pane");
+        // markslist.innerHTML="";
+        let assignmentList=[];
+        let elementList=[];
+        let studentDetails = {};
+        k=0;
+        var verifyButton = [];
+        var countButton = 0;
+        console.log(data_);
+
+        for(i=0;i< data_['data'].length;i++){
+          var element1 = data_['data'][i];
+
+          if(element1['AccountType']=='Lecturer'){
+            
+           
+            var Username=element1['UserName'];
+            console.log(Username);
+            var Email=element1['Email'];
+            //var PhoneNo=element1['PhoneNo'];
+            //var Birthday=element1['Birthday'];
+            //var Gender=element1['Gender'];
+            
+            //var assignment=element1['AssignmentName'];
+            //var marks=element1['Marks'];
+           // assignmentList[k]=element1['AssignmentName'];
+           // elementList[k]=element1;
+            studentDetails[name]=Username;
+            k++;
+            
+           
+            list.innerHTML += `<tr>
+                                  <td >${Username}
+                                  
+                                  </td>
+                                  
+                                  <td>${Email}</td>
+                                  <td>
+                                    <label class="toggle" for="${Email}" >
+                                        <input class="toggle__input" name="" type="checkbox" id="${Email}">
+                                        <div class="toggle__fill"></div>
+                                    </label>
+                                   
+                                </td>
+                                  
+                                  
+                                </tr>`;
+            if(element1['AccountStatus']=='Verified'){
+            var ele1 = document.getElementById(`${Email}`);
+            //console.log(ele);
+            ele1.setAttribute('disabled',true);
+            ele1.setAttribute('checked',true);
+            }
+            
+            verifyButton[countButton]= document.getElementById(`${Email}`);
+            
+            countButton++;
+                                
+          }
+              
+        }
+        console.log(verifyButton);
+        emailID=0;
+        document.querySelectorAll('.toggle').forEach(item => {
+        item.addEventListener('change', event => {
+        if (item.toggleAttribute(this.checked)) {
+            console.log("Checkbox is checked..");
+            emailList[emailID]=item.getAttribute('for');
+            //console.log(item.getAttribute('for'));
+            emailID++;
+
+        } 
+              
+        else {
+                console.log("Checkbox is not checked..");
+                console.log(emailList);
+                var email = item.getAttribute('for');
+                if(emailList.includes(email)){
+                  console.log(email);
+                  for( var i = 0; i < emailList.length; i++){ 
+    
+                      if ( emailList[i] === email) { 
+
+                          emailList.splice(i, 1); 
+                      }
+
+                  }
+                  // emailList.findIndex(`${email}`);
+                  // var index=emailList.findIndex(email);
+                  // console.log(index);
+                  // emailList.splice(index,1);
+                  
+                  console.log(emailList);
+
+                }
+              }
+             // console.log(item);
+             // console.log(item['checked']);
+    //handle click
+  })
+})
+        // for(var i=0;i<countButton;i++){
+        //   console.log(verifyButton[i]);
+          
+        //   verifyButton[i].addEventListener('click', function() {
+        //       console.log("Checkbox is checked..");
+              // if (this.checked) {
+              //   console.log("Checkbox is checked..");
+              // } else {
+              //   console.log("Checkbox is not checked..");
+              // }
+        //     });
+
+        // }
+
+        
+
+
+    	  
+    };
+    //#####################  END OF WINDOW LOADING  #################################################################
+    //###############################################################################################################
+
+
+    //All the functions needed---------------------------------------------------------------------------------------
+    //Functions to save verified details
+    async function saveData(){
+      //get all lecturers
+      //Update AccountStatus
+      //disable the checkbox
+      console.log(emailList);
+      emailList.forEach(async element => {
+        //console.log(element);
+        var ele = document.getElementById(`${element}`);
+        //console.log(ele);
+        ele.setAttribute('disabled',true);
+
+        const response_lect= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAll',{
+                    method:'GET'
+                  });
+                  const data_lect = await response_lect.json();
+                  
+          for(i=0;i< data_lect['data'].length;i++){
+              var element1 = data_lect['data'][i];
+              var id = element1['id'];
+              var email = element1['Email'];
+              if(email==element){
+                const response_lect_= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/updateStatus/'+id+'/'+'Verified',{
+                    method:'PUT'
+                  });
+                const data_lect_ = await response_lect_.json();
+                console.log(data_lect_);
+
+              }
+          }
+
+
+          
+
+        
+            
+           
+                 
+      });
+      const response_lect2= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAll',{
+                    method:'GET'
+      });
+      const data_lect2 = await response_lect2.json();
+                  
+      for(i=0;i< data_lect2['data'].length;i++){
+          var element1 = data_lect2['data'][i];
+          var id = element1['id'];
+          var email = element1['Email'];
+          if(element1['AccountType']=='Lecturer'){
+            if(element1['AccountStatus']!='Verified'){
+            const response_lect__= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/updateStatus/'+id+'/'+'Disabled',{
+                method:'PUT'
+              });
+            const data_lect__ = await response_lect__.json();
+            console.log(data_lect__);
+            }
+
+          }
+      }
+
+      emailList=[];
+      
+    }
+    //Functions to direct
+    function directToStudent() {
+      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
+    }
+    function directToProfile(studentEno){
+      //console.log(stdName);
+      window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/profile.html?cName="+course+"?user="+encodeURIComponent(user)+"?stdEno="+ encodeURIComponent(studentEno);
+    }
+    async function deleteStudent(stdEno){
+      //console.log(stdName);
+      const response_delStd= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/deleteStd/'+stdEno,{
+        method:'DELETE'
+      })
+      console.log("Deleted!")
+    }
+
+    //To download the file => marks
+    function Download_(assignment) {
+    
+      var filename = assignment + ".xlsx";
+      var element = document.createElement('a');
+
+      element.style.display = 'none';
+      element.setAttribute('download',assignment);
+      element.href = filename;
+      element.click();
+      element.remove();
+      directToStudent();
+    
+    }
+    //--------------------------------------------------------------------------------------------------------------------
+
+    //To download the sample file for student details
+    function Download_SampleStudentDetails() {
+    
+      var filename = "SampleStudent.xlsx";
+      var element = document.createElement('a');
+
+      element.style.display = 'none';
+      element.setAttribute('download',"SampleStudent");
+      element.href = filename;
+      element.click();
+      element.remove();
+      directToStudent();
+  
+    }
+    //-------------------------------------------------------------------------------------------------------------------
+
+    //Check the student already exists
+    async function isStudentExist(Eno) {
+      
+     
+      for(i=0;i< data_['data'].length;i++){
+          var element1 = data_['data'][i];
+          //console.log("#############"+name);
+          if(element1['CourseName']==course){
+            if(element1['Eno']==Eno){
+              //console.log("#############"+Eno);
+              return 1;
+            }
+          }
+          
+      }
+      return 0;
+    }
+    //--------------------------------------------------------------------------------------------------------------------
+
+    //function to sleep the process
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    //-------------------------------------------------------------------------------------------------------------------
+
+    //Function to refresh the marks
+    async function Refresh_(usernameList,nameList,markList,idList,assignment,num) {
+
+      console.log(usernameList);
+            
+      index=0;
+      var id_ = "mark"+assignment;
+      var id_2 = "form"+assignment;
+      var marksitem = document.getElementById(id_);
+      var formitem = document.getElementById(id_2);
+      var users = usernameList.split(',');
+      var nameList_ = nameList.split(',');
+      var markList_ = markList.split(',');
+      var idList_ = idList.split(',');
+      marksitem.innerHTML="";
+      
+
+      marksitem.innerHTML = `
+                  <div class="row">
+                    <hr size="8" width="90%" color="red">
+                    <label style="margin-left: 1.5cm;" for="tName" class="col-sm-3 col-form-label">Assignment: <b> ${assignment} </b></label>
+                    <label style="margin-bottom: 1.5cm; color:blue;" onclick="Download_('${assignment}')">Click Here To Download</label>
+                    <hr>
+                    
+                  </div>`;
+      //console.log(num);
+      for(i=0;i<num;i++){
+            
+              var user=users[index];
+        
+              var marks=markList_[index];
+              var name=nameList_[index];
+              var id = idList_[index];
+              console.log(user);
+              marks=decodeURIComponent(marks);
+             // console.log(usernameList);
+             // console.log(usernameList);
+              
+              let marks1="Not Completed";
+              if(marks=='Not Completed'){
+                  const response_marks= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getMarks/'+user+'/'+course+'/'+assignment,{
+                    method:'GET'
+                  });
+                  const data_marks = await response_marks.json();
+                  console.log(data_marks);
+                  sleep(10000);
+
+                  if(data_marks['status']=="Success"){
+                    marks1 = data_marks['msg'];
+                    console.log(marks1);
+                  }
+                  else{
+                    marks1 = 'Not Completed';
+                    console.log(marks1);
+
+                  }
+              }
+            
+              
+              //api/updateMarks/:StudentName/:marks/:Assignment
+              if(marks1!='Not Completed'){
+                  marks=marks1;
+                  console.log(id);
+                  let varmarks=encodeURIComponent(marks1);
+                  
+                  const update_marks= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/updateMarks/'+id+'/'+varmarks,{
+                    method:'PUT'
+                  });
+              }
+              
+
+              //Test
+              
+              marksitem.innerHTML += `
+                  <div class="row" style="margin-left: 1cm;">
+                    
+                    <label for="tInput" class="col-sm-3 col-form-label">${name} &emsp;&emsp; </label>
+                    <label for="tInput" class="col-sm-3 col-form-label">&emsp;&emsp; ${marks}     </label>
+                   
+                  </div>                
+              
+              `;
+              
+              index++;
+        }
+  
+    }
+    //------------------------------------------------------------------------------------------------------------------------
+
+    //function to addStudets to the database ->one by one
+    async function addStudent(){
+     
+        
+        let Eno = document.getElementById("inputSID").value;
+        let name = document.getElementById("inputName").value;
+        let username = document.getElementById("userName").value;
+        let email = document.getElementById("inputEmail").value;
+        let phoneNo = document.getElementById("inputPhoneNo").value;
+        let birthday = document.getElementById("picker1").value;
+        let gender = document.getElementById("sel1").value;
+
+        const var2=await isStudentExist(Eno);
+            
+        if(var2==1){
+            alert("Sorry! Student Already Exists. Try again!");
+            window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
+        }
+        else{
+            const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/addStudent/'+course+'/'+name+'/'+encodeURIComponent(Eno)+'/'+username+'/'+email+'/'+phoneNo+'/'+birthday+'/'+gender,{
+                method:'POST'
+        
+            });
+
+            const data = await response.json();
+            //console.log(data);
+          
+            if(data['status']=="Success"){
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
+            }
+            else{
+                alert("Process Failed! Try Again");
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
+            }
+        }
+        
+
+    }
+    //--------------------------------------------------------------------------------------------------------------------------
+
+    //Add Students to the database -> from file
+    async function addStudent_file(Eno,name,username,email,phoneNo,birthday,gender){
+   
+ 
+        const response = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/addStudent/'+course+'/'+name+'/'+encodeURIComponent(Eno)+'/'+username+'/'+email+'/'+phoneNo+'/'+birthday+'/'+gender,{
+          method:'POST'
+      
+        });
+    
+        const data = await response.json();
+        //console.log(data);
+      
+        if(data['status']=="Success"){
+          window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
+        }
+        else{
+          alert("Process Failed! Try Again");
+          window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
+        }
+
+
+   }
+   
+    //------------------------------------------------------------------------------------------------------------------------
+
+    //Function to process the uploaded file data and store them in database 
+    //(Store uploaded file, read that file, get data and store in database as students)
+      
+    async function UploadProcess() {
+          //Reference the FileUpload element.
+          var fileUploaded = document.getElementById("myFiles");
+
+          //Validate whether File is valid Excel file.
+          var regex = /(.xls|.xlsx)$/;
+        
+          if (regex.test(fileUploaded.value.toLowerCase())) {
+              if (typeof (FileReader) != "undefined") {
+                  var reader = new FileReader();
+   
+                  //For Browsers other than IE.
+                  if (reader.readAsBinaryString) {
+                      reader.onload = function (e) {
+                          GetTableFromExcel(e.target.result);
+                      };
+                      reader.readAsBinaryString(fileUploaded.files[0]);
+                  }
+                  else {
+                      //For IE Browser.
+                      reader.onload = function (e) {
+                          var data = "";
+                          var bytes = new Uint8Array(e.target.result);
+                          for (var i = 0; i < bytes.byteLength; i++) {
+                              data += String.fromCharCode(bytes[i]);
+                          }
+                          GetTableFromExcel(data);
+                      };
+                      reader.readAsArrayBuffer(fileUploaded.files[0]);
+                  }
+              }
+              else {
+                  alert("This browser does not support HTML5.");
+              }
+          }
+          else {
+              alert("Please upload a valid Excel file.");
+          }
+      }
+
+    async function GetTableFromExcel(data) {
+          //Read the Excel File data in binary
+          var workbook = XLSX.read(data, {
+              type: 'binary'
+          });
+   
+          //get the name of First Sheet.
+          var Sheet = workbook.SheetNames[0];
+   
+          //Read all rows from First Sheet into an JSON array.
+          var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[Sheet]);
+   
+   
+          //Add the data rows from Excel file.
+          for (var i = 0; i < excelRows.length; i++) {
+              
+              let Eno = excelRows[i].RegNo ;
+              if(!Eno) {Eno="none";}
+              const var1=await isStudentExist(Eno);
+            
+              if(var1==1){
+                continue;
+              }
+              
+              let name = excelRows[i].Name;
+              
+              let username = excelRows[i].GitHubUsername;
+              if((!name) | (!username)) {
+                alert("Process Failed!(Student name or GitHub username can not be null) Try Again");
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
+                
+              }
+         
+              let email = excelRows[i].Email;
+              if(!email) {email="none"};
+         
+              let phoneNo = excelRows[i].ContactNo;
+              if(!phoneNo) {phoneNo="none"};
+         
+              let birthday = excelRows[i].Birthday;
+              if(!birthday) {birthday="none"};
+          
+              let gender = excelRows[i].Gender;
+              if(!gender) {gender="none"};
+
+          
+              addStudent_file(Eno,name,username,email,phoneNo,birthday,gender); //Add student to databse
+              
+  
+              
+          }
+          send_(); //Save the file to the system
+          
+          window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
+
+          
+   
+   
+      }
+    function disableBack() { window.history.forward(); }
+    function logout() {
+      
+    setTimeout("disableBack()", 0);
+
+    //window.onunload = function () { null };
+      console.log("hi");
+     // window.history.forward();
+      //window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-in.html";
+   
+      
+    }
+      //################################################################################################################################## 
+    
+  </script>
+  
+  
+</head>
+
+<body class="dark-edition">
+  <div class="wrapper ">
+
+    <!-- Sidebar -->
+    <div class="sidebar" data-color="purple" data-background-color="black" data-image="../assets/img/sidebar-2.jpg">
+      <!--
+        Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
+
+        Tip 2: you can also add an image using data-image tag
+    -->
+      <div class="logo"><a href="http://www.creative-tim.com" class="simple-text logo-normal">
+        GRADINGenius
+        </a></div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+          <li class="nav-item  ">
+            <script>
+              function dashboardDirect() {
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/dashboard.html?name="+encodeURIComponent(user);
+              }
+            </script>
+            <a class="nav-link" onclick="dashboardDirect()">
+              <i class="material-icons">dashboard</i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="http://localhost:5001/group07-co227/us-central1/app/examples/profile.html">
+              <i class="material-icons">person</i>
+              <p>User Profile</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <script>
+              function courses(){
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/Course.html?cName="+course+"?user="+encodeURIComponent(user);
+              }
+              
+            </script>
+            <a class="nav-link" onclick="courses()">
+              <i class="material-icons">content_paste</i>
+              <p>Course</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <script>
+              function directToAssignments() {
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/assignmentDetails.html?cName="+encodeURIComponent(course)+"?user="+encodeURIComponent(user);
+              }
+            </script>
+            <a class="nav-link" onclick="directToAssignments()">
+              <i class="material-icons">library_books</i>
+              <p>Assignments</p>
+            </a>
+          </li>
+          <li class="nav-item active ">
+            <script>
+              function directToStudent() {
+                window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
+              }
+            </script>
+            <a class="nav-link" onclick="directToStudent()">
+              <i class="material-icons">bubble_chart</i>
+              <p>Students</p>
+            </a>
+          </li>
+          
+          <li class="nav-item ">
+            <a class="nav-link" href="./notifications.html">
+              <i class="material-icons">notifications</i>
+              <p>Notifications</p>
+            </a>
+          </li>
+          <!-- <li class="nav-item active-pro ">
+                <a class="nav-link" href="./upgrade.html">
+                    <i class="material-icons">unarchive</i>
+                    <p>Upgrade to PRO</p>
+                </a>
+            </li> -->
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel">
+
+
+    <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:void(0)" id="course"></a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation" data-target="#navigation-example">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            <form class="navbar-form">
+              <div class="input-group no-border">
+                <input type="text" value="" class="form-control" placeholder="Search...">
+                <button type="submit" class="btn btn-default btn-round btn-just-icon">
+                  <i class="material-icons">search</i>
+                  <div class="ripple-container"></div>
+                </button>
+              </div>
+            </form>
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                
+                
+                <a class="nav-link" onclick="dashboardDirect()">
+                  <i class="material-icons">dashboard</i>
+                  <p class="d-lg-none d-md-block">
+                    Stats
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="javscript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i>
+                  <span class="notification">5</span>
+                  <p class="d-lg-none d-md-block">
+                    Some Actions
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="javascript:void(0)">Mike John responded to your email</a>
+                  <a class="dropdown-item" href="javascript:void(0)">You have 5 new tasks</a>
+                  <a class="dropdown-item" href="javascript:void(0)">You're now friend with Andrew</a>
+                  <a class="dropdown-item" href="javascript:void(0)">Another Notification</a>
+                  <a class="dropdown-item" href="javascript:void(0)">Another One</a>
+                </div>
+              </li>
+              <li class="nav-item" >
+                <a class="nav-link" onclick="logout()" href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-in.html">
+                  <i class="material-icons">person</i>
+                  <p class="d-lg-none d-md-block">
+                    Account
+                  </p>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    <!-- End Navbar -->
+
+    <!--   CONTENT  -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="container-fluid">
+            <div class="card card-plain">
+              
+
+              
+
+
+            </div>
+          </div>
+
+
+          <h3 class="mdb-color white-text"><b>Lecturer Details</b></h3><br>
+
+          <div class="jumbotron" style="background-color: rgb(4, 4, 41); margin: auto;">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="Info-tab" data-toggle="tab" data-target="#Info-tab-pane" type="button" role="tab" 
+                      aria-controls="Info-tab-pane" aria-selected="true">Information</button>
+                  </li>
+                  
+                  
+                </ul> 
+      
+                <!-- tab-contents -->
+                <div class="tab-content" id="myTabContent">
+                  <!-- Student Information -->
+                  <div class="tab-pane fade show active" id="Info-tab-pane" role="tabpanel" aria-labelledby="Info-tab" tabindex="0">
+                    <div class="container">
+                      <br><hr>
+                      <!-- Do a card view for each student when pointing-->
+                      <div class="col-lg-12 col-md-12">
+                        <div class="card">
+                          <div class="card-header card-header-primary">
+                            <h4 class="card-title">Lecturers Status</h4>
+                            <p class="card-category">Existing Lecturers on today</p>
+                          </div>
+                          <div class="card-body table-responsive">
+                            <table class="table table-hover">
+                              <thead class="text-warning">
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Verify
+                                  
+                            </th>
+                                <!-- phone , bday, profile photo-->
+                              </thead>
+                              <!-- loop through each student -->
+                              <tbody id="studentList">
+                                
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <label for="">
+                          Once you save changes you can't UNDO 
+                        </label>
+                        <br>
+                        <button id='SaveVerifiedLecturers' type="button" class="btn btn-primary" data-toggle="modal" onclick="saveData()" >
+                          Save All
+                        </button>
+                      </div>
+                      <br><hr>
+                      
+
+
+
+                    </div>
+                    
+                  </div>
+      
+                  <!-- Add New One -->
+                  <div class="tab-pane fade" id="AddNew-tab-pane" role="tabpanel" aria-labelledby="AddNew-tab" tabindex="0">
+                    <div class="container">
+                      <br><hr>
+                      <form>
+                        <h3>NEW</h3><br>
+                        <div class="row mb-3">
+                          <label for="inputSID" class="col-sm-4 col-form-label">Student ID:</label>
+                          <div class="col-sm-6">
+                            <input type="text" class="form-control" id="inputSID" placeholder="Enter in E/XX/XXX format">
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label for="inputName" class="col-sm-4 col-form-label">Name:</label>
+                          <div class="col-sm-6">
+                            <input type="text" class="form-control" id="inputName" placeholder="Enter Full Name of the student">
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label for="inputName" class="col-sm-4 col-form-label">GitHub username:</label>
+                          <div class="col-sm-6">
+                            <input type="text" class="form-control" id="userName" placeholder="Enter username">
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label for="inputEmail" class="col-sm-4 col-form-label">Email:</label>
+                          <div class="col-sm-6">
+                            <input type="email" id="inputEmail" name="email" class="bg-transparent text-white">
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputPhone" class="col-sm-4 col-form-label">Phone:</label>
+                            <div class="col-sm-6">
+                              <input type="text" id="inputPhoneNo" name="inputPhone" class="bg-transparent text-white">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                          <form>
+                            <label for="picker1" class="col-sm-4 col-form-label">Birthday:</label>
+                            <div class="col-sm-6 ">
+                                <input type="date"  id="picker1" class="bg-transparent form-control" placeholder="Select birthdate">
+                            </div>
+                            
+                          </form>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputGender" class="col-sm-4 col-form-label">Gender:</label>
+                            <div class="col-sm-6">
+                                <div class="form-group" id="inputGender">
+                                    <select class="form-control text-gray bg-transparent text-white" id="sel1">
+                                      <option>Male</option>
+                                      <option>Female</option>
+                                    </select>
+                                </div> 
+                            </div>
+                        </div>
+                                
+                        <br><button type="submit" class="btn btn-primary" onclick="addStudent()">Save Changes</button>
+                      </form>
+                      <form  style="margin-top: 1cm;">
+                        
+                        <hr size="8" width="90%" color="red" >
+                        <div><label style="margin-top: 0.5cm; font-size: 25px;"><b>You can upload student details here</b></label></div>
+                        <label style="margin-top: 0.5cm; font-size: 16px;" for="">Please use this template to upload data to the system!</label>
+                        <label style="margin-top: 0.5cm;" type="submit" class="btn btn-primary"  onclick="Download_SampleStudentDetails()">Get Sample File</label>
+
+                        <div><label style="margin-top: 0.5cm; font-size: 16px;" for="">Upload Your File Here!</label>
+                        <script lang="javascript" type="text/javascript">
+                          
+                            
+                          
+                          async function send_() {
+                             
+                              
+                              const myFiles = document.getElementById('myFiles').files[0];
+                          
+                              //alert("Process Continue 1");
+                              const formData = new FormData();
+                              //formData.append("avatar",myFiles,myFiles.name);
+                              console.log(myFiles);
+                              
+               
+                              const response_upload= await fetch('http://localhost:5001/group07-co227/us-central1/app/api/upload',{
+                                  method:'POST', 
+                                  //  headers:{'content-type': 'multipart/form-data;charset=utf-8; boundary=' + Math.random().toString().substr(2)+';'},                    
+                                  //Content-Type: 'multipart/form-data' 
+                                  body: myFiles  
+                              });
+                              const data_upload = await response_upload.json();
+                              console.log(data_upload);
+                              
+                              
+                              //alert("Process Failed! Try Again1");
+                          
+                            
+                          }
+                        
+                        </script>
+                        <form id="uploadForm" method="POST"  enctype="multipart/form-data">
+                            <input id="myFiles" type="file"   name="avatar2" accept=".xlsx"> 
+                            <input type="submit"  onclick="UploadProcess()" >
+                            
+                        </form>
+                               
+                        </div>            
+                                           
+                      </form>
+                    </div>              
+                  </div>
+      
+                  <!-- sample -->
+                  <div class="tab-pane fade" id="Bench-tab-pane" role="tabpanel" aria-labelledby="AddNew-tab" tabindex="0">
+                    <div class="container">
+                      <br><hr>
+                      <!--form>
+                        <h3>NEW</h3><br>
+                        <div class="row mb-3">
+                          <label for="inputSID" class="col-sm-4 col-form-label">Student ID:</label>
+                          <div class="col-sm-6">
+                            <input type="text" class="form-control" id="inputSID" placeholder="Enter in E/XX/XXX format">
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label for="inputName" class="col-sm-4 col-form-label">Name:</label>
+                          <div class="col-sm-6">
+                            <input type="text" class="form-control" id="inputName" placeholder="Enter Full Name of the student">
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label for="inputName" class="col-sm-4 col-form-label">GitHub username:</label>
+                          <div class="col-sm-6">
+                            <input type="text" class="form-control" id="userName" placeholder="Enter username">
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label for="inputEmail" class="col-sm-4 col-form-label">Email:</label>
+                          <div class="col-sm-6">
+                            <input type="email" id="inputEmail" name="email" class="bg-transparent text-white">
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputPhone" class="col-sm-4 col-form-label">Phone:</label>
+                            <div class="col-sm-6">
+                              <input type="text" id="inputPhoneNo" name="inputPhone" class="bg-transparent text-white">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                          <form>
+                            <label for="picker1" class="col-sm-4 col-form-label">Birthday:</label>
+                            <div class="col-sm-6 ">
+                                <input type="date"  id="picker1" class="bg-transparent form-control" placeholder="Select birthdate">
+                            </div>
+                            
+                          </form>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputGender" class="col-sm-4 col-form-label">Gender:</label>
+                            <div class="col-sm-6">
+                                <div class="form-group" id="inputGender">
+                                    <select class="form-control text-gray bg-transparent text-white" id="sel1">
+                                      <option>Male</option>
+                                      <option>Female</option>
+                                    </select>
+                                </div> 
+                            </div>
+                        </div>
+                                
+                        <br><button type="submit" class="btn btn-primary" onclick="addStudent()">Save Changes</button>
+                      </!--form-->
+                    </div>              
+                  </div>
+                 
+      
+                </div>
+                
+              </div>
+              
+
+
+        </div>
+      </div>
+    <!--footer class="footer">
+        <div class="container-fluid">
+          <nav class="float-left">
+            <ul>
+              <li>
+                <a href="https://www.creative-tim.com">
+                  Creative Tim
+                </a>
+              </li>
+              <li>
+                <a href="https://creative-tim.com/presentation">
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a href="http://blog.creative-tim.com">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a href="https://www.creative-tim.com/license">
+                  Licenses
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <div class="copyright float-right" id="date">
+            , made with <i class="material-icons">favorite</i> by
+            <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
+          </div>
+        </div>
+      </!--footer-->
+      
+    </div>
+  </div>
+  <!--   Settings for theme   -->
+  <div class="fixed-plugin">
+    <div class="dropdown show-dropdown">
+      <a href="#" data-toggle="dropdown">
+        <i class="fa fa-cog fa-2x"> </i>
+      </a>
+      <ul class="dropdown-menu">
+        <li class="header-title"> Sidebar Filters</li>
+        <li class="adjustments-line">
+          <a href="javascript:void(0)" class="switch-trigger active-color">
+            <div class="badge-colors ml-auto mr-auto">
+              <span class="badge filter badge-purple active" data-color="purple"></span>
+              <span class="badge filter badge-azure" data-color="azure"></span>
+              <span class="badge filter badge-green" data-color="green"></span>
+              <span class="badge filter badge-warning" data-color="orange"></span>
+              <span class="badge filter badge-danger" data-color="danger"></span>
+            </div>
+            <div class="clearfix"></div>
+          </a>
+        </li>
+        <li class="header-title">Images</li>
+        <li>
+          <a class="img-holder switch-trigger" href="javascript:void(0)">
+            <img src="../assets/img/sidebar-1.jpg" alt="">
+          </a>
+        </li>
+        <li class="active">
+          <a class="img-holder switch-trigger" href="javascript:void(0)">
+            <img src="../assets/img/sidebar-2.jpg" alt="">
+          </a>
+        </li>
+        <li>
+          <a class="img-holder switch-trigger" href="javascript:void(0)">
+            <img src="../assets/img/sidebar-3.jpg" alt="">
+          </a>
+        </li>
+        <li>
+          <a class="img-holder switch-trigger" href="javascript:void(0)">
+            <img src="../assets/img/sidebar-4.jpg" alt="">
+          </a>
+        </li>
+        <li class="button-container">
+          <a href="https://www.creative-tim.com/product/material-dashboard-dark" target="_blank" class="btn btn-primary btn-block">Free Download</a>
+        </li>
+        <!-- <li class="header-title">Want more components?</li>
+            <li class="button-container">
+                <a href="https://www.creative-tim.com/product/material-dashboard-pro" target="_blank" class="btn btn-warning btn-block">
+                  Get the pro version
+                </a>
+            </li> -->
+        <li class="button-container">
+          <a href="https://demos.creative-tim.com/material-dashboard-dark/docs/2.0/getting-started/introduction.html" target="_blank" class="btn btn-default btn-block">
+            View Documentation
+          </a>
+        </li>
+        <li class="button-container github-star">
+          <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard/tree/dark-edition" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ntkme/github-buttons on GitHub">Star</a>
+        </li>
+        <li class="header-title">Thank you for 95 shares!</li>
+        <li class="button-container text-center">
+          <button id="twitter" class="btn btn-round btn-twitter"><i class="fa fa-twitter"></i> &middot; 45</button>
+          <button id="facebook" class="btn btn-round btn-facebook"><i class="fa fa-facebook-f"></i> &middot; 50</button>
+          <br>
+          <br>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!--   Core JS Files   -->
+  <script src="../assets/js/core/jquery.min.js"></script>
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="https://unpkg.com/default-passive-events"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Place this tag in your head or just before your close body tag. -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!--  Google Maps Plugin    -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <!-- Chartist JS -->
+  <script src="../assets/js/plugins/chartist.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="../assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../assets/js/material-dashboard.js?v=2.1.0"></script>
+  <!-- Material Dashboard DEMO methods, don't include it in your project! -->
+  <script src="../assets/demo/demo.js"></script>
+  <script>
+    $(document).ready(function() {
+      $().ready(function() {
+        $sidebar = $('.sidebar');
+
+        $sidebar_img_container = $sidebar.find('.sidebar-background');
+
+        $full_page = $('.full-page');
+
+        $sidebar_responsive = $('body > .navbar-collapse');
+
+        window_width = $(window).width();
+
+        $('.pizzaname').hover(function() {
+        $(this).find('.popup').show();
+        }, function() {
+          $(this).find('.popup').hide();
+        });
+
+        $('.fixed-plugin a').click(function(event) {
+          // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
+          if ($(this).hasClass('switch-trigger')) {
+            if (event.stopPropagation) {
+              event.stopPropagation();
+            } else if (window.event) {
+              window.event.cancelBubble = true;
+            }
+          }
+        });
+
+        $('.fixed-plugin .active-color span').click(function() {
+          $full_page_background = $('.full-page-background');
+
+          $(this).siblings().removeClass('active');
+          $(this).addClass('active');
+
+          var new_color = $(this).data('color');
+
+          if ($sidebar.length != 0) {
+            $sidebar.attr('data-color', new_color);
+          }
+
+          if ($full_page.length != 0) {
+            $full_page.attr('filter-color', new_color);
+          }
+
+          if ($sidebar_responsive.length != 0) {
+            $sidebar_responsive.attr('data-color', new_color);
+          }
+        });
+
+        $('.fixed-plugin .background-color .badge').click(function() {
+          $(this).siblings().removeClass('active');
+          $(this).addClass('active');
+
+          var new_color = $(this).data('background-color');
+
+          if ($sidebar.length != 0) {
+            $sidebar.attr('data-background-color', new_color);
+          }
+        });
+
+        $('.fixed-plugin .img-holder').click(function() {
+          $full_page_background = $('.full-page-background');
+
+          $(this).parent('li').siblings().removeClass('active');
+          $(this).parent('li').addClass('active');
+
+
+          var new_image = $(this).find("img").attr('src');
+
+          if ($sidebar_img_container.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
+            $sidebar_img_container.fadeOut('fast', function() {
+              $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
+              $sidebar_img_container.fadeIn('fast');
+            });
+          }
+
+          if ($full_page_background.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
+            var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
+
+            $full_page_background.fadeOut('fast', function() {
+              $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
+              $full_page_background.fadeIn('fast');
+            });
+          }
+
+          if ($('.switch-sidebar-image input:checked').length == 0) {
+            var new_image = $('.fixed-plugin li.active .img-holder').find("img").attr('src');
+            var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
+
+            $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
+            $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
+          }
+
+          if ($sidebar_responsive.length != 0) {
+            $sidebar_responsive.css('background-image', 'url("' + new_image + '")');
+          }
+        });
+
+        $('.switch-sidebar-image input').change(function() {
+          $full_page_background = $('.full-page-background');
+
+          $input = $(this);
+
+          if ($input.is(':checked')) {
+            if ($sidebar_img_container.length != 0) {
+              $sidebar_img_container.fadeIn('fast');
+              $sidebar.attr('data-image', '#');
+            }
+
+            if ($full_page_background.length != 0) {
+              $full_page_background.fadeIn('fast');
+              $full_page.attr('data-image', '#');
+            }
+
+            background_image = true;
+          } else {
+            if ($sidebar_img_container.length != 0) {
+              $sidebar.removeAttr('data-image');
+              $sidebar_img_container.fadeOut('fast');
+            }
+
+            if ($full_page_background.length != 0) {
+              $full_page.removeAttr('data-image', '#');
+              $full_page_background.fadeOut('fast');
+            }
+
+            background_image = false;
+          }
+        });
+
+        $('.switch-sidebar-mini input').change(function() {
+          $body = $('body');
+
+          $input = $(this);
+
+          if (md.misc.sidebar_mini_active == true) {
+            $('body').removeClass('sidebar-mini');
+            md.misc.sidebar_mini_active = false;
+
+            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
+
+          } else {
+
+            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
+
+            setTimeout(function() {
+              $('body').addClass('sidebar-mini');
+
+              md.misc.sidebar_mini_active = true;
+            }, 300);
+          }
+
+          // we simulate the window Resize so the charts will get updated in realtime.
+          var simulateWindowResize = setInterval(function() {
+            window.dispatchEvent(new Event('resize'));
+          }, 180);
+
+          // we stop the simulation of Window Resize after the animations are completed
+          setTimeout(function() {
+            clearInterval(simulateWindowResize);
+          }, 1000);
+
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

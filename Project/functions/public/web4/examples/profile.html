@@ -50,6 +50,10 @@
         course = data.cName;
         student = decodeURIComponent(data.stdEno);        
         user = data.user;
+        if(user=="undefined"){
+          
+          window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-in.html"
+        }
 
         var table = document.getElementById("tableAssigInfo"), row = 0;
         var list= document.getElementById("assignList");

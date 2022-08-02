@@ -97,12 +97,15 @@ app.get('/t',(req,res)=>{
 app.post("/api/create/:UserName/:Password/:email/:type",(req,res)=>{
     (async()=>{
         try {
+            var date = new Date();
             await db.collection('Login').doc(`/${Date.now()}/`).create({
                 id : Date.now(),
                 UserName :req.params.UserName,
                 Password : req.params.Password,
                 Email : req.params.email,
                 AccountType : req.params.type,
+                AccountStatus : "Not Verified",
+                RegisteredDate : date,
                
             });
             return res.status(200).send({status: 'Success',msg: "Data Saved"});
@@ -350,6 +353,8 @@ app.get('/api/getAll',(req,res)=>{
                         Password : doc.data().Password,
                         Email :doc.data().Email,
                         AccountType : doc.data().AccountType,
+                        AccountStatus : doc.data().AccountStatus,
+                        id : doc.data().id,
                         
 
                      //   address : doc.data().address,
@@ -634,6 +639,30 @@ app.put("/api/updateMarks/:id/:marks",(req,res)=>{
            // reqDoc.doc(req.params.StudentName);
             await reqDoc.update({
                 Marks : req.params.marks,
+                
+                
+            });
+            
+            return res.status(200).send({status: 'Success',msg: "Data Updated"});
+
+            
+            
+        } catch (error) {
+            console.log(error)
+            return res.status(500).send({status: 'Failed',msg: error});
+
+            
+        }
+    })();
+
+});
+app.put("/api/updateStatus/:id/:status",(req,res)=>{
+    (async()=>{
+        try {
+            const reqDoc = db.collection('Login').doc(req.params.id);
+           // reqDoc.doc(req.params.StudentName);
+            await reqDoc.update({
+                AccountStatus : req.params.status,
                 
                 
             });

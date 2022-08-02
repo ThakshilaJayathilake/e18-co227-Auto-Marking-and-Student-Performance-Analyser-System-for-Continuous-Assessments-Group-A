@@ -52,6 +52,10 @@
         }
         course = data.cName;
         user = data.user;
+        if(user=="undefined"){
+          
+          window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-in.html"
+        }
         var element= document.getElementById("course");
         element.innerHTML = decodeURIComponent(course);
         const response_ = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAllAssignments',{

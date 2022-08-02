@@ -125,6 +125,10 @@
             
         }
         user = data.user;
+        if(user=="undefined"){
+          
+          window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/sign-in.html"
+        }
         course = data.cName;
         var title1 = document.getElementById("course");
         title1.innerHTML=course;
