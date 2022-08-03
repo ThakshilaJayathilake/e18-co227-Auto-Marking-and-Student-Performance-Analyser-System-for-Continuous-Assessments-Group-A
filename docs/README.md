@@ -178,12 +178,12 @@ Authorization handled using many parts. <br />
 
 - Manage access of lecturers by superadmin
 <p align="left">
-<img src="https://user-images.githubusercontent.com/73567971/182621092-872721e6-4131-41f4-a21e-133543b1f5e1.png" width="600" height="400">
+<img src="https://user-images.githubusercontent.com/73567971/182621092-872721e6-4131-41f4-a21e-133543b1f5e1.png" width="600" height="400"><br />
 ~ SuperAdmin can verify a lecturer by checking whether he should belong or not using provided email <br /><br />
-<img src="https://user-images.githubusercontent.com/73567971/182621186-15ac9a51-9d69-4497-9aea-2c32c72dec4d.png" width="600" height="200">
-~ <br /><br />
-<img src="https://user-images.githubusercontent.com/73567971/182621197-d2d0cd2f-f2a7-477b-b6f6-dcf008ddb328.png" width="600" height="200">
-~ <br /><br />
+<img src="https://user-images.githubusercontent.com/73567971/182621197-d2d0cd2f-f2a7-477b-b6f6-dcf008ddb328.png" width="600" height="200"><br />
+~ At the begining you are not verified. After super ADMIN verified you as lecturer , can use the system further. <br /><br />
+<img src="https://user-images.githubusercontent.com/73567971/182621186-15ac9a51-9d69-4497-9aea-2c32c72dec4d.png" width="600" height="200"><br />
+~ If super user marked lecturer as an unorthorized user, he cannot used the system. <br /><br />
 </p>
 
 - Add Instructors to each course
