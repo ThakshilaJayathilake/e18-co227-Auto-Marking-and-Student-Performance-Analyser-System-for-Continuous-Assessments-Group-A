@@ -177,6 +177,14 @@ Authorization handled using many parts. <br />
 ~ User can also use Google sign in if like; should obey for a given mail only. <br /><br />
 
 - Manage access of lecturers by superadmin
+<p align="left">
+<img src="https://user-images.githubusercontent.com/73567971/182621092-872721e6-4131-41f4-a21e-133543b1f5e1.png" width="600" height="400">
+~ SuperAdmin can verify a lecturer by checking whether he should belong or not using provided email <br /><br />
+<img src="https://user-images.githubusercontent.com/73567971/182621186-15ac9a51-9d69-4497-9aea-2c32c72dec4d.png" width="600" height="200">
+~ <br /><br />
+<img src="https://user-images.githubusercontent.com/73567971/182621197-d2d0cd2f-f2a7-477b-b6f6-dcf008ddb328.png" width="600" height="200">
+~ <br /><br />
+</p>
 
 - Add Instructors to each course
 <p align="left">
@@ -186,7 +194,7 @@ Authorization handled using many parts. <br />
 
 ### <ins> Uploader </ins>
 <p align="left">
-<img src="https://user-images.githubusercontent.com/73567971/182453817-a87ba568-4064-4ed0-9f41-c26f872b0ed1.png" width="600" height="400"></p>
+<img src="https://user-images.githubusercontent.com/73567971/182453817-a87ba568-4064-4ed0-9f41-c26f872b0ed1.png" width="600" height="400">
 <img src="https://user-images.githubusercontent.com/73567971/182454563-a3e752f0-33ec-4231-b3b4-8722272e9e4a.png" width="600" height="150"></p>
 ~ Can add bunch of students rather than adding one by one, at one time by using the given template. <br /><br />
 
