@@ -545,10 +545,12 @@
                 continue;
               }
               
-              let name = excelRows[i].Name;
-              
+              let name = excelRows[i].Name;              
               let username = excelRows[i].GitHubUsername;
-              if((!name) | (!username)) {
+
+              console.log(Eno, name, username)
+
+              if((!name) || (!username)) {
                 alert("Process Failed!(Student name or GitHub username can not be null) Try Again");
                 window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/students.html?cName="+course+"?user="+encodeURIComponent(user);
                 
