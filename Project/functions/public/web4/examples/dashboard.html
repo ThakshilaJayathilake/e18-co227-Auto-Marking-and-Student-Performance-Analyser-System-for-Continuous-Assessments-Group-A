@@ -96,13 +96,52 @@
         //Email,username
         //Verify , Delete buttons
         //
-        if(user=="Group07"){
+        if(user=="SuperUser"){
           window.location.href="http://localhost:5001/group07-co227/us-central1/app/examples/superUser.html"
         }
     	  course(user);
     };
     //var user="Ni";
     async function course(user) {
+
+      // if user is not verified by superuser; default is Not Verified..
+        const responseVer = await fetch('http://localhost:5001/group07-co227/us-central1/app/api/getAll',{
+          method:'GET'
+        });
+                
+        const dataVer = await responseVer.json();
+        console.log(dataVer);
+
+        var main = document.getElementById("main");
+
+
+          for(i=0;i< dataVer['data'].length;i++){
+            var element = dataVer['data'][i];
+
+            if(element['UserName']==user){
+
+              if (element['AccountStatus']=="Not Verified"){
+        
+                console.log(user);
+                main.innerHTML += `<div class="alert alert-info alert-with-icon" role="alert">
+                  <b> <h3 class="alert-heading">You are Not Verified! </h3></b>
+                  <p>Please, check your details again or contact super admin for verification </p>
+                  <hr>
+                  <p class="mb-0">Whenever you are sure, try again !</p>
+                </div>`;
+                            
+              }
+
+              else if(element['AccountStatus']=="Disabled"){
+                main.innerHTML += `<div class="alert alert-primary alert-with-icon" role="alert">
+                  <b> <h3 class="alert-heading">You are Not Allowed! </h3></b>
+                  <p>Sorry, your access were denied </p>
+                  <hr>
+                  <p class="mb-0"></p>
+                </div>`;
+              }
+          }
+        }
 
         let courses=[];
         let courseCodes=[];
@@ -354,7 +393,7 @@
       <!-- End Navbar -->
 
       <div class="content">
-        <div class="container-fluid">
+        <div class="container-fluid" id="main">
           <h3 class="mdb-color white-text"><b>Existing courses</b> <kbd id="numberOfCourses">0</kbd></h3>
           <div class="row" id="test" >
                            

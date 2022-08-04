@@ -175,9 +175,12 @@
           var element1 = data_3['data'][i];
 
           if(element1['CourseName']==course){
-            instructor_[j] = element1['UserName'];
-            console.log(instructor_[j]);
-            j++;
+            if (element1['UserName'] != user){
+              instructor_[j] = element1['UserName'];
+              console.log(instructor_[j]);
+              j++;
+            }
+            
           }
               
         }
